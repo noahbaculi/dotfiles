@@ -68,7 +68,7 @@ return {
 
       -- default mappings
       api.config.mappings.default_on_attach(bufnr)
-      vim.keymap.del('n', '<Tab>', { buffer = bufnr }) -- handled by the float-preview plugin
+      vim.keymap.del("n", "<Tab>", { buffer = bufnr }) -- handled by the float-preview plugin
     end,
   },
 }

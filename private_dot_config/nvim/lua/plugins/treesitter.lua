@@ -4,7 +4,7 @@ return {
   -- syntax highlighting.
   {
     "nvim-treesitter/nvim-treesitter",
-    version = "0.9.2", -- last release is way too old and doesn't work on Windows
+    version = "0.9.2",
     build = ":TSUpdate",
     event = { "VeryLazy" },
     init = function(plugin)
@@ -91,6 +91,7 @@ return {
   -- Show context of the current function
   {
     "nvim-treesitter/nvim-treesitter-context",
+    commit = "fbeff2a60d073f73fef23a2c707e4f12c9c53359",
     event = "VeryLazy",
     opts = { mode = "cursor", max_lines = 3 },
     keys = {

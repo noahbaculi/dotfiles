@@ -2,14 +2,9 @@
 local wezterm = require("wezterm")
 
 -- This table will hold the configuration.
-local config = {}
--- In newer versions of wezterm, use the config_builder which will
--- help provide clearer error messages
-if wezterm.config_builder then
-	config = wezterm.config_builder()
-end
+local config = wezterm.config_builder()
 
-function get_appearance()
+local function get_appearance()
 	if wezterm.gui then
 		return wezterm.gui.get_appearance()
 	end
@@ -18,16 +13,15 @@ end
 
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return "Solarized (dark) (terminal.sexy)"
+		return "Catppuccin Macchiato"
 	else
-		return "Solarized (light) (terminal.sexy)"
+		return "Catppuccin Latte"
 	end
 end
 
 config.color_scheme = scheme_for_appearance(get_appearance())
 
 config.hide_tab_bar_if_only_one_tab = true
-
 config.native_macos_fullscreen_mode = true
 config.font_size = 14
 

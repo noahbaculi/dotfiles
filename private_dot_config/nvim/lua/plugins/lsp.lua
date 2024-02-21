@@ -20,11 +20,13 @@ return {
     commit = "02c9b12eaf9393899bddb5ecf6670e7b3e5a4c49",
     event = { "VeryLazy" },
     dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
+      {
+        "hrsh7th/cmp-nvim-lsp",
+        commit = "5af77f54de1b16c34b23cba810150689a3a90312",
+      },
     },
   },
   -- Autocompletion
-
   {
     "hrsh7th/nvim-cmp",
     commit = "04e0ca376d6abdbfc8b52180f8ea236cbfddf782",
@@ -60,7 +62,7 @@ return {
       {
         "zbirenbaum/copilot-cmp",
         commit = "d427de01114f8d360de60f3eb569be52baf05d81",
-        config = function() require("copilot_cmp").setup() end,
+        opts = {},
       },
     },
 

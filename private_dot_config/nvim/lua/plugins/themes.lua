@@ -5,9 +5,6 @@ return {
     version = "1.6.0",
     lazy = false,
     priority = 1000,
-    telescope = {
-      enabled = true,
-    },
   },
   {
     "folke/tokyonight.nvim",

@@ -1,7 +1,7 @@
 return {
   "nvim-tree/nvim-tree.lua",
   version = "0.100.0",
-  cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+  cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeOpen" },
   dependencies = {
     { "nvim-tree/nvim-web-devicons" },
     {
@@ -60,11 +60,7 @@ return {
 
     on_attach = function(bufnr)
       local api = require("nvim-tree.api")
-      local FloatPreview = require("float-preview")
-
-      FloatPreview.attach_nvimtree(bufnr)
-
-      local function opts(desc) return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true } end
+      require("float-preview").attach_nvimtree(bufnr)
 
       -- default mappings
       api.config.mappings.default_on_attach(bufnr)

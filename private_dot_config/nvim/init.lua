@@ -35,17 +35,6 @@ lsp_zero.on_attach(function(client, bufnr)
   lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
--- https://lsp-zero.netlify.app/v3.x/reference/lua-api.html#format-on-save-opts
-lsp_zero.format_on_save({
-  format_opts = {
-    async = true,
-    timeout_ms = 5000,
-  },
-  servers = {
-    ["rust_analyzer"] = { "rust" },
-    ["ruff_lsp"] = { "python" },
-  },
-})
 require("mason").setup({})
 require("mason-lspconfig").setup({
   handlers = {

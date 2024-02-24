@@ -29,11 +29,23 @@ require("lazy").setup("plugins") -- Load plugins defined in the `plugins` direct
 
 -- Configure LSP
 local lsp_zero = require("lsp-zero")
-lsp_zero.extend_lspconfig()
+lsp_zero.extend_lspconfig() -- Integrate lspconfig with nvim-cmp
 lsp_zero.on_attach(function(client, bufnr)
   -- see `:help lsp-zero-keybindings`
   lsp_zero.default_keymaps({ buffer = bufnr })
 end)
+
+-- https://lsp-zero.netlify.app/v3.x/reference/lua-api.html#format-on-save-opts
+lsp_zero.format_on_save({
+  format_opts = {
+    async = true,
+    timeout_ms = 5000,
+  },
+  servers = {
+    ["rust_analyzer"] = { "rust" },
+    ["ruff_lsp"] = { "python" },
+  },
+})
 require("mason").setup({})
 require("mason-lspconfig").setup({
   handlers = {

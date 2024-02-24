@@ -118,14 +118,14 @@ return {
     local dashboard = require("alpha.themes.dashboard")
 
     dashboard.section.buttons.val = {
-      dashboard.button("f", " " .. " Find file", "<cmd> Telescope find_files <cr>"),
-      dashboard.button("n", " " .. " New file", "<cmd> ene <BAR> startinsert <cr>"),
-      dashboard.button("o", " " .. " Recently opened files", "<cmd> Telescope oldfiles <cr>"),
-      dashboard.button("w", " " .. " Find words", "<cmd> Telescope live_grep <cr>"),
-      dashboard.button("s", " " .. " Restore Session", [[<cmd> lua require("persistence").load() <cr>]]),
-      dashboard.button("x", " " .. " Lazy Extras", "<cmd> LazyExtras <cr>"),
-      dashboard.button("l", "󰒲 " .. " Lazy", "<cmd> Lazy <cr>"),
-      dashboard.button("q", " " .. " Quit", "<cmd> qa <cr>"),
+      dashboard.button("<LDR> e  ", "  Explorer", "<cmd> NvimTreeToggle <cr>"),
+      dashboard.button("<LDR> f f", "  Find file", "<cmd> Telescope find_files <cr>"),
+      dashboard.button("<LDR> f o", "  Recently opened files", "<cmd> Telescope oldfiles <cr>"),
+      dashboard.button("<LDR> f w", "  Find words", "<cmd> Telescope live_grep <cr>"),
+      dashboard.button("<LDR> p l", "󰒲  Lazy plugins", "<cmd> Lazy <cr>"),
+      dashboard.button("<LDR> p m", "󱢶  Mason plugins", "<cmd> Mason <cr>"),
+      dashboard.button("<LDR> S  ", "  Restore session", [[<cmd> lua require("persistence").load() <cr>]]),
+      dashboard.button("<LDR> q  ", "  Quit", "<cmd> qa <cr>"),
     }
     for _, button in ipairs(dashboard.section.buttons.val) do
       button.opts.hl = "AlphaButtons"

@@ -83,7 +83,7 @@ vim.keymap.set("n", "<leader>fb", function() require("telescope.builtin").buffer
 vim.keymap.set("n", "<leader>fc", function() require("telescope.builtin").grep_string() end, { desc = "Find word under cursor" })
 vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find recent files" })
+vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>ft", function() require("telescope.builtin").colorscheme({ enable_preview = true }) end, { desc = "Find themes" })
 vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").live_grep() end, { desc = "Find words" })
 vim.keymap.set("n", "<leader>fW", function()

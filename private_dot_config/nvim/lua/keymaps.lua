@@ -131,7 +131,10 @@ vim.keymap.set("n", "<leader>gS", function() require("gitsigns").stage_buffer() 
 vim.keymap.set("n", "<leader>gu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Unstage Git hunk" })
 vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis() end, { desc = "View Git diff" })
 
-which_key.register({ ["<leader>S"] = { name = "󱂬 Session" } })
+which_key.register({ ["<leader>s"] = { name = "󱂬 Session" } })
+vim.keymap.set("n", "<leader>sl", "<cmd>SessionRestore<cr>", { desc = "Load last CWD session" })
+vim.keymap.set("n", "<leader>sd", "<cmd>SessionDelete<cr>", { desc = "Delete last CWD session" })
+vim.keymap.set("n", "<leader>sf", require("auto-session.session-lens").search_session, { desc = "Find session" })
 
 which_key.register({ ["<leader>t"] = { name = " Terminal" } })
 vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "ToggleTerm float" })

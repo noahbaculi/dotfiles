@@ -94,7 +94,10 @@ vim.keymap.set("n", "<leader>fW", function()
     additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
   })
 end, { desc = "Find words in all files" })
+vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle() end, { desc = "Find Trouble diagnostics" })
+vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
 vim.keymap.set("n", "<leader>fR", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Find and replace word under cursor" })
+
 vim.keymap.set(
   "n",
   "<leader>fA",

@@ -109,6 +109,10 @@ vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdateAll<cr>", { desc = "Mason Upd
 
 which_key.register({ ["<leader>u"] = { name = " UI/UX" } })
 vim.keymap.set("n", "<leader>ut", function() require("telescope.builtin").colorscheme({ enable_preview = true }) end, { desc = "Theme switcher" })
+vim.keymap.set("n", "<leader>uw", function()
+  vim.wo.wrap = not vim.wo.wrap
+  vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
+end, { desc = "Toggle word wrap" })
 
 which_key.register({ ["<leader>b"] = { name = "󰓩 Buffers" } })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })

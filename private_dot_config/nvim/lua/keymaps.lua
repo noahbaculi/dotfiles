@@ -16,6 +16,10 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv-gv", { desc = "Move line(s) up" })
 -- vim.keymap.set("i", "???", "<Esc>:m .-2<CR>==gi", { desc = "Move line(s) up" })
 -- vim.keymap.set("i", "???", "<Esc>:m .+1<CR>==gi", { desc = "Move line(s) down" })
 
+-- Better indenting
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent line" })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "Unindent line" })
+
 -- Keep cursor centered while navigating
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and keep cursor centered" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and keep cursor centered" })

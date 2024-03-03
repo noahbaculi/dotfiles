@@ -54,6 +54,7 @@ return {
           suggestion = { enabled = false },
           panel = { enabled = false },
           filetypes = {
+            yaml = true,
             markdown = true,
             help = true,
           },
@@ -89,6 +90,10 @@ return {
           { name = "buffer", priority = 500 },
           { name = "path", priority = 250 },
         }),
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
         formatting = {
           format = lspkind.cmp_format({
             mode = "symbol",

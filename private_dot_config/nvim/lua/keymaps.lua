@@ -88,7 +88,6 @@ vim.keymap.set("n", "<leader>fc", function() require("telescope.builtin").grep_s
 vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find old files" })
-vim.keymap.set("n", "<leader>ft", function() require("telescope.builtin").colorscheme({ enable_preview = true }) end, { desc = "Find themes" })
 vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").live_grep() end, { desc = "Find words" })
 vim.keymap.set("n", "<leader>fW", function()
   require("telescope.builtin").live_grep({
@@ -109,7 +108,7 @@ vim.keymap.set("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason plugins" })
 vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdateAll<cr>", { desc = "Mason Update" })
 
 which_key.register({ ["<leader>u"] = { name = " UI/UX" } })
-vim.keymap.set("n", "<leader>ut", "<cmd>Telescope colorscheme<cr>", { desc = "Theme switcher" })
+vim.keymap.set("n", "<leader>ut", function() require("telescope.builtin").colorscheme({ enable_preview = true }) end, { desc = "Theme switcher" })
 
 which_key.register({ ["<leader>b"] = { name = "󰓩 Buffers" } })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })
@@ -151,6 +150,9 @@ vim.keymap.set("n", "<leader>tl", "<cmd>ToggleTermSendCurrentLine<cr>", { desc =
 --
 -- LSP
 --
+which_key.register({ ["<leader>l"] = { name = " LSP" } })
+vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
@@ -163,17 +165,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" })
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature documentation" })
+    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
+    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
 
-    which_key.register({ ["<leader>l"] = { name = " LSP" } })
+    vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type definition" })
     vim.keymap.set("n", "<leader>ls", function() require("aerial").toggle() end, { desc = "Toggle Aerial symbols outline" })
     vim.keymap.set("n", "<leader>lD", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })
-    vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
-    vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
-    vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
     vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
     vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, { desc = "Rename current symbol" })
-    vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type definition" })
     vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { buffer = ev.buf, desc = "Format buffer" })
   end,
 })

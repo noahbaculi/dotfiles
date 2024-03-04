@@ -17,6 +17,7 @@ brew install chezmoi
 - Install `winget` from [Microsoft Store](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 
 ```bash
+winget install Git.Git
 winget install twpayne.chezmoi
 ```
 

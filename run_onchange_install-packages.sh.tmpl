@@ -1,0 +1,50 @@
+#!/bin/sh
+# vim: filetype=sh
+
+echo "Installing packages..."
+
+{{ if eq .chezmoi.os "linux" "darwin" }}
+echo "Installing common packages for Linux, WSL, and MacOS..."
+brew install \
+    neovim \
+    eza \
+    bat \
+    bottom \
+    hyperfine \
+    fend \
+    atuin \
+    rust \
+    bacon \
+    cargo-binstall \
+    diff-so-fancy \
+    lazygit \
+    jq \
+    mise \
+    ruff \
+    sccache \
+    tree-sitter \
+    starship \
+
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+echo "Installing GUI packages for MacOS..."
+brew install --cask \
+    google-chrome \
+    wezterm \
+    karabiner-elements \
+    rectangle \
+    clipy \
+    espanso \
+    obsidian \
+    balenaetcher \
+    veracrypt \
+    vlc \
+    microsoft-remote-desktop \
+
+{{ end }}
+
+{{ if eq .chezmoi.os "windows" }}
+# TODO: install windows GUI packages
+{{ end }}
+

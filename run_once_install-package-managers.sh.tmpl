@@ -1,0 +1,13 @@
+#!/bin/sh
+# vim: filetype=sh
+
+{{ if eq .chezmoi.os "windows" }}
+
+# TODO: install windows package managers
+
+{{ else }}
+
+echo "Installing Homebrew..."
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+{{ end }}

@@ -28,7 +28,7 @@ brew install \
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }}
-echo "Installing GUI packages for MacOS..."
+echo "Installing packages for MacOS..."
 brew install --cask \
     google-chrome \
     wezterm \
@@ -45,6 +45,35 @@ brew install --cask \
 {{ end }}
 
 {{ if eq .chezmoi.os "windows" }}
-# TODO: install windows GUI packages
+echo "Installing packages for Windows..."
+winget install --exact --id Git.Git
+winget install --exact --id Google.Chrome
+winget install --exact --id Mozilla.Firefox
+winget install --exact --id wez.wezterm
+winget install --exact --id Obsidian.Obsidian
+winget install --exact --id IDRIX.VeraCrypt
+winget install --exact --id VideoLAN.VLC
+winget install --exact --id 7zip.7zip
+winget install --exact --id AutoHotkey.AutoHotkey
+winget install --exact --id AxCrypt.AxCrypt
+winget install --exact --id Balena.Etcher
+winget install --exact --id Foxit.FoxitReader
+winget install --exact --id Logitech.OptionsPlus
+winget install --exact --id xanderfrangos.twinkletray
+
+printf 'Install personal packages (MuseScore, Plex, iDrive, ...)? [y/N] '
+read install_personal_packages
+if [ "$install_personal_packages" != "${install_personal_packages#[Yy]}" ] ;then 
+    winget install --exact --id Musescore.Musescore
+    winget install --exact --id Google.Drive
+    winget install --exact --id Plex.PlexMediaPlayer
+    winget install --exact --id Valve.Steam
+    winget install --exact --id Discord.Discord
+    winget install --exact --id qBittorrent.qBittorrent
+    winget install --exact --id Surfshark.Surfshark
+else
+    echo "Skipping personal packages..."
+fi
+
 {{ end }}
 

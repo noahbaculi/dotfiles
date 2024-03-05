@@ -1,0 +1,40 @@
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# ZSH_THEME="gnzh"
+ZSH_THEME="avit"
+
+# ZSH_THEME="powerlevel10k/powerlevel10k"
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+git
+jsontools
+zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
+
+export EDITOR=nvim
+export VISUAL="$EDITOR"
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias n="nvim"
+
+bindkey '^d'   backward-word 
+bindkey '^f'   forward-word
+
+# Enable syntax highlighting
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+eval "$(atuin init zsh)"
+

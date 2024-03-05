@@ -5,29 +5,29 @@ echo "Installing packages..."
 
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
-cargo install cargo-binstall
+which -s cargo binstall
+if [[ $? != 0 ]] ; then
+    echo "Cargo binstall could not be found. Make sure to install and restart the shell: `exec $SHELL`"
+    exit 0
+fi
 
-cargo binstall --locked bat
+cargo binstall --locked -y bat \
+    mise \
+    eza \
+    bottom \
+    hyperfine \
+    bacon \
+    atuin \
+    fend \
+    starship \
 
 # brew install \
 #     neovim \
-#     eza \
-#     bat \
-#     bottom \
-#     hyperfine \
-#     fend \
-#     atuin \
-#     rust \
-#     bacon \
-#     cargo-binstall \
 #     diff-so-fancy \
 #     lazygit \
 #     jq \
-#     mise \
 #     ruff \
-#     sccache \
 #     tree-sitter \
-#     starship \
 
 
 
@@ -35,19 +35,25 @@ cargo binstall --locked bat
 
 {{ if eq .chezmoi.os "darwin" }}
 echo "Installing packages for MacOS..."
-brew install --cask \
-    google-chrome \
-    wezterm \
-    karabiner-elements \
-    rectangle \
-    clipy \
-    espanso \
-    obsidian \
-    balenaetcher \
-    veracrypt \
-    vlc \
-    microsoft-remote-desktop \
 
+which -s brew
+if [[ $? != 0 ]] ; then
+    echo "Homebrew could not be found. Make sure to install and restart the shell: `exec $SHELL`"
+    exit 0
+fi
+
+brew install --cask google-chrome
+brew install --cask firefox
+brew install --cask wezterm
+brew install --cask karabiner-elements
+brew install --cask rectangle
+brew install --cask clipy
+brew install --cask espanso
+brew install --cask obsidian
+brew install --cask balenaetcher
+brew install --cask veracrypt
+brew install --cask vlc
+brew install --cask microsoft-remote-desktop
 {{ end }}
 
 {{ if eq .chezmoi.os "windows" }}

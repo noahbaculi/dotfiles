@@ -16,4 +16,20 @@ echo "Installing Homebrew..."
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+echo "Installing cargo-binstall..."
+curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+{{ end }}
+
+
+###
+# Install shell
+{{ if eq .chezmoi.os "windows" }}
+
+{{ else if eq .chezmoi.os "darwin" }}
+
+{{ else if eq .chezmoi.os "linux" }}
+
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" "darwin" }}
 {{ end }}

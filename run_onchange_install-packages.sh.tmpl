@@ -5,25 +5,31 @@ echo "Installing packages..."
 
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
-brew install \
-    neovim \
-    eza \
-    bat \
-    bottom \
-    hyperfine \
-    fend \
-    atuin \
-    rust \
-    bacon \
-    cargo-binstall \
-    diff-so-fancy \
-    lazygit \
-    jq \
-    mise \
-    ruff \
-    sccache \
-    tree-sitter \
-    starship \
+cargo install cargo-binstall
+
+cargo binstall --locked bat
+
+# brew install \
+#     neovim \
+#     eza \
+#     bat \
+#     bottom \
+#     hyperfine \
+#     fend \
+#     atuin \
+#     rust \
+#     bacon \
+#     cargo-binstall \
+#     diff-so-fancy \
+#     lazygit \
+#     jq \
+#     mise \
+#     ruff \
+#     sccache \
+#     tree-sitter \
+#     starship \
+
+
 
 {{ end }}
 

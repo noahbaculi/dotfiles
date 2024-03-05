@@ -2,13 +2,18 @@
 # vim: filetype=sh
 
 {{ if eq .chezmoi.os "windows" }}
+# Install windows package managers
 
-# TODO: install windows package managers
-echo "Windows package managers are not yet supported."
-
-{{ else }}
-
+{{ else if eq .chezmoi.os "darwin" }}
 echo "Installing Homebrew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+{{ else if eq .chezmoi.os "linux" }}
+# Install Linux package managers
+
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" "darwin" }}
+echo "Installing Rust..."
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 {{ end }}

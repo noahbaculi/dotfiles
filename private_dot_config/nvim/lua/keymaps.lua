@@ -96,13 +96,24 @@ vim.keymap.set("n", "<leader>fW", function()
 end, { desc = "Find words in all files" })
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle() end, { desc = "Find Trouble diagnostics" })
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
-vim.keymap.set("n", "<leader>fR", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Find and replace word under cursor" })
 
+which_key.register({ ["<leader>r"] = { name = " Replace" } })
+-- vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
+vim.keymap.set("n", "<leader>rr", function() require("spectre").toggle() end, { desc = "Toggle Spectre replace" })
+vim.keymap.set("n", "<leader>rw", function() require("spectre").open_visual({ select_word = true }) end, { desc = "Search current word" })
+vim.keymap.set("v", "<leader>rw", '<esc><cmd>lua require("spectre").open_visual()<CR>', { desc = "Search current word" })
 vim.keymap.set(
   "n",
-  "<leader>fA",
+  "<leader>rh",
+  function() require("spectre").open_file_search({ select_word = true }) end,
+  { desc = "Search current word in current file (here)" }
+)
+vim.keymap.set("v", "<leader>rh", '<esc><cmd>lua require("spectre").open_file_search()<CR>', { desc = "Search current word in current file (here)" })
+vim.keymap.set(
+  "n",
+  "<leader>rA",
   [[:%s/\v("\/|")(caredb|courier|cronkite|dataengine|drow|identity|integrator|lachesis|oracle|overlord|pylon|showboat)(\/v\d\/\S{-})(\/"|")/"\/\2\3\/"/gc]],
-  { desc = "Find and replace Carium API paths with slashes" }
+  { desc = "Replace Carium API paths with slashes" }
 )
 
 which_key.register({ ["<leader>p"] = { name = "󰏖 Plugins" } })

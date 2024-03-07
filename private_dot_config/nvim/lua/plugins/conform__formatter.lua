@@ -1,5 +1,6 @@
 return {
   "stevearc/conform.nvim",
+  version = "5.3.0",
   opts = {
     formatters_by_ft = {
       -- Use a sub-list to run only the first available formatter

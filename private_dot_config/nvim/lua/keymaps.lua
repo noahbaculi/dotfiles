@@ -58,16 +58,6 @@ vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("n", "<C-q>", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "Paste over selected text and discard selected text" })
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle Explorer" })
-vim.keymap.set("n", "<leader>o", function()
-  local nvimTree = require("nvim-tree.api")
-  local currentBuf = vim.api.nvim_get_current_buf()
-  local currentBufFt = vim.api.nvim_get_option_value("filetype", { buf = currentBuf })
-  if currentBufFt == "NvimTree" then
-    nvimTree.tree.toggle()
-  else
-    nvimTree.tree.focus()
-  end
-end, { desc = "Toggle Explorer Focus" })
 
 -- Toggle comment
 vim.keymap.set(
@@ -84,16 +74,16 @@ vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.li
 
 which_key.register({ ["<leader>f"] = { name = " Find" } })
 vim.keymap.set("n", "<leader>fb", function() require("telescope.builtin").buffers() end, { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fc", function() require("telescope.builtin").grep_string() end, { desc = "Find word under cursor" })
+vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").grep_string() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find old files" })
-vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").live_grep() end, { desc = "Find words" })
-vim.keymap.set("n", "<leader>fW", function()
+vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").live_grep() end, { desc = "Find string" })
+vim.keymap.set("n", "<leader>fS", function()
   require("telescope.builtin").live_grep({
     additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
   })
-end, { desc = "Find words in all files" })
+end, { desc = "Find string in all files" })
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle() end, { desc = "Find Trouble diagnostics" })
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
 
@@ -130,12 +120,15 @@ end, { desc = "Toggle word wrap" })
 
 which_key.register({ ["<leader>b"] = { name = "󰓩 Buffers" } })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })
-vim.keymap.set("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer" })
-vim.keymap.set("n", "<leader>c", "<cmd>bd<cr>", { desc = "Delete buffer" })
-vim.keymap.set("n", "<leader>bn", "<cmd>bnext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bp", "<cmd>bprev<cr>", { desc = "Previous buffer" })
-vim.keymap.set("n", "[b", "<cmd>bprev<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>BufferClose<cr>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>c", "<cmd>BufferClose<cr>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>bN", "<cmd>BufferMoveNext<cr>", { desc = "Move next buffer" })
+vim.keymap.set("n", "<leader>bn", "<cmd>BufferNext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "]b", "<cmd>BufferNext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bP", "<cmd>BufferMovePrevious<cr>", { desc = "Move previous buffer" })
+vim.keymap.set("n", "<leader>bp", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "[b", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>bI", "<cmd>BufferPin<cr>", { desc = "Pin/Unpin buffer" })
 
 which_key.register({ ["<leader>g"] = { name = "󰊢 Git" } })
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })

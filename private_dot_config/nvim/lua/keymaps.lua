@@ -78,10 +78,13 @@ vim.keymap.set(
 )
 vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", { desc = "Toggle comment for selection" })
 
+--
 -- Which key groups
-
 -- These should be vim.keymap.set() function calls
 
+--
+--
+--
 which_key.register({ ["<leader>f"] = { name = " Find" } })
 vim.keymap.set("n", "<leader>fb", function() require("telescope.builtin").buffers() end, { desc = "Find buffers" })
 vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").grep_string() end, { desc = "Find current word" })
@@ -97,7 +100,11 @@ end, { desc = "Find string in all files" })
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle() end, { desc = "Find Trouble diagnostics" })
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
 
+--
+--
+--
 which_key.register({ ["<leader>r"] = { name = " Replace" } })
+which_key.register({ ["<leader>r"] = { name = " Replace" } }, { mode = "v" })
 -- vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
 vim.keymap.set("n", "<leader>rr", function() require("spectre").toggle() end, { desc = "Toggle Spectre replace" })
 vim.keymap.set("n", "<leader>rw", function() require("spectre").open_visual({ select_word = true }) end, { desc = "Search current word" })
@@ -116,11 +123,17 @@ vim.keymap.set(
   { desc = "Replace Carium API paths with slashes" }
 )
 
+--
+--
+--
 which_key.register({ ["<leader>p"] = { name = "󰏖 Plugins" } })
 vim.keymap.set("n", "<leader>pl", function() require("lazy").home() end, { desc = "Lazy plugins" })
 vim.keymap.set("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason plugins" })
 vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdateAll<cr>", { desc = "Mason Update" })
 
+--
+--
+--
 which_key.register({ ["<leader>u"] = { name = " UI/UX" } })
 vim.keymap.set("n", "<leader>ut", function() require("telescope.builtin").colorscheme({ enable_preview = true }) end, { desc = "Theme switcher" })
 vim.keymap.set("n", "<leader>uw", function()
@@ -128,6 +141,9 @@ vim.keymap.set("n", "<leader>uw", function()
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
 end, { desc = "Toggle word wrap" })
 
+--
+--
+--
 which_key.register({ ["<leader>b"] = { name = "󰓩 Buffers" } })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })
 vim.keymap.set("n", "<leader>bd", "<cmd>BufferClose<cr>", { desc = "Delete buffer" })
@@ -140,6 +156,9 @@ vim.keymap.set("n", "<leader>bp", "<cmd>BufferPrevious<cr>", { desc = "Previous 
 vim.keymap.set("n", "[b", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>bI", "<cmd>BufferPin<cr>", { desc = "Pin/Unpin buffer" })
 
+--
+--
+--
 which_key.register({ ["<leader>g"] = { name = "󰊢 Git" } })
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 
@@ -155,11 +174,17 @@ vim.keymap.set("n", "<leader>gS", function() require("gitsigns").stage_buffer() 
 vim.keymap.set("n", "<leader>gu", function() require("gitsigns").undo_stage_hunk() end, { desc = "Unstage Git hunk" })
 vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis() end, { desc = "View Git diff" })
 
+--
+--
+--
 which_key.register({ ["<leader>s"] = { name = "󱂬 Session" } })
 vim.keymap.set("n", "<leader>sl", "<cmd>SessionRestore<cr>", { desc = "Load last CWD session" })
 vim.keymap.set("n", "<leader>sd", "<cmd>SessionDelete<cr>", { desc = "Delete last CWD session" })
 vim.keymap.set("n", "<leader>sf", require("auto-session.session-lens").search_session, { desc = "Find session" })
 
+--
+--
+--
 which_key.register({ ["<leader>t"] = { name = " Terminal" } })
 vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "ToggleTerm float" })
 vim.keymap.set("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", { desc = "ToggleTerm horizontal split" })
@@ -169,7 +194,7 @@ vim.keymap.set({ "n", "t" }, "<C-'>", "<cmd>ToggleTerm<cr>", { desc = "Toggle te
 vim.keymap.set("n", "<leader>tl", "<cmd>ToggleTermSendCurrentLine<cr>", { desc = "ToggleTerm send line" })
 
 --
--- LSP
+--
 --
 which_key.register({ ["<leader>l"] = { name = " LSP" } })
 vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })

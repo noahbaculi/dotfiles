@@ -57,7 +57,17 @@ vim.keymap.set("n", "<leader>q", "<cmd>confirm q<cr>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("n", "<C-q>", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "Paste over selected text and discard selected text" })
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle Explorer" })
+-- vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle Explorer" })
+vim.keymap.set("n", "<leader>e", function()
+  local nvimTree = require("nvim-tree.api")
+  local currentBuf = vim.api.nvim_get_current_buf()
+  local currentBufFt = vim.api.nvim_get_option_value("filetype", { buf = currentBuf })
+  if currentBufFt == "NvimTree" then
+    nvimTree.tree.toggle()
+  else
+    nvimTree.tree.focus()
+  end
+end, { desc = "Toggle Explorer" })
 
 -- Toggle comment
 vim.keymap.set(

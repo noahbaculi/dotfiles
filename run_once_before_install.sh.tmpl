@@ -20,6 +20,7 @@ sudo apt install libssl-dev
 echo "Installing mise development environment manager..."
 curl https://mise.run | sh
 fish_add_path ~/.local/bin
+fish_add_path ~/.local/share/mise
 
 echo "Installing Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

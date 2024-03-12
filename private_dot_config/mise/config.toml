@@ -3,6 +3,6 @@ neovim = ['stable']
 python = ['3.10', '3.11', '3.12']
 node = ['lts']
 lazygit = 'latest'
-Delta = 'latest'
+delta = 'latest'
 jq = 'latest'
 tree-sitter = 'latest'

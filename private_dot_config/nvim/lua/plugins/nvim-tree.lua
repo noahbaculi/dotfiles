@@ -7,7 +7,6 @@ return {
     {
       "JMarkin/nvim-tree.lua-float-preview",
       commit = "e45039ed81ba99ae0ce6c621a10b237258ecda10",
-      -- default
       opts = {
         scroll_lines = 20,
         window = {
@@ -19,7 +18,7 @@ return {
         mapping = {
           down = { "<C-j>" }, -- scroll down in preview
           up = { "<C-k>" }, -- scroll up in preview
-          toggle = { "<Tab>" },
+          toggle = { "<C-Space>" },
         },
         -- hooks if return false preview doesn't shown
         hooks = {
@@ -64,7 +63,6 @@ return {
 
       -- default mappings
       api.config.mappings.default_on_attach(bufnr)
-      vim.keymap.del("n", "<Tab>", { buffer = bufnr }) -- handled by the float-preview plugin
     end,
   },
 }

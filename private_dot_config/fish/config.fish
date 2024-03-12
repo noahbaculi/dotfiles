@@ -6,3 +6,4 @@ source "$HOME/.cargo/env.fish"
 mise activate fish | source
 zoxide init fish | source
 starship init fish | source
+atuin init fish | source

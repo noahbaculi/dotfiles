@@ -5,11 +5,6 @@ echo "Installing packages..."
 
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
-which -s cargo binstall
-if [[ $? != 0 ]] ; then
-    echo "Cargo binstall could not be found. Make sure to install and restart the shell: `exec $SHELL`"
-    exit 0
-fi
 
 cargo binstall --locked -y bat \
     mise \

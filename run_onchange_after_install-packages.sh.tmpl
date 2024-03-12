@@ -19,6 +19,8 @@ cargo binstall --locked -y bat \
     zoxide \
     zellij
 
+pip install ruff
+
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }}

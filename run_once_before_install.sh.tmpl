@@ -19,9 +19,11 @@ sudo apt install libssl-dev
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing mise development environment manager..."
 curl https://mise.run | sh
+fish_add_path ~/.local/bin
 
 echo "Installing Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fish_add_path ~/.cargo/bin
 
 echo "Installing cargo-binstall..."
 curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash

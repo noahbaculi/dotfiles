@@ -9,7 +9,7 @@ echo "Installing Homebrew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 {{ else if eq .chezmoi.os "linux" }}
-# Install Linux package managers
+sudo apt install build-essential  # Required for Rust builds
 
 {{ end }}
 

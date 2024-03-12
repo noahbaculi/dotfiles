@@ -2,17 +2,57 @@
 
 Dotfiles for development, etc.
 
-## Pre-requisites
+## Linux / WSL
 
-### Linux / WSL / macOS
-
-- Install `Homebrew` from [brew.sh](https://brew.sh)
-
+1. Install Fish shell
+  
 ```bash
-brew install chezmoi
+sudo apt-add-repository ppa:fish-shell/release-3
+sudo apt update
+sudo apt install fish
 ```
 
-### Windows
+2. Make Fish shell default
+
+```bash
+echo /usr/bin/fish | sudo tee -a /etc/shells
+chsh -s /usr/bin/fish
+
+exec $SHELL  # restart shell
+```
+
+3. Install Chezmoi
+
+```fish
+sh -c "$(curl -fsLS get.chezmoi.io)"
+fish_add_path ./bin
+```
+
+## MacOS
+
+1. Install Fish shell
+  
+```bash
+brew install fish
+```
+
+2. Make Fish shell default
+
+```bash
+echo /usr/local/bin/fish | sudo tee -a /etc/shells
+chsh -s /usr/local/bin/fish
+
+exec $SHELL  # restart shell
+```
+
+3. Install Chezmoi
+
+```fish
+sh -c "$(curl -fsLS get.chezmoi.io)"
+fish_add_path ./bin
+```
+
+## Windows
 
 - Install `winget` from [Microsoft Store](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 

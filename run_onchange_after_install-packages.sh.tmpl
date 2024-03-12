@@ -6,8 +6,9 @@ echo "Installing packages..."
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
 
+mise install
+
 cargo binstall --locked -y bat \
-    mise \
     eza \
     bottom \
     hyperfine \

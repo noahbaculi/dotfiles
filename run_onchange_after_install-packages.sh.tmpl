@@ -27,12 +27,6 @@ pip install ruff
 {{ if eq .chezmoi.os "darwin" }}
 echo "Installing packages for MacOS..."
 
-which -s brew
-if [[ $? != 0 ]] ; then
-    echo "Homebrew could not be found. Make sure to install and restart the shell: `exec $SHELL`"
-    exit 0
-fi
-
 brew install --cask google-chrome
 brew install --cask firefox
 brew install --cask wezterm

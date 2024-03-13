@@ -52,6 +52,8 @@ exec $SHELL  # restart shell
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
+fish_add_path ~/.local/bin
+fish_add_path ~/.local/share/mise
 ```
 
 ## Windows

@@ -74,6 +74,18 @@ chezmoi init --apply noahbaculi
 [Chezmoi User Guide](https://www.chezmoi.io/user-guide/command-overview/)
 
 
+## Enable SSH from WSL
+
+1. Enable SSH from within WSL.
+2. Confrim that WSL can be connected to via SSH on the same computer: `ssh [wsl_username]@localhost`
+3. From another computer, the WSL instance can be connected with the following chain (jump) command:
+
+```bash
+ssh -J [windows_username]@[windows_destination] [wsl_username]@localhost
+```
+
+> Note that the WSL usernames should be unique across all the network WSL usernames with SSH enabled to avoid collisions.
+
 ## iOS
 
 1. Download a [Nerd Font](https://www.nerdfonts.com/font-downloads) `.zip` archive locally.

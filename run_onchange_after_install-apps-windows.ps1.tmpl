@@ -1,6 +1,6 @@
+{{ if eq .chezmoi.os "windows" }}
 # vim: filetype=pwsh
 
-{{ if eq .chezmoi.os "windows" }}
 echo "Installing packages for Windows..."
 winget install --exact --id Git.Git
 winget install --exact --id GitHub.cli

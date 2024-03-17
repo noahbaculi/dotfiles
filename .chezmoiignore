@@ -8,3 +8,8 @@ README.md
 {{ if (.chezmoi.hostname | lower | contains "carium") }}
 .zshrc  # do not update for Carium env
 {{ end }}
+
+{{ if eq .chezmoi.os "windows" }}
+install.sh
+install-apps-unix.sh
+{{- end }}

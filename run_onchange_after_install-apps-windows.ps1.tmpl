@@ -18,9 +18,8 @@ winget install --exact --id Foxit.FoxitReader
 winget install --exact --id Logitech.OptionsPlus
 winget install --exact --id xanderfrangos.twinkletray
 
-printf 'Install personal packages (MuseScore, Plex, iDrive, ...)? [y/N] '
-read install_personal_packages
-if [ "$install_personal_packages" != "${install_personal_packages#[Yy]}" ] ;then 
+$install_personal_packages = Read-Host -Prompt "Install personal packages (MuseScore, Plex, iDrive, ...)? [y/N] "
+if ($install_personal_packages -eq 'y') {
     winget install --exact --id Musescore.Musescore
     winget install --exact --id Google.Drive
     winget install --exact --id Plex.PlexMediaPlayer
@@ -28,9 +27,9 @@ if [ "$install_personal_packages" != "${install_personal_packages#[Yy]}" ] ;then
     winget install --exact --id Discord.Discord
     winget install --exact --id qBittorrent.qBittorrent
     winget install --exact --id Surfshark.Surfshark
-else
+} else {
     echo "Skipping personal packages..."
-fi
+}
 
 {{ end }}
 

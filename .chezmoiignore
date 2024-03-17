@@ -1,6 +1,6 @@
 README.md
  
-{{ if ne .chezmoi.os "linux" "darwin" }}
+{{ if (or (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin") ) }}
 install-unix.sh
 install-apps-unix.sh
 {{ end }}

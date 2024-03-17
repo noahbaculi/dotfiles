@@ -26,9 +26,16 @@ pip install ruff
 
 {{ end }}
 
+{{ if eq .chezmoi.os "linux" }}
+echo "Installing packages for Linux..."
+sudo apt install gh
+
+{{ end }}
+
 {{ if eq .chezmoi.os "darwin" }}
 echo "Installing packages for MacOS..."
 
+brew install gh
 brew install --cask google-chrome
 brew install --cask firefox
 brew install --cask wezterm
@@ -46,6 +53,7 @@ brew install --cask microsoft-remote-desktop
 {{ if eq .chezmoi.os "windows" }}
 echo "Installing packages for Windows..."
 winget install --exact --id Git.Git
+winget install --exact --id GitHub.cli
 winget install --exact --id Google.Chrome
 winget install --exact --id Mozilla.Firefox
 winget install --exact --id wez.wezterm

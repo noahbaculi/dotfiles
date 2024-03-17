@@ -1,10 +1,7 @@
 #!/bin/sh
 # vim: filetype=sh
 
-{{ if eq .chezmoi.os "windows" }}
-# Install windows package managers
-
-{{ else if eq .chezmoi.os "darwin" }}
+{{ if eq .chezmoi.os "darwin" }}
 echo "Installing Homebrew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 

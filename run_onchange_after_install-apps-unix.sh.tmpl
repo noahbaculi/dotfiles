@@ -1,0 +1,52 @@
+#!/bin/sh
+# vim: filetype=sh
+
+echo "Installing packages..."
+
+{{ if eq .chezmoi.os "linux" "darwin" }}
+echo "Installing common packages for Linux, WSL, and MacOS..."
+
+mise install
+
+cargo binstall --locked -y bat \
+    eza \
+    zellij \
+    bottom \
+    atuin \
+    starship \
+    zoxide \
+    hyperfine \
+    bacon \
+    fend \
+    macchina \
+    ripgrep \
+    tokei \
+
+pip install ruff
+
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" }}
+echo "Installing packages for Linux..."
+sudo apt install gh
+
+{{ end }}
+
+{{ if eq .chezmoi.os "darwin" }}
+echo "Installing packages for MacOS..."
+
+brew install gh
+brew install --cask google-chrome
+brew install --cask firefox
+brew install --cask wezterm
+brew install --cask karabiner-elements
+brew install --cask rectangle
+brew install --cask clipy
+brew install --cask espanso
+brew install --cask obsidian
+brew install --cask balenaetcher
+brew install --cask veracrypt
+brew install --cask vlc
+brew install --cask microsoft-remote-desktop
+{{ end }}
+

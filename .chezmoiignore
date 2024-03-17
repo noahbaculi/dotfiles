@@ -1,15 +1,19 @@
 README.md
+ 
+{{ if ne .chezmoi.os "linux" "darwin" }}
+install-unix.sh
+install-apps-unix.sh
+{{ end }}
+
+{{ if ne .chezmoi.os "windows" }}
+install-apps-windows.ps1
+{{ end }}
 
 {{ if ne .chezmoi.os "darwin" }}
 .config/karabiner
 {{ end }}
 
- 
 {{ if (.chezmoi.hostname | lower | contains "carium") }}
 .zshrc  # do not update for Carium env
 {{ end }}
 
-{{ if eq .chezmoi.os "windows" }}
-install.sh
-install-apps-unix.sh
-{{- end }}

@@ -27,24 +27,14 @@ config.font_size = 14
 
 config.keys = {
   {
-    key = "C",
+    key = "c",
     mods = "CTRL",
     action = wezterm.action.CopyTo("ClipboardAndPrimarySelection"),
   },
   {
-    key = "V",
+    key = "v",
     mods = "CTRL",
     action = wezterm.action.PasteFrom("Clipboard"),
-  },
-  {
-    key = "n",
-    mods = "CTRL",
-    action = wezterm.action.SpawnWindow,
-  },
-  {
-    key = "t",
-    mods = "CTRL",
-    action = wezterm.action.SpawnTab("CurrentPaneDomain"),
   },
 }
 

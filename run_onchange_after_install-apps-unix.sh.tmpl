@@ -1,9 +1,7 @@
+{{ if eq .chezmoi.os "linux" "darwin" }}
 #!/bin/sh
 # vim: filetype=sh
 
-echo "Installing packages..."
-
-{{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
 
 mise install

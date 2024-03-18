@@ -8,6 +8,16 @@ return {
     "williamboman/mason-lspconfig.nvim",
     version = "1.26.0",
     event = { "VeryLazy" },
+    opts = {
+      ensure_installed = {
+        "lua_ls",
+        "rust_analyzer",
+        "ruff_lsp",
+        "biome",
+        -- "gopls",
+        -- "sqlls",
+      },
+    },
   },
   -- LSP Support
   {

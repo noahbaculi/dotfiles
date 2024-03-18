@@ -10,12 +10,14 @@ return {
     event = { "VeryLazy" },
     opts = {
       ensure_installed = {
-        "lua_ls",
-        "rust_analyzer",
-        "ruff_lsp",
-        "biome",
-        -- "gopls",
-        -- "sqlls",
+        "taplo", -- TOML
+        "yamlls", -- YAML
+        "lua_ls", -- Lua
+        "rust_analyzer", -- Rust
+        "ruff_lsp", -- Python
+        "biome", -- Javascript, Typescript, JSON
+        -- "gopls", -- Go
+        -- "sqlls", -- SQL
       },
     },
   },

@@ -27,7 +27,6 @@ vim.keymap.set("n", "n", "nzzzv", { desc = "Move to next search result and keep 
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search result and keep cursor centered" })
 
 -- File operations
-vim.keymap.set("n", "<C-q>", "<cmd>qa!<cr>", { desc = "Force quit" })
 vim.keymap.set("n", "|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
 vim.keymap.set("n", "\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
 

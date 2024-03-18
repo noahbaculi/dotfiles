@@ -5,7 +5,7 @@ Dotfiles for development, etc.
 ## Linux / WSL
 
 1. Install Fish shell
-  
+
 ```bash
 sudo apt-add-repository ppa:fish-shell/release-3
 sudo apt update
@@ -33,7 +33,7 @@ fish_add_path ~/.local/share/mise
 ## MacOS
 
 1. Install Fish shell
-  
+
 ```bash
 brew install fish
 ```
@@ -72,7 +72,6 @@ chezmoi init --apply noahbaculi
 ```
 
 [Chezmoi User Guide](https://www.chezmoi.io/user-guide/command-overview/)
-
 
 ## Enable SSH from WSL
 

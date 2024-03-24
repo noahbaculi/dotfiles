@@ -1,32 +1,5 @@
 return {
-  {
-    "williamboman/mason.nvim",
-    version = "1.10.0",
-    event = { "VeryLazy" },
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    version = "1.26.0",
-    event = { "VeryLazy" },
-    opts = {
-      ensure_installed = {
-        "taplo", -- TOML
-        "yamlls", -- YAML
-        "lua_ls", -- Lua
-        "rust_analyzer", -- Rust
-        "ruff_lsp", -- Python
-        "biome", -- Javascript, Typescript, JSON
-        -- "gopls", -- Go
-        -- "sqlls", -- SQL
-      },
-    },
-  },
   -- LSP Support
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    commit = "abac76482ec3012a2b359ba956a74e2ffd33d46f",
-    event = { "VeryLazy" },
-  },
   {
     "neovim/nvim-lspconfig",
     commit = "02c9b12eaf9393899bddb5ecf6670e7b3e5a4c49",
@@ -36,7 +9,61 @@ return {
         "hrsh7th/cmp-nvim-lsp",
         commit = "5af77f54de1b16c34b23cba810150689a3a90312",
       },
+      {
+        "VonHeikemen/lsp-zero.nvim",
+        commit = "abac76482ec3012a2b359ba956a74e2ffd33d46f",
+        event = { "VeryLazy" },
+      },
+      {
+        "williamboman/mason.nvim",
+        version = "1.10.0",
+        event = { "VeryLazy" },
+        opts = {},
+      },
+      {
+        "williamboman/mason-lspconfig.nvim",
+        version = "1.26.0",
+        event = { "VeryLazy" },
+        opts = {
+          ensure_installed = {
+            "taplo", -- TOML
+            "yamlls", -- YAML
+            "lua_ls", -- Lua
+            -- "rust_analyzer", -- Rust
+            "ruff_lsp", -- Python
+            "biome", -- Javascript, Typescript, JSON
+            -- "gopls", -- Go
+            -- "sqlls", -- SQL
+          },
+          automatic_installation = true,
+        },
+      },
     },
+    config = function()
+      local lsp_zero = require("lsp-zero")
+      lsp_zero.extend_lspconfig() -- Integrate lspconfig with nvim-cmp
+      lsp_zero.on_attach(function(_, bufnr)
+        -- see `:help lsp-zero-keybindings`
+        lsp_zero.default_keymaps({ buffer = bufnr })
+      end)
+      require("mason-lspconfig").setup({
+        handlers = {
+          lsp_zero.default_setup,
+        },
+      })
+
+      local lspconfig = require("lspconfig")
+      lspconfig.rust_analyzer.setup({
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
+              extraArgs = { "--profile", "rust-analyzer" },
+            },
+          },
+        },
+      })
+    end,
   },
   -- Autocompletion
   {
@@ -57,6 +84,11 @@ return {
       {
         "onsails/lspkind.nvim",
         commit = "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf",
+      },
+      {
+        "L3MON4D3/LuaSnip",
+        version = "2.2.0",
+        build = "make install_jsregexp", -- optional
       },
       {
         "zbirenbaum/copilot.lua",

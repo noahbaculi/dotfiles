@@ -87,6 +87,8 @@ ssh -J [windows_username]@[windows_destination] [wsl_username]@localhost
 
 ## iOS
 
+> Note that many system-level keymaps are not supported. (CAPSLOCK -> ESC)
+
 1. Download a [Nerd Font](https://www.nerdfonts.com/font-downloads) `.zip` archive locally.
 2. Install the [iFont app](https://apps.apple.com/us/app/ifont-find-install-any-font/id1173222289) and install the font from the downloaded archive.
 3. Install the [iSH app](https://ish.app/)https://ish.app/) and select the installed Nerd Font in the iSH in-app settings.

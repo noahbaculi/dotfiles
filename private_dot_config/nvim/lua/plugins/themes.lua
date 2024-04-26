@@ -19,4 +19,16 @@ return {
     lazy = false,
     priority = 1000,
   },
+  {
+    "rebelot/kanagawa.nvim",
+    commit = "bfa818c7bf6259152f1d89cf9fbfba3554c93695",
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    "marko-cerovac/material.nvim",
+    commit = "772e41a7f33743224f30799a3a887dc7dd853f8d",
+    lazy = false,
+    priority = 1000,
+  },
 }

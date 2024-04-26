@@ -210,5 +210,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
     vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, { desc = "Rename current symbol" })
     vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { buffer = ev.buf, desc = "Format buffer" })
+    vim.keymap.set("n", "<leader>lh", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { desc = "Toggle Inlay Hints" })
   end,
 })

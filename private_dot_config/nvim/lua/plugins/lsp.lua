@@ -29,7 +29,7 @@ return {
             "taplo", -- TOML
             "yamlls", -- YAML
             "lua_ls", -- Lua
-            -- "rust_analyzer", -- Rust
+            "rust_analyzer", -- Rust
             "ruff_lsp", -- Python
             "biome", -- Javascript, Typescript, JSON
             -- "gopls", -- Go
@@ -56,6 +56,12 @@ return {
       lspconfig.rust_analyzer.setup({
         settings = {
           ["rust-analyzer"] = {
+            check = {
+              command = "clippy",
+            },
+            diagnostics = {
+              enable = true,
+            },
             cargo = {
               extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
               extraArgs = { "--profile", "rust-analyzer" },

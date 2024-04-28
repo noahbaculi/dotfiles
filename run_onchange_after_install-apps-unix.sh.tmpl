@@ -4,6 +4,7 @@
 
 echo "Installing common packages for Linux, WSL, and MacOS..."
 
+# Install from mise/config.toml
 mise install
 
 cargo binstall --locked -y bat \
@@ -22,6 +23,9 @@ cargo binstall --locked -y bat \
 
 pip install ruff
 pip install mdformat-gfm
+
+# Delete the default neovim themes
+find ~/.local/share/mise/installs/neovim/ -type f -path "*/colors/*" ! -name "*README*" ! -name "default.vim" ! -name "vim.lua" -delete
 
 {{ end }}
 

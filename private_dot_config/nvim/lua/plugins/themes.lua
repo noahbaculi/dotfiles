@@ -5,6 +5,13 @@ return {
     version = "1.7.0",
     lazy = false,
     priority = 1000,
+    integrations = {
+      indent_blankline = {
+        enabled = true,
+        scope_color = "",
+        colored_indent_levels = false,
+      },
+    },
   },
   {
     "folke/tokyonight.nvim",
@@ -26,8 +33,8 @@ return {
     priority = 1000,
   },
   {
-    "marko-cerovac/material.nvim",
-    commit = "772e41a7f33743224f30799a3a887dc7dd853f8d",
+    "EdenEast/nightfox.nvim",
+    version = "3.9.3",
     lazy = false,
     priority = 1000,
   },

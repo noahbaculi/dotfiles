@@ -6,8 +6,9 @@ return {
     { "nvim-tree/nvim-web-devicons" },
     {
       "JMarkin/nvim-tree.lua-float-preview",
-      commit = "e45039ed81ba99ae0ce6c621a10b237258ecda10",
+      commit = "a6cbae18eef05e1425ddb09753cee58d6a02ccaf",
       opts = {
+        toggled_on = false,
         scroll_lines = 20,
         window = {
           style = "minimal",

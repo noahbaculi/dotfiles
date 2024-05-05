@@ -33,4 +33,4 @@ require("options")
 -- Basic Keymaps
 require("keymaps")
 
-vim.cmd.colorscheme("catppuccin") -- Set the default colorscheme
+-- vim.cmd.colorscheme("nightfox") -- Set the default colorscheme

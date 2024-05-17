@@ -7,6 +7,8 @@ return {
       filetypes_denylist = {
         "alpha",
         "NvimTree",
+        "aerial",
+        "spectre_panel",
       },
     })
   end,

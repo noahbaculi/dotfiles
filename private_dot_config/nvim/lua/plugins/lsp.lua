@@ -30,7 +30,8 @@ return {
             "yamlls", -- YAML
             "lua_ls", -- Lua
             "rust_analyzer", -- Rust
-            "ruff_lsp", -- Python
+            "ruff_lsp", -- Python formatter
+            "pylyzer", -- Python
             "biome", -- Javascript, Typescript, JSON
             -- "gopls", -- Go
             -- "sqlls", -- SQL
@@ -95,6 +96,16 @@ return {
         "L3MON4D3/LuaSnip",
         version = "2.2.0",
         build = "make install_jsregexp", -- optional
+        dependencies = {
+          {
+            "rafamadriz/friendly-snippets",
+            commit = "fa36367422da5a38560892e3db6d090a635d9d41",
+          },
+          {
+            "saadparwaiz1/cmp_luasnip",
+            commit = "05a9ab28b53f71d1aece421ef32fee2cb857a843",
+          },
+        },
       },
       {
         "zbirenbaum/copilot.lua",
@@ -120,6 +131,7 @@ return {
     config = function()
       local cmp = require("cmp")
       local lspkind = require("lspkind")
+      require("luasnip.loaders.from_vscode").lazy_load()
       cmp.setup({
         mapping = {
           ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
@@ -131,6 +143,9 @@ return {
           ["<C-y>"] = cmp.config.disable,
           ["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
           ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        },
+        snippet = {
+          expand = function(args) require("luasnip").lsp_expand(args.body) end,
         },
         sources = cmp.config.sources({
           { name = "nvim_lsp", priority = 1000 },

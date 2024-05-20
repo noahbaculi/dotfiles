@@ -76,11 +76,12 @@ vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.li
 --
 which_key.register({ ["<leader>f"] = { name = " Find" } })
 vim.keymap.set("n", "<leader>fb", function() require("telescope.builtin").buffers() end, { desc = "Find buffers" })
+vim.keymap.set("n", "<leader>fr", function() require("telescope.builtin").lsp_references() end, { desc = "Find references" })
 vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").grep_string() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find old files" })
-vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").live_grep() end, { desc = "Find string" })
+vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
   require("telescope.builtin").live_grep({
     additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
@@ -129,6 +130,8 @@ vim.keymap.set("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
 end, { desc = "Toggle word wrap" })
+vim.keymap.set("n", "<leader>uC", "<cmd>ColorizerToggle<cr>", { desc = "Toggle Colorizer" })
+vim.keymap.set("n", "<leader>ud", "<cmd>Twilight<cr>", { desc = "Toggle Twilight dimming" })
 
 --
 --
@@ -207,10 +210,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<leader>ls", function() require("aerial").toggle() end, { desc = "Toggle Aerial symbols outline" })
     vim.keymap.set("n", "<leader>lD", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })
-    vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
+    -- vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
+    vim.keymap.set("n", "<leader>la", function() require("actions-preview").code_actions() end, { desc = "LSP code action (previewed)" })
     vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, { desc = "Rename current symbol" })
     vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { buffer = ev.buf, desc = "Format buffer" })
     vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "<leader>lH", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { desc = "Toggle Inlay Hints" })
+    vim.keymap.set("n", "<leader>lm", function() require("ferris.methods.view_memory_layout") end, { desc = "View Memory Layout" })
   end,
 })

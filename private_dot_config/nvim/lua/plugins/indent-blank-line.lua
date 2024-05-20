@@ -2,6 +2,7 @@ return {
   "lukas-reineke/indent-blankline.nvim",
   main = "ibl",
   version = "3.5.4",
+  event = "VeryLazy",
   config = function()
     -- local highlight = {
     --     "RainbowRed",
@@ -26,6 +27,11 @@ return {
     -- end)
     -- require("ibl").setup { indent = { highlight = highlight } }
 
-    require("ibl").setup({})
+    require("ibl").setup({
+      -- scope = {
+      --   show_start = false,
+      --   show_end = false,
+      -- },
+    })
   end,
 }

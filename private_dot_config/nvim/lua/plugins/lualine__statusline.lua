@@ -1,16 +1,13 @@
 return {
   "nvim-lualine/lualine.nvim",
-  commit = "ea00644e98a306a54c11c7f2058a668c38876e6f",
   event = "VeryLazy",
   dependencies = {
     { "nvim-tree/nvim-web-devicons" },
     {
       "AndreM222/copilot-lualine",
-      commit = "f7f0b3b3e7b0183d65fb5416c1d3e210e8a67ba6",
     },
     {
       "arkav/lualine-lsp-progress",
-      commit = "56842d097245a08d77912edf5f2a69ba29f275d7",
     },
   },
   opts = {

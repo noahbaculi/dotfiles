@@ -112,7 +112,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 return {
   "goolord/alpha-nvim",
-  commit = "8e7a416cfc0c1fa2e607f279053d99041587eb99",
   event = "VimEnter",
   opts = function()
     local dashboard = require("alpha.themes.dashboard")

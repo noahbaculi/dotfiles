@@ -2,27 +2,22 @@ return {
   -- LSP Support
   {
     "neovim/nvim-lspconfig",
-    commit = "02c9b12eaf9393899bddb5ecf6670e7b3e5a4c49",
     event = { "VeryLazy" },
     dependencies = {
       {
         "hrsh7th/cmp-nvim-lsp",
-        commit = "5af77f54de1b16c34b23cba810150689a3a90312",
       },
       {
         "VonHeikemen/lsp-zero.nvim",
-        commit = "abac76482ec3012a2b359ba956a74e2ffd33d46f",
         event = { "VeryLazy" },
       },
       {
         "williamboman/mason.nvim",
-        version = "1.10.0",
         event = { "VeryLazy" },
         opts = {},
       },
       {
         "williamboman/mason-lspconfig.nvim",
-        version = "1.26.0",
         event = { "VeryLazy" },
         opts = {
           ensure_installed = {
@@ -75,41 +70,33 @@ return {
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
-    commit = "04e0ca376d6abdbfc8b52180f8ea236cbfddf782",
     event = { "VeryLazy" },
 
     dependencies = {
       {
         "windwp/nvim-autopairs",
-        commit = "2e8a10c5fc0dcaf8296a5f1a7077efcd37065cc8",
         opts = {},
       },
       {
         "hrsh7th/cmp-cmdline",
-        commit = "8ee981b4a91f536f52add291594e89fb6645e451",
       },
       {
         "onsails/lspkind.nvim",
-        commit = "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf",
       },
       {
         "L3MON4D3/LuaSnip",
-        version = "2.2.0",
         build = "make install_jsregexp", -- optional
         dependencies = {
           {
             "rafamadriz/friendly-snippets",
-            commit = "fa36367422da5a38560892e3db6d090a635d9d41",
           },
           {
             "saadparwaiz1/cmp_luasnip",
-            commit = "05a9ab28b53f71d1aece421ef32fee2cb857a843",
           },
         },
       },
       {
         "zbirenbaum/copilot.lua",
-        commit = "03f825956ec49e550d07875d867ea6e7c4dc8c00",
         build = ":Copilot auth",
         opts = {
           suggestion = { enabled = false },
@@ -123,7 +110,6 @@ return {
       },
       {
         "zbirenbaum/copilot-cmp",
-        commit = "d427de01114f8d360de60f3eb569be52baf05d81",
         opts = {},
       },
     },

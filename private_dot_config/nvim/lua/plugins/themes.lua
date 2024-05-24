@@ -2,7 +2,6 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    version = "1.7.0",
     lazy = false,
     priority = 1000,
     integrations = {
@@ -15,13 +14,11 @@ return {
   },
   {
     "folke/tokyonight.nvim",
-    version = "3.0.1",
     lazy = false,
     priority = 1000,
   },
   {
     "marko-cerovac/material.nvim",
-    commit = "772e41a7f33743224f30799a3a887dc7dd853f8d",
     lazy = false,
     priority = 1000,
     opts = {
@@ -42,13 +39,11 @@ return {
   },
   {
     "EdenEast/nightfox.nvim",
-    version = "3.9.3",
     lazy = false,
     priority = 1000,
   },
   {
     "sainnhe/everforest",
-    version = "0.3.0",
     lazy = false,
     priority = 1000,
   },

@@ -1,6 +1,5 @@
 return {
   "romgrk/barbar.nvim",
-  commit = "71ac376acd000743146b1e08e62151b4d887bbac",
   event = "VeryLazy",
   dependencies = {
     "lewis6991/gitsigns.nvim",

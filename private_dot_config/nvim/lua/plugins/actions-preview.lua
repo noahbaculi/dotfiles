@@ -1,6 +1,5 @@
 return {
   "aznhe21/actions-preview.nvim",
-  commit = "ceb6e06d1c8c30d8ddfe3afb03cd2c47b08b2798",
   lazy = true,
   config = function()
     require("actions-preview").setup({

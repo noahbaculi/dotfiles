@@ -1,6 +1,5 @@
 return {
   "echasnovski/mini.surround",
-  version = "0.12.0",
   event = "VeryLazy",
   opts = {
     highlight_duration = 500,

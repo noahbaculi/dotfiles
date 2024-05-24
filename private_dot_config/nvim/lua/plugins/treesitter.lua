@@ -4,7 +4,6 @@ return {
   -- syntax highlighting.
   {
     "nvim-treesitter/nvim-treesitter",
-    version = "0.9.2",
     build = ":TSUpdate",
     event = { "VeryLazy" },
     init = function(plugin)
@@ -19,7 +18,6 @@ return {
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        commit = "c180aef9a197e9fe64cc285171910b8ea1400952",
       },
     },
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
@@ -91,7 +89,6 @@ return {
   -- Show context of the current function
   {
     "nvim-treesitter/nvim-treesitter-context",
-    commit = "4fe0a54e86859744968e1a5c7867b49c86855774",
     event = "VeryLazy",
     opts = { mode = "cursor", max_lines = 3 },
     keys = {

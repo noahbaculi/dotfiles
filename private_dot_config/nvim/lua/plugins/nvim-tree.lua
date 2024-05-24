@@ -1,12 +1,10 @@
 return {
   "nvim-tree/nvim-tree.lua",
-  version = "0.100.0",
   cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeOpen" },
   dependencies = {
     { "nvim-tree/nvim-web-devicons" },
     {
       "JMarkin/nvim-tree.lua-float-preview",
-      commit = "a6cbae18eef05e1425ddb09753cee58d6a02ccaf",
       opts = {
         toggled_on = false,
         scroll_lines = 20,

@@ -1,0 +1,15 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+matches:
+  - trigger: ty
+    replace: thank you
+    word: true
+
+  - trigger: lmk
+    replace: let me know
+    word: true
+  - trigger: lyk
+    replace: let you know
+    word: true

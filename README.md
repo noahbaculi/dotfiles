@@ -41,8 +41,8 @@ brew install fish
 2. Make Fish shell default
 
 ```bash
-echo /usr/local/bin/fish | sudo tee -a /etc/shells
-chsh -s /usr/local/bin/fish
+echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells
+chsh -s /opt/homebrew/bin/fish
 
 exec $SHELL  # restart shell
 ```
@@ -54,9 +54,11 @@ sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
 fish_add_path ~/.local/bin
 fish_add_path ~/.local/share/mise
+fish_add_path .cargo/bin
+fish_add_path /opt/homebrew/bin
 ```
 
-## Windows
+# Windows
 
 - Install `winget` from [Microsoft Store](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 

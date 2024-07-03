@@ -1,7 +1,7 @@
-{{ if eq .chezmoi.os "linux" "darwin" }}
 #!/bin/sh
 # vim: filetype=sh
 
+{{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
 
 # Install from mise/config.toml

@@ -3,8 +3,8 @@ return {
   opts = {
     formatters_by_ft = {
       -- Use a sub-list to run only the first available formatter
-      lua = { { "stylua" } },
-      markdown = { { "mdformat" } },
+      lua = { "stylua", stop_after_first = true },
+      markdown = { "mdformat", stop_after_first = true },
     },
     format_on_save = {
       timeout_ms = 500,

@@ -12,4 +12,4 @@ starship init fish | source
 atuin init fish | source
 
 # Rust ESP32 environment variables
-source "$HOME/export-esp.sh"
+# source "$HOME/export-esp.sh"

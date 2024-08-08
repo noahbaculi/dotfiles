@@ -123,7 +123,7 @@ sudo ufw status numbered
 ### Add support for 8BitDo Ultimate controller
 
 ```bash
-printf "ACTION==\"add\", ATTRS{idVendor}==\"2dc8\", ATTRS{idProduct}==\"3106\", RUN+=\"/sbin/modprobe xpad\", RUN+=\"/bin/sh -c 'echo 2dc8 3106 > /sys/bus/usb/drivers/xpad/new_id'\"" > tmp.txt
+printf "ACTION==\"add\", ATTRS{idVendor}==\"2dc8\", ATTRS{idProduct}==\"3106\", RUN+=\"/sbin/modprobe xpad\", RUN+=\"/bin/sh -c 'echo 2dc8 3106 > /sys/bus/usb/drivers/xpad/new_id'\"" | sudo tee /etc/udev/rules.d/99-8bitdo-xinput.rules
 sudo udevadm control --reload
 ```
 

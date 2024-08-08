@@ -78,7 +78,7 @@ chezmoi init --apply noahbaculi
 ## Enable SSH from WSL
 
 1. Enable SSH from within WSL.
-2. Confrim that WSL can be connected to via SSH on the same computer: `ssh [wsl_username]@localhost`
+2. Confirm that WSL can be connected to via SSH on the same computer: `ssh [wsl_username]@localhost`
 3. From another computer, the WSL instance can be connected with the following chain (jump) command:
 
 ```bash
@@ -86,6 +86,17 @@ ssh -J [windows_username]@[windows_destination] [wsl_username]@localhost
 ```
 
 > Note that the WSL usernames should be unique across all the network WSL usernames with SSH enabled to avoid collisions.
+
+## Linux Customization
+
+### Add support for 8BitDo Ultimate controller
+
+```bash
+printf "ACTION==\"add\", ATTRS{idVendor}==\"2dc8\", ATTRS{idProduct}==\"3106\", RUN+=\"/sbin/modprobe xpad\", RUN+=\"/bin/sh -c 'echo 2dc8 3106 > /sys/bus/usb/drivers/xpad/new_id'\"" > tmp.txt
+sudo udevadm control --reload
+```
+
+Source: [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=404318) & [Gist](https://gist.github.com/ammuench/0dcf14faf4e3b000020992612a2711e2)
 
 ## iOS
 

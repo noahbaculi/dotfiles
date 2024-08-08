@@ -89,6 +89,36 @@ ssh -J [windows_username]@[windows_destination] [wsl_username]@localhost
 
 ## Linux Customization
 
+### Enable UncomplicatedFirewall
+
+```bash
+apt install ufw
+apt enable ufw
+```
+
+### Enable SSH
+
+```bash
+sudo apt install openssh-server
+sudo systemctl enable ssh
+sudo ufw allow 22/tcp comment "SSH"  # Allow SSH port 22 through the firewall
+
+sudo systemctl status ssh
+sudo ufw status
+```
+
+### Enable Samba File Sharing
+
+[Samba Ubuntu guide](https://ubuntu.com/tutorials/install-and-configure-samba)
+
+### Enable Plex Remote Access
+
+> Must manually specify port `32400` in Plex settings.
+
+```bash
+sudo ufw allow 32400/tcp comment "Plex"  # Allow Plex port through the firewall
+```
+
 ### Add support for 8BitDo Ultimate controller
 
 ```bash

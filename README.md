@@ -92,8 +92,8 @@ ssh -J [windows_username]@[windows_destination] [wsl_username]@localhost
 ### Enable UncomplicatedFirewall
 
 ```bash
-apt install ufw
-apt enable ufw
+sudo apt install ufw
+sudo apt enable ufw
 ```
 
 ### Enable SSH
@@ -101,10 +101,10 @@ apt enable ufw
 ```bash
 sudo apt install openssh-server
 sudo systemctl enable ssh
-sudo ufw allow 22/tcp comment "SSH"  # Allow SSH port 22 through the firewall
+sudo ufw limit 22/tcp comment "SSH"  # Limit SSH port 22 through the firewall
 
 sudo systemctl status ssh
-sudo ufw status
+sudo ufw status numbered
 ```
 
 ### Enable Samba File Sharing
@@ -117,6 +117,7 @@ sudo ufw status
 
 ```bash
 sudo ufw allow 32400/tcp comment "Plex"  # Allow Plex port through the firewall
+sudo ufw status numbered
 ```
 
 ### Add support for 8BitDo Ultimate controller

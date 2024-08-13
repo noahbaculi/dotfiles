@@ -80,6 +80,7 @@ vim.keymap.set("n", "<leader>fr", function() require("telescope.builtin").lsp_re
 vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").grep_string() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
+vim.keymap.set("n", "<leader>fF", function() require("telescope.builtin").find_files({ hidden = true }) end, { desc = "Find all files" })
 vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
@@ -196,16 +197,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Enable completion triggered by <c-x><c-o>
     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
+    vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end, { buffer = ev.buf, desc = "Go to definition" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Go to implementation" })
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" })
+    vim.keymap.set("n", "gi", function() require("telescope.builtin").lsp_implementations() end, { buffer = ev.buf, desc = "Go to implementation" })
+    vim.keymap.set("n", "gr", function() require("telescope.builtin").lsp_references() end, { buffer = ev.buf, desc = "Go to references" })
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature documentation" })
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
-
-    vim.keymap.set("n", "<leader>lt", vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "Type definition" })
+    vim.keymap.set("n", "<leader>lt", function() require("telescope.builtin").lsp_type_definitions() end, { buffer = ev.buf, desc = "Type definition" })
     vim.keymap.set("n", "<leader>ls", function() require("aerial").toggle() end, { desc = "Toggle Aerial symbols outline" })
     vim.keymap.set("n", "<leader>lD", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })

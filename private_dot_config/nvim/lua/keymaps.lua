@@ -79,9 +79,13 @@ vim.keymap.set("n", "<leader>fb", function() require("telescope.builtin").buffer
 vim.keymap.set("n", "<leader>fr", function() require("telescope.builtin").lsp_references() end, { desc = "Find references" })
 vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").grep_string() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
-vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fF", function() require("telescope.builtin").find_files({ hidden = true }) end, { desc = "Find all files" })
-vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Find old files" })
+-- vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
+vim.keymap.set("n", "<leader>ff", function()
+  require("telescope.builtin").find_files({
+    find_command = { "rg", "--files", "--color", "never", "--hidden", "--glob", "!.git/" }, -- Include hidden files, but exclude .git/
+  })
+end, { desc = "Find files" })
+vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles({ only_cwd = true }) end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
   require("telescope.builtin").live_grep({

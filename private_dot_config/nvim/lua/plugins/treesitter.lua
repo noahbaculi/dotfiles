@@ -58,12 +58,36 @@ return {
         },
       },
       textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+          },
+          -- You can choose the select mode (default is charwise 'v')
+          selection_modes = {
+            ["@function.outer"] = "V", -- linewise
+            ["@class.outer"] = "V", -- linewise
+          },
+        },
         move = {
           enable = true,
           goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
           goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
           goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
           goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+        },
+        swap = {
+          enable = true,
+          swap_next = {
+            ["<leader>l<right>"] = "@parameter.inner",
+          },
+          swap_previous = {
+            ["<leader>l<left>"] = "@parameter.inner",
+          },
         },
       },
     },

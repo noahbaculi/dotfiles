@@ -12,5 +12,7 @@ return {
       mode = { "n", "x" },
       desc = "Open Yank History",
     },
+    { "[y", "<Plug>(YankyCycleForward)", desc = "Cycle Forward Through Yank History" },
+    { "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle Backward Through Yank History" },
   },
 }

@@ -28,6 +28,7 @@ return {
         "rust",
         "bash",
         "c",
+        "sql",
         "diff",
         "html",
         "javascript",

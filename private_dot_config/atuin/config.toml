@@ -71,7 +71,7 @@
 
 ## enable or disable showing a preview of the selected command
 ## useful when the command is longer than the terminal width and is cut off
-# show_preview = false
+show_preview = true
 
 ## what to do when the escape key is pressed when searching
 ## possible values: return-original, return-query
@@ -115,7 +115,7 @@
 ## Configure the maximum height of the preview to show.
 ## Useful when you have long scripts in your history that you want to distinguish
 ## by more than the first few lines.
-# max_preview_height = 4
+max_preview_height = 10
 
 ## Configure whether or not to show the help row, which includes the current Atuin
 ## version (and whether an update is available), a keymap hint, and the total
@@ -159,15 +159,7 @@ enter_accept = true
 
 [stats]
 # Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
-common_subcommands = [
-  "cargo",
-  "go",
-  "git",
-  "npm",
-  "yarn",
-  "pnpm",
-  "kubectl",
-]
+common_subcommands = ["cargo", "go", "git", "npm", "yarn", "pnpm", "kubectl"]
 
 # Set commands that should be totally stripped and ignored from stats
 common_prefix = ["sudo"]

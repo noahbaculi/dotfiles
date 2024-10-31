@@ -26,7 +26,9 @@ exec $SHELL  # restart shell
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
+mkdir ~/.local/bin
 fish_add_path ~/.local/bin
+mkdir ~/.local/share/mise
 fish_add_path ~/.local/share/mise
 ```
 

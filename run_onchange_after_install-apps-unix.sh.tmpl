@@ -34,7 +34,7 @@ find ~/.local/share/mise/installs/neovim/ -type f -path "*/colors/*" ! -name "*R
 
 {{ if eq .chezmoi.os "linux" }}
 echo "Installing packages for Linux..."
-sudo apt install gh
+sudo apt install git
 
 {{ end }}
 

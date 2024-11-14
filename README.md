@@ -4,13 +4,7 @@ Dotfiles for development, etc.
 
 ## Linux / WSL
 
-1. Install Fish shell
-
-```bash
-sudo apt-add-repository ppa:fish-shell/release-3
-sudo apt update
-sudo apt install fish
-```
+1. Install [Fish shell](https://fishshell.com/)
 
 2. Make Fish shell default
 
@@ -21,7 +15,17 @@ chsh -s /usr/bin/fish
 exec $SHELL  # restart shell
 ```
 
-3. Install Chezmoi
+3. Install [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
+
+Authenticate
+
+> I have been using SSH lately
+
+```bash
+gh auth login
+```
+
+4. Install Chezmoi
 
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"

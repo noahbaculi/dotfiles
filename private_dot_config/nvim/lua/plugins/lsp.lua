@@ -25,7 +25,7 @@ return {
             "yamlls", -- YAML
             "lua_ls", -- Lua
             "rust_analyzer", -- Rust
-            "ruff_lsp", -- Python formatter
+            "ruff", -- Python formatter
             "pylyzer", -- Python
             "biome", -- Javascript, Typescript, JSON
             -- "gopls", -- Go
@@ -42,11 +42,11 @@ return {
         -- see `:help lsp-zero-keybindings`
         lsp_zero.default_keymaps({ buffer = bufnr })
       end)
-      require("mason-lspconfig").setup({
-        handlers = {
-          lsp_zero.default_setup,
-        },
-      })
+      require("mason-lspconfig").setup(
+        -- handlers = {
+        --   lsp_zero.default_setup,
+        -- },
+      )
 
       local lspconfig = require("lspconfig")
       lspconfig.rust_analyzer.setup({

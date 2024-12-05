@@ -1,7 +1,7 @@
 [tools]
 neovim = 'stable'
-python = ['3.10', '3.11', '3.12']
-node = ['lts']
+python = '3.12'
+node = 'lts'
 lazygit = 'latest'
 delta = 'latest'
 jq = 'latest'

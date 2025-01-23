@@ -20,32 +20,21 @@
                                             "alacritty",
                                             "iterm2",
                                             "com.apple.Terminal",
-                                            "neovide"
+                                            "neovide",
+                                            "com.carriez.rustdesk"
                                         ],
-                                        "file_paths": ["wezterm-gui", "alacritty", "iTerm2", "neovide"],
+                                        "file_paths": [
+                                            "wezterm-gui",
+                                            "alacritty",
+                                            "iTerm2",
+                                            "neovide",
+                                            "RustDesk"
+                                        ],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": { "key_code": "left_control" },
                                 "to": [{ "key_code": "left_command" }],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "wezterm",
-                                            "alacritty",
-                                            "iterm2",
-                                            "com.apple.Terminal",
-                                            "neovide"
-                                        ],
-                                        "file_paths": ["wezterm-gui", "alacritty", "iTerm2", "neovide"],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": { "key_code": "left_command" },
-                                "to": [{ "key_code": "left_control" }],
                                 "type": "basic"
                             }
                         ]

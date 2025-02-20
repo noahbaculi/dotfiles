@@ -181,6 +181,11 @@ vim.keymap.set("n", "<leader>sf", require("auto-session.session-lens").search_se
 --
 --
 --
+which_key.add({ "<leader>w", group = "Wrap/surround", icon = "󰅪" })
+
+--
+--
+--
 which_key.add({ "<leader>t", group = "Terminal", icon = "" })
 vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "ToggleTerm float" })
 vim.keymap.set("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", { desc = "ToggleTerm horizontal split" })

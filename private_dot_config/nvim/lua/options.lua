@@ -47,3 +47,4 @@ vim.opt.wrap = false -- disable wrapping of lines longer than the width of windo
 vim.opt.writebackup = false -- disable making a backup before overwriting a file
 vim.opt.spell = true -- enable spell checking
 vim.opt.spelllang = "en_us" -- set the spell language
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

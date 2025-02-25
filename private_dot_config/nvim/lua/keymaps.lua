@@ -92,7 +92,7 @@ vim.keymap.set("n", "<leader>fS", function()
     additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
   })
 end, { desc = "Find string in all files" })
-vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle() end, { desc = "Find Trouble diagnostics" })
+vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnostics") end, { desc = "Find Trouble diagnostics" })
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
 
 --

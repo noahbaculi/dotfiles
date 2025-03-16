@@ -1,6 +1,6 @@
 return {
-  "NvChad/nvim-colorizer.lua",
-  event = "VeryLazy",
+  "catgoose/nvim-colorizer.lua",
+  cmd = { "ColorizerToggle" },
   opts = {
     user_default_options = {
       -- Available modes for `mode`: foreground, background,  virtualtext

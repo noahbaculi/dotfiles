@@ -186,17 +186,6 @@ which_key.add({ "<leader>w", group = "Wrap/surround", icon = "󰅪" })
 --
 --
 --
-which_key.add({ "<leader>t", group = "Terminal", icon = "" })
-vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "ToggleTerm float" })
-vim.keymap.set("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", { desc = "ToggleTerm horizontal split" })
-vim.keymap.set("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", { desc = "ToggleTerm vertical split" })
-vim.keymap.set({ "n", "t" }, "<F7>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
-vim.keymap.set({ "n", "t" }, "<C-'>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" }) -- requires terminal that supports binding <C-'>
-vim.keymap.set("n", "<leader>tl", "<cmd>ToggleTermSendCurrentLine<cr>", { desc = "ToggleTerm send line" })
-
---
---
---
 which_key.add({ "<leader>l", group = "LSP", icon = "" })
 vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
 

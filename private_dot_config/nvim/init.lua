@@ -25,7 +25,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+vim.loader.disable()
 require("lazy").setup("plugins") -- Load plugins defined in the `plugins` directory
+vim.loader.enable()
 
 -- Set Vim options
 require("options")

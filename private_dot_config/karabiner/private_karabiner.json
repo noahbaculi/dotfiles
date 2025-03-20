@@ -21,14 +21,16 @@
                                             "iterm2",
                                             "com.apple.Terminal",
                                             "neovide",
-                                            "com.carriez.rustdesk"
+                                            "com.carriez.rustdesk",
+                                            "com.riotgames.LeagueofLegends.LeagueClientUx"
                                         ],
                                         "file_paths": [
                                             "wezterm-gui",
                                             "alacritty",
                                             "iTerm2",
                                             "neovide",
-                                            "RustDesk"
+                                            "RustDesk",
+                                            "League of Legends"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }

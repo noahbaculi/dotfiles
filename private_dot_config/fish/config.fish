@@ -26,3 +26,7 @@ set -gx EDITOR nvim
 
 # Rust ESP32 environment variables
 # source "$HOME/export-esp.sh"
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH

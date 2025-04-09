@@ -28,6 +28,7 @@ return {
             "ruff", -- Python formatter
             "pylyzer", -- Python
             "biome", -- Javascript, Typescript, JSON
+            "tinymist", -- Typst
             -- "gopls", -- Go
             -- "sqlls", -- SQL
           },
@@ -65,6 +66,8 @@ return {
           },
         },
       })
+
+      lspconfig.tinymist.setup({})
     end,
   },
   -- Autocompletion

@@ -12,28 +12,27 @@ return {
         event = { "VeryLazy" },
       },
       {
-        "williamboman/mason.nvim",
+        "masonorg/mason.nvim",
         event = { "VeryLazy" },
         opts = {},
       },
       {
-        "williamboman/mason-lspconfig.nvim",
+        "masonorg/mason-lspconfig.nvim",
         event = { "VeryLazy" },
-        opts = {
-          ensure_installed = {
-            "taplo", -- TOML
-            "yamlls", -- YAML
-            "lua_ls", -- Lua
-            "rust_analyzer", -- Rust
-            "ruff", -- Python formatter
-            "pylyzer", -- Python
-            "biome", -- Javascript, Typescript, JSON
-            "tinymist", -- Typst
-            -- "gopls", -- Go
-            -- "sqlls", -- SQL
-          },
-          automatic_installation = true,
-        },
+        -- opts = {
+        --   ensure_installed = {
+        --     "taplo", -- TOML
+        --     "yamlls", -- YAML
+        --     "lua_ls", -- Lua
+        --     "rust_analyzer", -- Rust
+        --     "ruff", -- Python formatter
+        --     "pylyzer", -- Python
+        --     "biome", -- Javascript, Typescript, JSON
+        --     "tinymist", -- Typst
+        --     -- "gopls", -- Go
+        --     -- "sqlls", -- SQL
+        --   },
+        -- },
       },
     },
     config = function()
@@ -43,11 +42,8 @@ return {
         -- see `:help lsp-zero-keybindings`
         lsp_zero.default_keymaps({ buffer = bufnr })
       end)
-      require("mason-lspconfig").setup(
-        -- handlers = {
-        --   lsp_zero.default_setup,
-        -- },
-      )
+
+      -- require("mason-lspconfig").setup()
 
       local lspconfig = require("lspconfig")
       lspconfig.rust_analyzer.setup({

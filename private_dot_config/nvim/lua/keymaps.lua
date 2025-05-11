@@ -123,7 +123,7 @@ vim.keymap.set(
 which_key.add({ "<leader>p", group = "Plugins", icon = "" })
 vim.keymap.set("n", "<leader>pl", function() require("lazy").home() end, { desc = "Lazy plugins" })
 vim.keymap.set("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason plugins" })
-vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdateAll<cr>", { desc = "Mason Update" })
+vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdate<cr>", { desc = "Mason Update" })
 
 --
 --

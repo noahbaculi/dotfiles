@@ -8,45 +8,30 @@ return {
         "hrsh7th/cmp-nvim-lsp",
       },
       {
-        "VonHeikemen/lsp-zero.nvim",
-        event = { "VeryLazy" },
-      },
-      {
         "mason-org/mason.nvim",
         event = { "VeryLazy" },
-        opts = {},
       },
       {
         "mason-org/mason-lspconfig.nvim",
         event = { "VeryLazy" },
-        -- opts = {
-        --   ensure_installed = {
-        --     "taplo", -- TOML
-        --     "yamlls", -- YAML
-        --     "lua_ls", -- Lua
-        --     "rust_analyzer", -- Rust
-        --     "ruff", -- Python formatter
-        --     "pylyzer", -- Python
-        --     "biome", -- Javascript, Typescript, JSON
-        --     "tinymist", -- Typst
-        --     -- "gopls", -- Go
-        --     -- "sqlls", -- SQL
-        --   },
-        -- },
+        opts = {
+          ensure_installed = {
+            "taplo", -- TOML
+            "yamlls", -- YAML
+            "lua_ls", -- Lua
+            "rust_analyzer", -- Rust
+            "ruff", -- Python formatter
+            "pylyzer", -- Python
+            "biome", -- Javascript, Typescript, JSON
+            "tinymist", -- Typst
+            -- "gopls", -- Go
+            -- "sqlls", -- SQL
+          },
+        },
       },
     },
     config = function()
-      local lsp_zero = require("lsp-zero")
-      lsp_zero.extend_lspconfig() -- Integrate lspconfig with nvim-cmp
-      lsp_zero.on_attach(function(_, bufnr)
-        -- see `:help lsp-zero-keybindings`
-        lsp_zero.default_keymaps({ buffer = bufnr })
-      end)
-
-      -- require("mason-lspconfig").setup()
-
-      local lspconfig = require("lspconfig")
-      lspconfig.rust_analyzer.setup({
+      vim.lsp.config("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
             check = {
@@ -63,7 +48,7 @@ return {
         },
       })
 
-      lspconfig.tinymist.setup({})
+      vim.lsp.config("tinymist", {})
     end,
   },
   -- Autocompletion
@@ -74,7 +59,6 @@ return {
     dependencies = {
       {
         "windwp/nvim-autopairs",
-        opts = {},
       },
       {
         "hrsh7th/cmp-cmdline",
@@ -109,7 +93,6 @@ return {
       },
       {
         "zbirenbaum/copilot-cmp",
-        opts = {},
       },
     },
 

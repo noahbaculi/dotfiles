@@ -12,12 +12,12 @@ return {
         event = { "VeryLazy" },
       },
       {
-        "masonorg/mason.nvim",
+        "mason-org/mason.nvim",
         event = { "VeryLazy" },
         opts = {},
       },
       {
-        "masonorg/mason-lspconfig.nvim",
+        "mason-org/mason-lspconfig.nvim",
         event = { "VeryLazy" },
         -- opts = {
         --   ensure_installed = {

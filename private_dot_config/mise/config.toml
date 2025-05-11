@@ -1,10 +1,10 @@
 [tools]
-neovim = 'stable'
-python = '3.12'
-node = 'lts'
-lazygit = 'latest'
-delta = 'latest'
-jq = 'latest'
-tree-sitter = 'latest'
-fzf = 'latest'
-stylua = 'latest'
+neovim = "stable"
+python = "3.12"
+node = "lts"
+lazygit = "latest"
+delta = "latest"
+jq = "latest"
+tree-sitter = "latest"
+fzf = "latest"
+stylua = "latest"

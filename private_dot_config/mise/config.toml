@@ -25,6 +25,7 @@ github-cli = "latest"
 "aqua:atuinsh/atuin" = "latest"
 
 python = "3.12"
+pipx = "latest"
 ruff = "latest"
 node = "lts"
 lazygit = "latest"

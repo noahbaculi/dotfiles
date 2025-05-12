@@ -9,7 +9,6 @@ return {
       },
       {
         "mason-org/mason.nvim",
-        event = { "VeryLazy" },
         opts = {},
       },
       {
@@ -56,13 +55,9 @@ return {
   {
     "hrsh7th/nvim-cmp",
     event = { "VeryLazy" },
-
     dependencies = {
       {
         "windwp/nvim-autopairs",
-      },
-      {
-        "hrsh7th/cmp-cmdline",
       },
       {
         "onsails/lspkind.nvim",

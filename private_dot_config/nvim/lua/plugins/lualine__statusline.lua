@@ -3,12 +3,8 @@ return {
   event = "VeryLazy",
   dependencies = {
     { "nvim-tree/nvim-web-devicons" },
-    {
-      "AndreM222/copilot-lualine",
-    },
-    {
-      "arkav/lualine-lsp-progress",
-    },
+    { "AndreM222/copilot-lualine" },
+    { "arkav/lualine-lsp-progress" },
   },
   opts = {
     sections = {

@@ -1,6 +1,31 @@
+# Mise has many tools that are aliased by default. These are listed in the registry: https://mise.jdx.dev/registry.html
+# Mise supports several backends to install tools. If a tool is not in Mise's registry, the backend must be specified.
+#   - Aqua is preferred but it has its own registry: https://github.com/aquaproj/aqua-registry/blob/main/registry.yaml
+#   - Ubi can install from any GitHub/GitLab repo as long as releases include binary files.
+#   - More specific backends can handle tools that do not release binary files.
+
 [tools]
+cargo-binstall = "latest"
 neovim = "stable"
+
+eza = "latest"
+zoxide = "latest"
+starship = "latest"
+zellij = "0.41.2"                       # Pin version due to destructive upgrade process
+yazi = "latest"
+bottom = "latest"
+bat = "latest"
+hyperfine = "latest"
+"aqua:printfn/fend" = "latest"
+ripgrep = "latest"
+fd = "latest"
+"aqua:Macchina-CLI/macchina" = "latest"
+"cargo:Canop/bacon" = "latest"          # No binary file releases
+github-cli = "latest"
+"aqua:atuinsh/atuin" = "latest"
+
 python = "3.12"
+ruff = "latest"
 node = "lts"
 lazygit = "latest"
 delta = "latest"
@@ -8,3 +33,4 @@ jq = "latest"
 tree-sitter = "latest"
 fzf = "latest"
 stylua = "latest"
+"pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }

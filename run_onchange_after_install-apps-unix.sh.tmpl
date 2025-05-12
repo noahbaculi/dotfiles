@@ -7,27 +7,6 @@ echo "Installing common packages for Linux, WSL, and MacOS..."
 # Install from mise/config.toml
 mise install
 
-cargo binstall --locked -y bat \
-    eza \
-    zellij \
-    bottom \
-    starship \
-    zoxide \
-    hyperfine \
-    bacon \
-    fend \
-    macchina \
-    ripgrep \
-    fd-find \
-    cargo-update \
-    tokei \
-    yazi-fm yazi-cli \
-
-curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-
-pip install ruff
-pip install mdformat-gfm
-
 # Delete the default neovim themes
 find ~/.local/share/mise/installs/neovim/ -type f -path "*/colors/*" ! -name "*README*" ! -name "default.vim" ! -name "vim.lua" -delete
 
@@ -42,7 +21,6 @@ sudo apt install git
 {{ if eq .chezmoi.os "darwin" }}
 echo "Installing packages for MacOS..."
 
-brew install gh
 brew install gnu-sed
 brew install wget
 brew install --cask google-chrome

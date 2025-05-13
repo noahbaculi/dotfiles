@@ -20,7 +20,6 @@ hyperfine = "latest"
 ripgrep = "latest"
 fd = "latest"
 "aqua:Macchina-CLI/macchina" = "latest"
-"cargo:Canop/bacon" = "latest"          # No binary file releases
 github-cli = "latest"
 "aqua:atuinsh/atuin" = "latest"
 

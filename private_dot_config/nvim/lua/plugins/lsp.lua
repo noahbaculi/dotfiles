@@ -59,6 +59,7 @@ return {
     dependencies = {
       {
         "windwp/nvim-autopairs",
+        opts = {},
       },
       {
         "onsails/lspkind.nvim",
@@ -90,6 +91,7 @@ return {
       },
       {
         "zbirenbaum/copilot-cmp",
+        opts = {},
       },
     },
 
@@ -136,20 +138,20 @@ return {
       -- Insert a `(` after select function or method item
       cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
 
-      -- `:` cmdline setup.
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          {
-            name = "cmdline",
-            option = {
-              ignore_cmds = { "Man", "!" },
-            },
-          },
-        }),
-      })
+      --   -- `:` cmdline setup.
+      --   cmp.setup.cmdline(":", {
+      --     mapping = cmp.mapping.preset.cmdline(),
+      --     sources = cmp.config.sources({
+      --       { name = "path" },
+      --     }, {
+      --       {
+      --         name = "cmdline",
+      --         option = {
+      --           ignore_cmds = { "Man", "!" },
+      --         },
+      --       },
+      --     }),
+      --   })
     end,
   },
 }

@@ -11,6 +11,7 @@ local function get_appearance()
   return "Dark"
 end
 
+-- See themes at https://wezterm.org/colorschemes/index.html
 local function scheme_for_appearance(appearance)
   if appearance:find("Dark") then
     return "nightfox"

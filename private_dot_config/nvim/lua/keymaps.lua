@@ -74,26 +74,21 @@ vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.li
 --
 --
 --
+-- The fzf-lua allows opening of multiple selections directly into tabs but telescope does not
 which_key.add({ "<leader>f", group = "Find", icon = "" })
-vim.keymap.set("n", "<leader>fb", function() require("telescope.builtin").buffers() end, { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fr", function() require("telescope.builtin").lsp_references() end, { desc = "Find references" })
-vim.keymap.set("n", "<leader>fw", function() require("telescope.builtin").grep_string() end, { desc = "Find current word" })
-vim.keymap.set("n", "<leader>fC", function() require("telescope.builtin").commands() end, { desc = "Find commands" })
--- vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files() end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>ff", function()
-  require("telescope.builtin").find_files({
-    find_command = { "rg", "--files", "--color", "never", "--hidden", "--glob", "!.git/" }, -- Include hidden files, but exclude .git/
-  })
-end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fo", function() require("telescope.builtin").oldfiles({ only_cwd = true }) end, { desc = "Find old files" })
-vim.keymap.set("n", "<leader>fs", function() require("telescope.builtin").live_grep() end, { desc = "Find string in files" })
+vim.keymap.set("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Find buffers" })
+vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").grep_string() end, { desc = "Find current word" })
+vim.keymap.set("n", "<leader>fC", function() require("fzf-lua").commands() end, { desc = "Find commands" })
+vim.keymap.set("n", "<leader>ff", function() require("fzf-lua").files() end, { desc = "Find files" })
+vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ only_cwd = true }) end, { desc = "Find old files" })
+vim.keymap.set("n", "<leader>fs", function() require("fzf-lua").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
   require("telescope.builtin").live_grep({
     additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
   })
 end, { desc = "Find string in all files" })
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnostics") end, { desc = "Find Trouble diagnostics" })
-vim.keymap.set("n", "<leader>ft", "<cmd>TodoTelescope<cr>", { desc = "Find todos" })
+vim.keymap.set("n", "<leader>ft", "<cmd>TodoFzfLua<cr>", { desc = "Find todos" })
 
 --
 --
@@ -196,16 +191,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
     vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end, { buffer = ev.buf, desc = "Go to definition" })
+    vim.keymap.set("n", "gr", function() require("fzf-lua").lsp_references() end, { desc = "Find references" })
+    vim.keymap.set("n", "gi", function() require("fzf-lua").lsp_implementations() end, { desc = "Find implementations" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })
-    vim.keymap.set("n", "gi", function() require("telescope.builtin").lsp_implementations() end, { buffer = ev.buf, desc = "Go to implementation" })
-    vim.keymap.set("n", "gr", function() require("telescope.builtin").lsp_references() end, { buffer = ev.buf, desc = "Go to references" })
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature documentation" })
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
-    vim.keymap.set("n", "<leader>lt", function() require("telescope.builtin").lsp_type_definitions() end, { buffer = ev.buf, desc = "Type definition" })
+    vim.keymap.set("n", "<leader>lt", function() require("fzf-lua").lsp_typedefs() end, { buffer = ev.buf, desc = "Type definition" })
     vim.keymap.set("n", "<leader>ls", function() require("aerial").toggle() end, { desc = "Toggle Aerial symbols outline" })
-    vim.keymap.set("n", "<leader>lD", function() require("telescope.builtin").diagnostics() end, { desc = "Search diagnostics" })
+    vim.keymap.set("n", "<leader>lD", function() require("fzf-lua").diagnostics_document() end, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })
     vim.keymap.set("n", "<leader>lA", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
     vim.keymap.set("n", "<leader>la", function() require("actions-preview").code_actions() end, { desc = "LSP code action (previewed)" })

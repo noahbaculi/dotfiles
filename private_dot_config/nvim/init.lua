@@ -32,5 +32,3 @@ require("options")
 
 -- Basic Keymaps
 require("keymaps")
-
--- vim.cmd.colorscheme("nightfox") -- Set the default colorscheme

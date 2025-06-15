@@ -4,13 +4,7 @@ return {
     name = "catppuccin",
     lazy = false,
     priority = 1000,
-    integrations = {
-      indent_blankline = {
-        enabled = true,
-        scope_color = "",
-        colored_indent_levels = false,
-      },
-    },
+    opts = {},
   },
   {
     "folke/tokyonight.nvim",

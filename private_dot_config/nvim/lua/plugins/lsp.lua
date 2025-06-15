@@ -21,7 +21,7 @@ return {
             "lua_ls", -- Lua
             "rust_analyzer", -- Rust
             "ruff", -- Python formatter
-            "pylyzer", -- Python
+            -- "pylyzer", -- Python
             "biome", -- Javascript, Typescript, JSON
             "tinymist", -- Typst
             -- "gopls", -- Go
@@ -54,7 +54,8 @@ return {
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
-    event = { "VeryLazy" },
+    -- event = { "VeryLazy" },
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       {
         "windwp/nvim-autopairs",

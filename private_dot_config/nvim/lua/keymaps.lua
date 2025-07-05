@@ -80,7 +80,7 @@ vim.keymap.set("n", "<leader>fb", function() require("fzf-lua").buffers() end, {
 vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").grep_string() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("fzf-lua").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("fzf-lua").files() end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ only_cwd = true }) end, { desc = "Find old files" })
+vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ only_cwd = true, include_current_session = true }) end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>fs", function() require("fzf-lua").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
   require("telescope.builtin").live_grep({

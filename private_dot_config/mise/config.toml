@@ -21,6 +21,7 @@ bottom = "latest"
 bat = "latest"
 zellij = "0.41.2"               # Pin version due to manual upgrade process
 "cargo:bacon" = "latest"
+"cargo:du-dust" = "latest"
 hyperfine = "latest"
 "aqua:printfn/fend" = "latest"
 
@@ -35,3 +36,6 @@ tree-sitter = "latest"
 fzf = "latest"
 stylua = "latest"
 "pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]

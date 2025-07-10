@@ -1,6 +1,6 @@
 # dotfiles
 
-Dotfiles for development, etc.
+Dotfiles for development and everyday use.
 
 ## Linux / WSL
 

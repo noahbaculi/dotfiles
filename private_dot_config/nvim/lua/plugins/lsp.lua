@@ -37,9 +37,6 @@ return {
             check = {
               command = "clippy",
             },
-            diagnostics = {
-              enable = true,
-            },
             cargo = {
               extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
               extraArgs = { "--profile", "rust-analyzer" },

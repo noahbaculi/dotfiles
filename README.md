@@ -64,6 +64,8 @@ fish_add_path .cargo/bin
 fish_add_path /opt/homebrew/bin
 ```
 
+To automount an SMB share, try [these instructions](https://www.reddit.com/r/MacOS/comments/1boyxko/comment/lzi97eb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
+
 # Windows
 
 - Install `winget` from [Microsoft Store](https://learn.microsoft.com/en-us/windows/package-manager/winget/)

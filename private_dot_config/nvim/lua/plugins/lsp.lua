@@ -34,13 +34,20 @@ return {
       vim.lsp.config("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
+            -- Settings at https://rust-analyzer.github.io/book/configuration.html
+
             check = {
               command = "clippy",
+              features = "all",
             },
             cargo = {
-              extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
-              extraArgs = { "--profile", "rust-analyzer" },
+              features = "all",
+              -- extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
+              -- extraArgs = { "--profile", "rust-analyzer" },
             },
+            -- diagnostics = {
+            --   enable = true,
+            -- },
           },
         },
       })

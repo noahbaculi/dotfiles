@@ -38,16 +38,12 @@ return {
 
             check = {
               command = "clippy",
-              features = "all",
+              -- features = "all",
             },
             cargo = {
-              features = "all",
-              -- extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
-              -- extraArgs = { "--profile", "rust-analyzer" },
+              -- features = "all",
+              allTargets = true,
             },
-            -- diagnostics = {
-            --   enable = true,
-            -- },
           },
         },
       })

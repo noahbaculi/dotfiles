@@ -77,10 +77,10 @@ vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.li
 -- The fzf-lua allows opening of multiple selections directly into tabs but telescope does not
 which_key.add({ "<leader>f", group = "Find", icon = "" })
 vim.keymap.set("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").grep_string() end, { desc = "Find current word" })
+vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").visual() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("fzf-lua").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("fzf-lua").files() end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ only_cwd = true, include_current_session = true }) end, { desc = "Find old files" })
+vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ cwd_only = true, include_current_session = false }) end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>fs", function() require("fzf-lua").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
   require("telescope.builtin").live_grep({
@@ -208,6 +208,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { buffer = ev.buf, desc = "Format buffer" })
     vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "<leader>lH", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { desc = "Toggle Inlay Hints" })
-    vim.keymap.set("n", "<leader>lm", function() require("ferris.methods.view_memory_layout") end, { desc = "View Memory Layout" })
+    -- vim.keymap.set("n", "<leader>lm", function() require("ferris.methods.view_memory_layout") end, { desc = "View Memory Layout" })
   end,
 })

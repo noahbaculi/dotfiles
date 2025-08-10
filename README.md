@@ -128,6 +128,14 @@ sudo ufw allow 32400/tcp comment "Plex"  # Allow Plex port through the firewall
 sudo ufw status numbered
 ```
 
+### Disable touchpad tap to drag feature on Cinnamon
+
+```shell
+gsettings set org.cinnamon.desktop.peripherals.touchpad tap-and-drag false;
+```
+
+Source: [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=354384)
+
 ### Add support for 8BitDo Ultimate controller
 
 ```bash

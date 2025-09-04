@@ -6,7 +6,7 @@
 
 [tools]
 cargo-binstall = "latest"
-neovim = "stable"
+neovim = "latest"
 
 eza = "latest"
 zoxide = "latest"

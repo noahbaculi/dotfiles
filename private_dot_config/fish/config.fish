@@ -23,7 +23,3 @@ atuin init fish | source
 
 set -gx EDITOR nvim
 
-# Rust ESP32 environment variables
-# source "$HOME/export-esp.sh"
-
-mise activate fish | source

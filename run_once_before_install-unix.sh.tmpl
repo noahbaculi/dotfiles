@@ -2,9 +2,6 @@
 # vim: filetype=sh
 
 {{ if eq .chezmoi.os "darwin" }}
-echo "Installing Homebrew..."
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
 # Prevent macOS from creating `.DS_Store` files on network drives.
 defaults read com.apple.desktopservices DSDontWriteNetworkStores
 

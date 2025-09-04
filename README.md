@@ -38,13 +38,19 @@ fish_add_path ~/.local/share/mise
 
 ## MacOS
 
-1. Install Fish shell
+1. Install [Homebrew](https://brew.sh/)
+
+```shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. Install Fish shell
 
 ```bash
 brew install fish
 ```
 
-2. Make Fish shell default
+3. Make Fish shell default
 
 ```bash
 echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells
@@ -53,7 +59,7 @@ chsh -s /opt/homebrew/bin/fish
 exec $SHELL  # restart shell
 ```
 
-3. Install Chezmoi
+4. Install Chezmoi
 
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
@@ -76,6 +82,8 @@ winget install twpayne.chezmoi
 ```
 
 ## New Machine
+
+Run these commands, restarting the terminal in between runs, until the settings are applied. It takes at least a few times through for all the config files to take.
 
 ```bash
 chezmoi init --apply noahbaculi

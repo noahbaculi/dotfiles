@@ -3,7 +3,8 @@
 
 {{ if eq .chezmoi.os "darwin" }}
 # Prevent macOS from creating `.DS_Store` files on network drives.
-defaults read com.apple.desktopservices DSDontWriteNetworkStores
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+# defaults read com.apple.desktopservices DSDontWriteNetworkStores
 
 {{ else if eq .chezmoi.os "linux" }}
 echo "Installing Linux requirements for Rust builds..."

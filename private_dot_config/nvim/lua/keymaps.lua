@@ -169,9 +169,9 @@ vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis() end,
 --
 --
 which_key.add({ "<leader>s", group = "Session", icon = "󱂬" })
-vim.keymap.set("n", "<leader>sl", "<cmd>SessionRestore<cr>", { desc = "Load last CWD session" })
-vim.keymap.set("n", "<leader>sd", "<cmd>SessionDelete<cr>", { desc = "Delete last CWD session" })
-vim.keymap.set("n", "<leader>sf", "<cmd>SessionSearch<cr>", { desc = "Find session" })
+vim.keymap.set("n", "<leader>sl", "<cmd>AutoSession restore<cr>", { desc = "Load last CWD session" })
+vim.keymap.set("n", "<leader>sd", "<cmd>AutoSession delete<cr>", { desc = "Delete last CWD session" })
+vim.keymap.set("n", "<leader>sf", "<cmd>AutoSession search<cr>", { desc = "Find session" })
 
 --
 --

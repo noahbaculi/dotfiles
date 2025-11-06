@@ -16,6 +16,11 @@ find ~/.local/share/mise/installs/neovim/ -type f -path "*/colors/*" ! -name "*R
 echo "Installing packages for Linux..."
 sudo apt install git
 
+# Symlink mise's neovim shim to /usr/local/bin so sudoedit can find nvim
+# Using the shim (not the versioned path) ensures this works across mise updates
+echo "Symlinking mise neovim to /usr/local/bin/nvim"
+sudo ln -sf ~/.local/share/mise/shims/nvim /usr/local/bin/nvim
+
 {{ end }}
 
 {{ if eq .chezmoi.os "darwin" }}

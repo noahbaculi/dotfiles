@@ -20,7 +20,7 @@ return {
             "yamlls", -- YAML
             "lua_ls", -- Lua
             "rust_analyzer", -- Rust
-            "ruff", -- Python formatter
+            "ruff", -- Python
             -- "pylyzer", -- Python
             "biome", -- Javascript, Typescript, JSON
             "tinymist", -- Typst

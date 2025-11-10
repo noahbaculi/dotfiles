@@ -1,9 +1,6 @@
 return {
   "f-person/auto-dark-mode.nvim",
   lazy = false,
-  dependencies = {
-    "marko-cerovac/material.nvim",
-  },
   opts = {
     update_interval = 1e3, -- milliseconds
     set_dark_mode = function()

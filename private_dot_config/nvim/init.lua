@@ -32,3 +32,6 @@ require("options")
 
 -- Basic Keymaps
 require("keymaps")
+
+-- Set default colorscheme
+vim.cmd.colorscheme("catppuccin-frappe")

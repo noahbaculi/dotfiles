@@ -15,7 +15,6 @@
   "copilot-lualine": { "branch": "main", "commit": "222e90bd8dcdf16ca1efc4e784416afb5f011c31" },
   "copilot.lua": { "branch": "master", "commit": "5bde2cfe01f049f522eeb8b52c5c723407db8bdf" },
   "crates.nvim": { "branch": "main", "commit": "afcd1cc3eeceb5783676fc8464389b9216a29d05" },
-  "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
   "everforest": { "branch": "master", "commit": "17f101d7de851a7d3d705c22bc7c1760bce3cf6e" },
   "faster.nvim": { "branch": "main", "commit": "2e7a50f659711854b9a7fdc76d943b59b30d7852" },
   "flash.nvim": { "branch": "main", "commit": "fcea7ff883235d9024dc41e638f164a450c14ca2" },

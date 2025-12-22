@@ -7,7 +7,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 # defaults read com.apple.desktopservices DSDontWriteNetworkStores
 
 {{ else if eq .chezmoi.os "linux" }}
-echo "Installing Linux requirements for Rust builds..."
+echo "Installing basic Linux packages..."
 sudo apt install build-essential
 sudo apt install pkg-config
 sudo apt install libssl-dev

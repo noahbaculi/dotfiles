@@ -29,13 +29,13 @@ lazygit = "latest"
 delta = "latest"
 jq = "latest"
 tree-sitter = "latest"
+node = "lts"    # Required for nvim copilot.lua
 
 {{ if .dev_env }}
 
 python = "3.12"
 pipx = "latest"
 ruff = "latest"
-node = "lts"
 stylua = "latest"
 "pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
 "pipx:sqlfluff" = "latest"

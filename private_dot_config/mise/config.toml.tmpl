@@ -24,19 +24,23 @@ zellij = "0.43.1"               # Pin version due to manual upgrade process
 "cargo:du-dust" = "latest"
 hyperfine = "latest"
 "aqua:printfn/fend" = "latest"
+fzf = "latest"
+lazygit = "latest"
+delta = "latest"
+jq = "latest"
+tree-sitter = "latest"
+
+{{ if .dev_env }}
 
 python = "3.12"
 pipx = "latest"
 ruff = "latest"
 node = "lts"
-lazygit = "latest"
-delta = "latest"
-jq = "latest"
-tree-sitter = "latest"
-fzf = "latest"
 stylua = "latest"
 "pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
 "pipx:sqlfluff" = "latest"
+
+{{ end }}
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

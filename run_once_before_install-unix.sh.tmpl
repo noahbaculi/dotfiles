@@ -20,7 +20,9 @@ sudo apt install protobuf-compiler
 echo "Installing mise development environment manager..."
 curl https://mise.run | sh
 
+{{ if .dev_env }}
 echo "Installing Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+{{ end }}
 
 {{ end }}

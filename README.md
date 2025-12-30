@@ -59,6 +59,14 @@ chsh -s /opt/homebrew/bin/fish
 exec $SHELL  # restart shell
 ```
 
+4. Set Development Environment Flag for Chezmoi
+
+Indicates whether this is a development environment that requires Rust, Python, etc.
+
+```shell
+echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
+```
+
 4. Install Chezmoi
 
 ```fish

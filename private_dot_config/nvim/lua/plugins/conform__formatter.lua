@@ -8,6 +8,13 @@ return {
       html = { "prettierd", stop_after_first = true },
       css = { "prettierd", stop_after_first = true },
       javascript = { "prettierd", stop_after_first = true },
+      sql = { "sqlfluff", stop_after_first = true },
+    },
+    formatters = {
+      sqlfluff = {
+        stdin = false,
+        args = { "fix", "$FILENAME" },
+      },
     },
     format_on_save = {
       timeout_ms = 500,

@@ -36,6 +36,7 @@ tree-sitter = "latest"
 fzf = "latest"
 stylua = "latest"
 "pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
+"pipx:sqlfluff" = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

@@ -1,0 +1,14 @@
+#!/bin/sh
+# vim: filetype=sh
+#
+# This script cleans the local Neovim configuration before chezmoi applies its updates.
+# This is necessary since chezmoi does not remove files that have been deleted from the chezmoi source.
+# https://github.com/twpayne/chezmoi/discussions/1446
+
+# This script template produces a script that only runs when it changes.
+# The below comment should change when the hash of the lazy-lock.json file changes.
+# https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#run-a-script-when-the-contents-of-another-file-changes
+#
+# lazy-lock.json hash: {{ include "private_dot_config/nvim/lazy-lock.json" | sha256sum }}
+
+rm -r ~/.config/nvim

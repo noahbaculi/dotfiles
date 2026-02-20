@@ -14,8 +14,8 @@ end
 -- See themes at https://wezterm.org/colorschemes/index.html
 local function scheme_for_appearance(appearance)
   if appearance:find("Dark") then
-    return "catppuccin-frappe"
-    -- return "nightfox"
+    -- return "catppuccin-frappe"
+    return "nightfox"
     -- return "Everforest Dark (Gogh)"
   else
     return "catppuccin-latte"

@@ -6,10 +6,9 @@ return {
     set_dark_mode = function()
       vim.opt.background = "dark"
 
-      vim.cmd.colorscheme("catppuccin-frappe")
-      -- vim.cmd.colorscheme("nightfox")
+      -- vim.cmd.colorscheme("catppuccin-frappe")
+      vim.cmd.colorscheme("nightfox")
       -- vim.cmd.colorscheme("everforest")
-      -- vim.cmd.colorscheme("nightfox")
     end,
     set_light_mode = function()
       vim.opt.background = "light"

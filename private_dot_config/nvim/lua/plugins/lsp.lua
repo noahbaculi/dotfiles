@@ -16,10 +16,10 @@ return {
         event = { "VeryLazy" },
         opts = {
           ensure_installed = {
-            "taplo",  -- TOML
+            "taplo", -- TOML
             "yamlls", -- YAML
             "lua_ls", -- Lua
-            "biome",  -- Javascript, Typescript, JSON
+            "biome", -- Javascript, Typescript, JSON
             -- "rust_analyzer", -- Rust
             -- "tinymist",      -- Typst
             -- "ruff",  -- Python
@@ -114,12 +114,12 @@ return {
           expand = function(args) require("luasnip").lsp_expand(args.body) end,
         },
         sources = cmp.config.sources({
-          { name = "nvim_lsp",                priority = 1000 },
+          { name = "nvim_lsp", priority = 1000 },
           { name = "nvim_lsp_signature_help", priority = 1000 },
-          { name = "copilot",                 priority = 900 },
-          { name = "luasnip",                 priority = 750 },
-          { name = "buffer",                  priority = 500 },
-          { name = "path",                    priority = 250 },
+          { name = "copilot", priority = 900 },
+          { name = "luasnip", priority = 750 },
+          { name = "buffer", priority = 500 },
+          { name = "path", priority = 250 },
         }),
         window = {
           completion = cmp.config.window.bordered(),

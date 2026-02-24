@@ -4,6 +4,7 @@ vim.opt.backspace:append({ "nostop" }) -- don't stop backspace at insert
 vim.opt.breakindent = true -- wrap indent to match line start
 vim.opt.clipboard = "unnamedplus" -- connection to the system clipboard
 vim.opt.cmdheight = 0 -- hide command line unless needed
+vim.opt.synmaxcol = 500 -- only highlight first 500 columns (prevents freezes on long lines)
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Options for insert mode completion
 vim.opt.copyindent = true -- copy the previous indentation on autoindenting
 vim.opt.cursorline = true -- highlight the text line of the cursor

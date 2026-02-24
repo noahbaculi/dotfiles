@@ -7,16 +7,16 @@ return {
       vim.opt.background = "dark"
 
       -- vim.cmd.colorscheme("catppuccin-frappe")
-      vim.cmd.colorscheme("nightfox")
-      -- vim.cmd.colorscheme("everforest")
+      -- vim.cmd.colorscheme("nightfox")
+      vim.cmd.colorscheme("everforest")
     end,
     set_light_mode = function()
       vim.opt.background = "light"
 
-      vim.cmd.colorscheme("catppuccin-latte")
-      -- vim.cmd.colorscheme("material-lighter")
-      -- vim.cmd.colorscheme("everforest")
+      -- vim.cmd.colorscheme("catppuccin-latte")
       -- vim.cmd.colorscheme("dawnfox")
+      vim.cmd.colorscheme("everforest")
+      -- vim.cmd.colorscheme("material-lighter")
     end,
   },
 }

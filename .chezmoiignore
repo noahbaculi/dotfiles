@@ -9,11 +9,12 @@ install-apps-unix.sh
 install-apps-windows.ps1
 {{ end }}
 
-{{ if ne .chezmoi.os "darwin" }}
-.config/karabiner
+{{ if ne .chezmoi.os "linux" }}
+.config/lazygit
 {{ end }}
 
-{{ if (.chezmoi.hostname | lower | contains "carium") }}
-.zshrc  # do not update for Carium env
+{{ if ne .chezmoi.os "darwin" }}
+Library/Application Support
+.config/karabiner
 {{ end }}
 

@@ -16,11 +16,19 @@ local function scheme_for_appearance(appearance)
   if appearance:find("Dark") then
     -- return "catppuccin-frappe"
     -- return "nightfox"
-    return "Everforest Dark (Gogh)"
+    -- return "Everforest Dark (Gogh)"
+    return "rose-pine"
+
+    -- return "Monokai (dark) (terminal.sexy)"
+    -- return "One Dark (Gogh)"
   else
     -- return "catppuccin-latte"
     -- return "dawnfox"
-    return "Everforest Light (Gogh)"
+    -- return "Everforest Light (Gogh)"
+    return "rose-pine-dawn"
+
+    -- return "Monokai (light) (terminal.sexy)"
+    -- return "One Light (Gogh)"
   end
 end
 

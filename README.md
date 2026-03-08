@@ -59,14 +59,6 @@ chsh -s /opt/homebrew/bin/fish
 exec $SHELL  # restart shell
 ```
 
-4. Set Development Environment Flag for Chezmoi
-
-Indicates whether this is a development environment that requires Rust, Python, etc.
-
-```shell
-echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
-```
-
 4. Install Chezmoi
 
 ```fish
@@ -91,9 +83,15 @@ winget install twpayne.chezmoi
 
 ## New Machine
 
-Run these commands, restarting the terminal in between runs, until the settings are applied. It takes at least a few times through for all the config files to take.
+Set boolean flag for Chezmoi to indicate whether this is a development environment that requires Rust, Python, etc.
 
-```bash
+```shell
+echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
+```
+
+Run this command, restarting the terminal in between runs, until the settings are applied. It takes at least a few times through for all the config files to take.
+
+```shell
 chezmoi init --apply noahbaculi
 ```
 

@@ -16,7 +16,6 @@ return {
         "bash",
         "diff",
         "json",
-        "jsonc",
         "lua",
         "toml",
         "yaml",

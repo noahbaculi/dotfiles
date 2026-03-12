@@ -53,7 +53,6 @@ return {
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
-    -- event = { "VeryLazy" },
     event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       {
@@ -115,7 +114,6 @@ return {
         },
         sources = cmp.config.sources({
           { name = "nvim_lsp", priority = 1000 },
-          { name = "nvim_lsp_signature_help", priority = 1000 },
           { name = "copilot", priority = 900 },
           { name = "luasnip", priority = 750 },
           { name = "buffer", priority = 500 },
@@ -136,21 +134,6 @@ return {
 
       -- Insert a `(` after select function or method item
       cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
-
-      --   -- `:` cmdline setup.
-      --   cmp.setup.cmdline(":", {
-      --     mapping = cmp.mapping.preset.cmdline(),
-      --     sources = cmp.config.sources({
-      --       { name = "path" },
-      --     }, {
-      --       {
-      --         name = "cmdline",
-      --         option = {
-      --           ignore_cmds = { "Man", "!" },
-      --         },
-      --       },
-      --     }),
-      --   })
     end,
   },
 }

@@ -11,10 +11,6 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 -- Move line(s) like VSCode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv-gv", { desc = "Move line(s) down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv-gv", { desc = "Move line(s) up" })
--- vim.keymap.set("n", "???", ":m .+1<CR>==", { desc = "Move line(s) down" })
--- vim.keymap.set("n", "???", ":m .-2<CR>==", { desc = "Move line(s) up" })
--- vim.keymap.set("i", "???", "<Esc>:m .-2<CR>==gi", { desc = "Move line(s) up" })
--- vim.keymap.set("i", "???", "<Esc>:m .+1<CR>==gi", { desc = "Move line(s) down" })
 
 -- Better indenting
 vim.keymap.set("v", "<Tab>", ">gv", { desc = "Indent line" })
@@ -29,20 +25,6 @@ vim.keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search result and k
 -- File operations
 vim.keymap.set("n", "|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
 vim.keymap.set("n", "\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
-
--- Diagnostic keymaps
--- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
--- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
--- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
--- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
--- -- See `:help vim.highlight.on_yank()`
--- local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
--- vim.api.nvim_create_autocmd("TextYankPost", {
---   callback = function() vim.highlight.on_yank() end,
---   group = highlight_group,
---   pattern = "*",
--- })
 
 --
 -- Which Key
@@ -77,14 +59,14 @@ vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.li
 -- The fzf-lua allows opening of multiple selections directly into tabs but telescope does not
 which_key.add({ "<leader>f", group = "Find", icon = "" })
 vim.keymap.set("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").visual() end, { desc = "Find current word" })
+vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").grep_cword() end, { desc = "Find current word" })
 vim.keymap.set("n", "<leader>fC", function() require("fzf-lua").commands() end, { desc = "Find commands" })
 vim.keymap.set("n", "<leader>ff", function() require("fzf-lua").files() end, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ cwd_only = true, include_current_session = false }) end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>fs", function() require("fzf-lua").live_grep() end, { desc = "Find string in files" })
 vim.keymap.set("n", "<leader>fS", function()
-  require("telescope.builtin").live_grep({
-    additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
+  require("fzf-lua").live_grep({
+    rg_opts = "--hidden --no-ignore --column --line-number --no-heading --color=always --smart-case",
   })
 end, { desc = "Find string in all files" })
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnostics") end, { desc = "Find Trouble diagnostics" })
@@ -94,7 +76,6 @@ vim.keymap.set("n", "<leader>ft", "<cmd>TodoFzfLua<cr>", { desc = "Find todos" }
 --
 --
 which_key.add({ mode = { "n", "v" }, { "<leader>r", group = "Replace" } })
--- vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor" })
 vim.keymap.set("n", "<leader>rr", function() require("spectre").toggle() end, { desc = "Toggle Spectre replace" })
 vim.keymap.set("n", "<leader>rw", function() require("spectre").open_visual({ select_word = true }) end, { desc = "Search current word" })
 vim.keymap.set("v", "<leader>rw", '<esc><cmd>lua require("spectre").open_visual()<CR>', { desc = "Search current word" })
@@ -124,7 +105,7 @@ vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdate<cr>", { desc = "Mason Update
 --
 --
 which_key.add({ "<leader>u", group = "UI/UX", icon = "" })
-vim.keymap.set("n", "<leader>ut", function() require("telescope.builtin").colorscheme({ enable_preview = true }) end, { desc = "Theme switcher" })
+vim.keymap.set("n", "<leader>ut", function() require("fzf-lua").colorschemes() end, { desc = "Theme switcher" })
 vim.keymap.set("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
@@ -190,7 +171,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- Enable completion triggered by <c-x><c-o>
     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-    vim.keymap.set("n", "gd", function() require("telescope.builtin").lsp_definitions() end, { buffer = ev.buf, desc = "Go to definition" })
+    vim.keymap.set("n", "gd", function() require("fzf-lua").lsp_definitions() end, { buffer = ev.buf, desc = "Go to definition" })
     vim.keymap.set("n", "gr", function() require("fzf-lua").lsp_references() end, { desc = "Find references" })
     vim.keymap.set("n", "gi", function() require("fzf-lua").lsp_implementations() end, { desc = "Find implementations" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })

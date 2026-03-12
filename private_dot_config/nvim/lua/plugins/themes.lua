@@ -24,7 +24,6 @@ return {
         "nvim-cmp",
         "nvim-tree",
         "nvim-web-devicons",
-        "telescope",
         "trouble",
         "which-key",
         "nvim-notify",

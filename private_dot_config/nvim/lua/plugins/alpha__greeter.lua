@@ -182,12 +182,12 @@ return {
 
     dashboard.section.buttons.val = {
       dashboard.button("<LDR> e  ", "  Explorer", "<cmd>NvimTreeToggle<cr>"),
-      dashboard.button("<LDR> f f", "  Find file", "<cmd>Telescope find_files<cr>"),
-      dashboard.button("<LDR> f o", "  Recently opened files", "<cmd>Telescope oldfiles<cr>"),
-      dashboard.button("<LDR> f w", "  Find words", "<cmd>Telescope live_grep<cr>"),
+      dashboard.button("<LDR> f f", "  Find file", "<cmd>FzfLua files<cr>"),
+      dashboard.button("<LDR> f o", "  Recently opened files", "<cmd>FzfLua oldfiles<cr>"),
+      dashboard.button("<LDR> f w", "  Find words", "<cmd>FzfLua live_grep<cr>"),
       dashboard.button("<LDR> p l", "󰒲  Lazy plugins", "<cmd>Lazy<cr>"),
       dashboard.button("<LDR> p m", "󱢶  Mason plugins", "<cmd>Mason<cr>"),
-      dashboard.button("<LDR> s l", "  Load last session", "<cmd>SessionRestore<cr>"),
+      dashboard.button("<LDR> s l", "  Load last session", "<cmd>AutoSession restore<cr>"),
       dashboard.button("<LDR> q  ", "  Quit", "<cmd>qa<cr>"),
     }
     for _, button in ipairs(dashboard.section.buttons.val) do

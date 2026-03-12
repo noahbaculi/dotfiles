@@ -1,4 +1,3 @@
-vim.expandtab = true -- enable the use of space in tab
 vim.opt.swapfile = false -- disable swap file
 vim.opt.backspace:append({ "nostop" }) -- don't stop backspace at insert
 vim.opt.breakindent = true -- wrap indent to match line start
@@ -30,7 +29,6 @@ vim.opt.scrolloff = 8 -- number of lines to keep above and below the cursor
 vim.opt.shiftwidth = 4 -- number of space inserted for indentation
 vim.opt.shortmess:append({ s = true, I = true }) -- disable search count wrap and startup messages
 vim.opt.showmode = false -- disable showing modes in command line
--- vim.opt.showtabline = 2                                        -- always display tabline
 vim.opt.signcolumn = "yes" -- always show the sign column
 vim.opt.smartcase = true -- case sensitive searching
 vim.opt.softtabstop = 4 -- number of space in a tab

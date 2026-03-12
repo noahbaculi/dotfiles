@@ -34,5 +34,7 @@ return {
         ["--layout"] = "default",
       },
     })
+
+    require("fzf-lua").register_ui_select()
   end,
 }

@@ -40,8 +40,6 @@ return {
       "mason",
       "nvim-tree",
       "oil",
-      "symbols-outline",
-      "toggleterm",
       "trouble",
     },
   },

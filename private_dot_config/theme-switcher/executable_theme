@@ -1,0 +1,36 @@
+#!/usr/bin/env fish
+
+set theme_dir (status dirname)
+set current_theme_file "$theme_dir/current-theme"
+set themes_file "$theme_dir/themes.lua"
+
+# Read current theme
+set current_theme (string trim (cat "$current_theme_file" 2>/dev/null))
+if test -z "$current_theme"
+    set current_theme "catppuccin"
+end
+
+# Parse family names from themes.lua (top-level keys)
+# Matches both `key = {` and `["key"] = {` forms
+set families (lua -e "for k in pairs(dofile('$themes_file')) do print(k) end" | sort)
+
+if test -z "$families"
+    echo "No theme families found in $themes_file"
+    exit 1
+end
+
+# Use fzf to pick a theme, highlighting the current one
+set selected (printf '%s\n' $families | fzf --prompt="Theme: " --header="Current: $current_theme" --layout=reverse --height=~50%)
+
+if test -z "$selected"
+    echo "No theme selected."
+    exit 0
+end
+
+# Write selected theme
+echo "$selected" > "$current_theme_file"
+
+# Touch wezterm config to trigger its file-watcher reload
+touch ~/.wezterm.lua
+
+echo "Theme set to: $selected"

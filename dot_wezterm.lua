@@ -12,23 +12,26 @@ local function get_appearance()
 end
 
 -- See themes at https://wezterm.org/colorschemes/index.html
+local theme_dir = os.getenv("HOME") .. "/.config/theme-switcher/"
+local themes = dofile(theme_dir .. "themes.lua")
+
+local function read_current_theme()
+  local f = io.open(theme_dir .. "current-theme")
+  if f then
+    local name = f:read("*l")
+    f:close()
+    return name
+  end
+  return "catppuccin"
+end
+
 local function scheme_for_appearance(appearance)
+  local family = themes[read_current_theme()] or themes["catppuccin"]
+  local wez = family.wezterm or {}
   if appearance:find("Dark") then
-    -- return "catppuccin-frappe"
-    -- return "nightfox"
-    -- return "Everforest Dark (Gogh)"
-    return "rose-pine"
-
-    -- return "Monokai (dark) (terminal.sexy)"
-    -- return "One Dark (Gogh)"
+    return wez.dark or "Catppuccin Frappe"
   else
-    -- return "catppuccin-latte"
-    -- return "dawnfox"
-    -- return "Everforest Light (Gogh)"
-    return "rose-pine-dawn"
-
-    -- return "Monokai (light) (terminal.sexy)"
-    -- return "One Light (Gogh)"
+    return wez.light or wez.dark or "Catppuccin Frappe"
   end
 end
 

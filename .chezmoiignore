@@ -21,3 +21,5 @@ Library/Application Support
 {{ if not .dev_env }}
 .claude
 {{ end }}
+
+.config/theme-switcher/current-theme

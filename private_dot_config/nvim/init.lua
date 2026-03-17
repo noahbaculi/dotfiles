@@ -34,4 +34,4 @@ require("options")
 require("keymaps")
 
 -- Set default colorscheme
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme(require("theme-map").get_nvim_colorscheme("dark"))

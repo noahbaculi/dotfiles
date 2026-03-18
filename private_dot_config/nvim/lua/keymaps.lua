@@ -85,13 +85,6 @@ vim.keymap.set(
   { desc = "Search current word in current file (here)" }
 )
 vim.keymap.set("v", "<leader>rh", '<esc><cmd>lua require("spectre").open_file_search()<CR>', { desc = "Search current word in current file (here)" })
-vim.keymap.set(
-  "n",
-  "<leader>rA",
-  [[:%s/\v("\/|")(caredb|courier|cronkite|dataengine|drow|identity|integrator|lachesis|oracle|overlord|pylon|showboat)(\/v\d\/\S{-})(\/"|")/"\/\2\3\/"/gc]],
-  { desc = "Replace Carium API paths with slashes" }
-)
-
 --
 --
 --

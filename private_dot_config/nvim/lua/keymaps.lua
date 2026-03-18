@@ -64,11 +64,16 @@ vim.keymap.set("n", "<leader>fC", function() require("fzf-lua").commands() end, 
 vim.keymap.set("n", "<leader>ff", function() require("fzf-lua").files() end, { desc = "Find files" })
 vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ cwd_only = true, include_current_session = false }) end, { desc = "Find old files" })
 vim.keymap.set("n", "<leader>fs", function() require("fzf-lua").live_grep() end, { desc = "Find string in files" })
-vim.keymap.set("n", "<leader>fS", function()
-  require("fzf-lua").live_grep({
-    rg_opts = "--hidden --no-ignore --column --line-number --no-heading --color=always --smart-case",
-  })
-end, { desc = "Find string in all files" })
+vim.keymap.set(
+  "n",
+  "<leader>fS",
+  function()
+    require("fzf-lua").live_grep({
+      rg_opts = "--hidden --no-ignore --column --line-number --no-heading --color=always --smart-case",
+    })
+  end,
+  { desc = "Find string in all files" }
+)
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnostics") end, { desc = "Find Trouble diagnostics" })
 vim.keymap.set("n", "<leader>ft", "<cmd>TodoFzfLua<cr>", { desc = "Find todos" })
 

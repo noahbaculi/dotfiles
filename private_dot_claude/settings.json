@@ -6,7 +6,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bunx -y ccstatusline@latest",
+    "command": "~/.claude/ccline/ccline",
     "padding": 0
   }
 }

@@ -40,14 +40,9 @@ vim.keymap.set("n", "<C-q>", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "Paste over selected text and discard selected text" })
 vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle Explorer" })
 
--- Toggle comment
-vim.keymap.set(
-  "n",
-  "<leader>/",
-  function() require("Comment.api").toggle.linewise.count(vim.v.count > 0 and vim.v.count or 1) end,
-  { desc = "Toggle comment line" }
-)
-vim.keymap.set("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", { desc = "Toggle comment for selection" })
+-- Toggle comment (native neovim 0.10+)
+vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment line" })
+vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment for selection" })
 
 --
 -- Which key groups

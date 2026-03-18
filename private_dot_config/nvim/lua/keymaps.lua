@@ -51,7 +51,6 @@ vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment fo
 --
 --
 --
--- The fzf-lua allows opening of multiple selections directly into tabs but telescope does not
 which_key.add({ "<leader>f", group = "Find", icon = "" })
 vim.keymap.set("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Find buffers" })
 vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").grep_cword() end, { desc = "Find current word" })

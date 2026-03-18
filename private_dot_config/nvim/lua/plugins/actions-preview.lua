@@ -3,7 +3,7 @@ return {
   lazy = true,
   config = function()
     require("actions-preview").setup({
-      backend = { "nui", "telescope" },
+      backend = { "nui" },
       nui = {
         dir = "col",
         layout = {

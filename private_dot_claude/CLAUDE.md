@@ -1,6 +1,6 @@
 # Development Guidelines
 
-When producing prose, refer to the `humanizer` skill.
+CRITICAL: When producing prose, refer to the `humanizer` skill.
 
 ## Important Reminders
 
@@ -17,4 +17,3 @@ When producing prose, refer to the `humanizer` skill.
 - Disable tests instead of fixing them
 - Commit code that doesn't compile
 - Make assumptions - verify with existing code
-- Add a co-author line in commit messages

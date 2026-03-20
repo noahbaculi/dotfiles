@@ -2,6 +2,8 @@
 
 # For a complete introduction, visit the official docs at: https://espanso.org/docs/
 
+# Not used much since I'm using the native MacOS text replacement. But could reconsider if needed on multiple platforms
+
 matches:
   - trigger: ty
     replace: thank you

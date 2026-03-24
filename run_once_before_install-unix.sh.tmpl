@@ -8,11 +8,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 {{ else if eq .chezmoi.os "linux" }}
 echo "Installing basic Linux packages..."
-sudo apt install build-essential
-sudo apt install pkg-config
-sudo apt install libssl-dev
-sudo get install zip unzip
-sudo apt install protobuf-compiler
+sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-compiler
 
 {{ end }}
 

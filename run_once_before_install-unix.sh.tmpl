@@ -13,6 +13,9 @@ sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-com
 {{ end }}
 
 {{ if eq .chezmoi.os "linux" "darwin" }}
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/.local/share/mise/bin"
+
 echo "Installing mise development environment manager..."
 curl https://mise.run | sh
 

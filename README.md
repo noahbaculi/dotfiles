@@ -18,19 +18,12 @@ After installing Fish shell and GitHub CLI, install Chezmoi:
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
-mkdir ~/.local/bin
-fish_add_path ~/.local/bin
-mkdir ~/.local/share/mise
-fish_add_path ~/.local/share/mise
 ```
 
 **macOS:**
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
-fish_add_path ~/.local/bin
-fish_add_path ~/.local/share/mise
-fish_add_path .cargo/bin
 fish_add_path /opt/homebrew/bin
 ```
 
@@ -117,17 +110,12 @@ chsh -s /opt/homebrew/bin/fish
 exec $SHELL  # restart shell
 ```
 
-4. Install [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
-
-Authenticate
-
-> I have been using SSH lately
+4. Install GitHub CLI
 
 ```bash
+brew install gh
 gh auth login
 ```
-
-To automount an SMB share, try [these instructions](https://www.reddit.com/r/MacOS/comments/1boyxko/comment/lzi97eb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
 
 ### Windows
 
@@ -205,12 +193,16 @@ sudo udevadm control --reload
 
 Source: [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=404318) & [Gist](https://gist.github.com/ammuench/0dcf14faf4e3b000020992612a2711e2)
 
+### macOS SMB Automount
+
+To automount an SMB share, try [these instructions](https://www.reddit.com/r/MacOS/comments/1boyxko/comment/lzi97eb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
+
 ### iOS
 
 > Note that many system-level keymaps are not supported. (CAPSLOCK -> ESC)
 
 1. Download a [Nerd Font](https://www.nerdfonts.com/font-downloads) `.zip` archive locally.
 2. Install the [iFont app](https://apps.apple.com/us/app/ifont-find-install-any-font/id1173222289) and install the font from the downloaded archive.
-3. Install the [iSH app](https://ish.app/)https://ish.app/) and select the installed Nerd Font in the iSH in-app settings.
+3. Install the [iSH app](https://ish.app/) and select the installed Nerd Font in the iSH in-app settings.
 4. In iSH, install SSH: `apk add openssh`
 5. In iSH, SSH to any host for development 🥳

@@ -58,16 +58,6 @@ vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnost
 --
 --
 which_key.add({ mode = { "n", "v" }, { "<leader>r", group = "Replace" } })
-vim.keymap.set("n", "<leader>rr", function() require("spectre").toggle() end, { desc = "Toggle Spectre replace" })
-vim.keymap.set("n", "<leader>rw", function() require("spectre").open_visual({ select_word = true }) end, { desc = "Search current word" })
-vim.keymap.set("v", "<leader>rw", '<esc><cmd>lua require("spectre").open_visual()<CR>', { desc = "Search current word" })
-vim.keymap.set(
-  "n",
-  "<leader>rh",
-  function() require("spectre").open_file_search({ select_word = true }) end,
-  { desc = "Search current word in current file (here)" }
-)
-vim.keymap.set("v", "<leader>rh", '<esc><cmd>lua require("spectre").open_file_search()<CR>', { desc = "Search current word in current file (here)" })
 --
 --
 --

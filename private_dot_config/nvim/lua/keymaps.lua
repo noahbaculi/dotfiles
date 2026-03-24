@@ -29,14 +29,15 @@ vim.keymap.set("n", "\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
 --
 -- Which Key
 --
+
 local which_key = require("which-key")
 
 -- Base layer keymaps
-
--- When pasting over selected text, delete the selected text into the void register as to not override the clipboard
 vim.keymap.set("n", "<leader>q", "<cmd>confirm q<cr>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("n", "<C-q>", "<cmd>confirm qall<cr>", { desc = "Quit all" })
+
+-- When pasting over selected text, delete the selected text into the void register as to not override the clipboard
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "Paste over selected text and discard selected text" })
 
 -- Toggle comment (native neovim 0.10+)
@@ -45,59 +46,33 @@ vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment fo
 
 --
 -- Which key groups
--- These should be vim.keymap.set() function calls
+--
 
---
---
---
-which_key.add({ "<leader>f", group = "Find", icon = "" })
+which_key.add({ "<leader>f", group = "Find", icon = "" })
 
---
---
---
 which_key.add({ mode = { "n", "v" }, { "<leader>r", group = "Replace" } })
---
---
---
-which_key.add({ "<leader>p", group = "Plugins", icon = "" })
+
+which_key.add({ "<leader>p", group = "Plugins", icon = "" })
 vim.keymap.set("n", "<leader>pl", function() require("lazy").home() end, { desc = "Lazy plugins" })
 vim.keymap.set("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason plugins" })
 vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdate<cr>", { desc = "Mason Update" })
 
---
---
---
-which_key.add({ "<leader>u", group = "UI/UX", icon = "" })
+which_key.add({ "<leader>u", group = "UI/UX", icon = "" })
 vim.keymap.set("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
 end, { desc = "Toggle word wrap" })
 
---
---
---
 which_key.add({ "<leader>b", group = "Buffers", icon = "󰓩" })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })
 
---
---
---
 which_key.add({ "<leader>g", group = "Git", icon = "󰊢" })
 
---
---
---
 which_key.add({ "<leader>s", group = "Session", icon = "󱂬" })
 
---
---
---
 which_key.add({ "<leader>w", group = "Wrap/surround", icon = "󰅪" })
 
---
---
---
-which_key.add({ "<leader>l", group = "LSP", icon = "" })
+which_key.add({ "<leader>l", group = "LSP", icon = "" })
 vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
 
 vim.api.nvim_create_autocmd("LspAttach", {

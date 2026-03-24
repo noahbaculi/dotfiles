@@ -4,6 +4,9 @@
 {{ if eq .chezmoi.os "linux" "darwin" }}
 echo "Installing common packages for Linux, WSL, and MacOS..."
 
+# Ensure mise is on PATH even before shell config is sourced (first-run bootstrap)
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$PATH"
+
 # Install from mise/config.toml
 mise install
 

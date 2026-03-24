@@ -82,15 +82,6 @@ vim.keymap.set("n", "<leader>ud", "<cmd>Twilight<cr>", { desc = "Toggle Twilight
 --
 which_key.add({ "<leader>b", group = "Buffers", icon = "󰓩" })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })
-vim.keymap.set("n", "<leader>bd", "<cmd>BufferClose<cr>", { desc = "Delete buffer" })
-vim.keymap.set("n", "<leader>c", "<cmd>BufferClose<cr>", { desc = "Delete buffer" })
-vim.keymap.set("n", "<leader>bN", "<cmd>BufferMoveNext<cr>", { desc = "Move next buffer" })
-vim.keymap.set("n", "<leader>bn", "<cmd>BufferNext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "]b", "<cmd>BufferNext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bP", "<cmd>BufferMovePrevious<cr>", { desc = "Move previous buffer" })
-vim.keymap.set("n", "<leader>bp", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
-vim.keymap.set("n", "[b", "<cmd>BufferPrevious<cr>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>bI", "<cmd>BufferPin<cr>", { desc = "Pin/Unpin buffer" })
 
 --
 --

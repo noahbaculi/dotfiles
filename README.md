@@ -2,7 +2,76 @@
 
 Dotfiles for development and everyday use.
 
-## Linux / WSL
+## New Machine Setup
+
+Follow these steps to set up a new machine with this dotfiles configuration:
+
+### 1. Install Platform Prerequisites
+
+See the [Platform Prerequisites](#platform-prerequisites) section below for detailed installation steps for your platform (Linux/WSL, macOS, or Windows).
+
+### 2. Install Chezmoi
+
+After installing Fish shell and GitHub CLI, install Chezmoi:
+
+**Linux/WSL:**
+```fish
+sh -c "$(curl -fsLS get.chezmoi.io)"
+fish_add_path ./bin
+mkdir ~/.local/bin
+fish_add_path ~/.local/bin
+mkdir ~/.local/share/mise
+fish_add_path ~/.local/share/mise
+```
+
+**macOS:**
+```fish
+sh -c "$(curl -fsLS get.chezmoi.io)"
+fish_add_path ./bin
+fish_add_path ~/.local/bin
+fish_add_path ~/.local/share/mise
+fish_add_path .cargo/bin
+fish_add_path /opt/homebrew/bin
+```
+
+**Windows:**
+```bash
+winget install twpayne.chezmoi
+```
+
+### 3. Set Development Environment Flag
+
+The `dev_env` flag controls whether development tools are installed. When set to `true`, Chezmoi will:
+- Install Rust via rustup
+- Apply Claude Code configuration (`.claude/` directory)
+
+To enable development tools:
+
+```shell
+echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
+```
+
+For non-development machines, omit this step or set `dev_env = false`.
+
+### 4. Apply Dotfiles
+
+Run the following command once to initialize and apply the dotfiles:
+
+```shell
+chezmoi init --apply noahbaculi
+```
+
+### 5. Verify Installation
+
+You'll know the setup worked when:
+- Fish shell starts without errors
+- Development tools (if `dev_env = true`) are accessible: `rustc --version`, `mise --version`
+- The `.claude/` directory exists in your home directory (if `dev_env = true`)
+- Your terminal prompt and shell configuration match the expected appearance
+
+## Platform Prerequisites
+
+### Linux / WSL
 
 1. Install [Fish shell](https://fishshell.com/)
 
@@ -25,18 +94,7 @@ Authenticate
 gh auth login
 ```
 
-4. Install Chezmoi
-
-```fish
-sh -c "$(curl -fsLS get.chezmoi.io)"
-fish_add_path ./bin
-mkdir ~/.local/bin
-fish_add_path ~/.local/bin
-mkdir ~/.local/share/mise
-fish_add_path ~/.local/share/mise
-```
-
-## MacOS
+### macOS
 
 1. Install [Homebrew](https://brew.sh/)
 
@@ -59,45 +117,33 @@ chsh -s /opt/homebrew/bin/fish
 exec $SHELL  # restart shell
 ```
 
-4. Install Chezmoi
+4. Install [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
 
-```fish
-sh -c "$(curl -fsLS get.chezmoi.io)"
-fish_add_path ./bin
-fish_add_path ~/.local/bin
-fish_add_path ~/.local/share/mise
-fish_add_path .cargo/bin
-fish_add_path /opt/homebrew/bin
+Authenticate
+
+> I have been using SSH lately
+
+```bash
+gh auth login
 ```
 
 To automount an SMB share, try [these instructions](https://www.reddit.com/r/MacOS/comments/1boyxko/comment/lzi97eb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
 
-# Windows
+### Windows
 
 - Install `winget` from [Microsoft Store](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
 
 ```bash
 winget install Git.Git
-winget install twpayne.chezmoi
 ```
 
-## New Machine
-
-Set boolean flag for Chezmoi to indicate whether this is a development environment that requires Rust, Python, etc.
-
-```shell
-echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
-```
-
-Run this command, restarting the terminal in between runs, until the settings are applied. It takes at least a few times through for all the config files to take.
-
-```shell
-chezmoi init --apply noahbaculi
-```
+## Chezmoi Usage
 
 [Chezmoi User Guide](https://www.chezmoi.io/user-guide/command-overview/)
 
-## Enable SSH from WSL
+## Device-Specific Setup
+
+### Enable SSH from WSL
 
 1. Enable SSH from within WSL.
 2. Confirm that WSL can be connected to via SSH on the same computer: `ssh [wsl_username]@localhost`
@@ -109,16 +155,16 @@ ssh -J [windows_username]@[windows_destination] [wsl_username]@localhost
 
 > Note that the WSL usernames should be unique across all the network WSL usernames with SSH enabled to avoid collisions.
 
-## Linux Customization
+### Linux Customization
 
-### Enable UncomplicatedFirewall
+#### Enable UncomplicatedFirewall
 
 ```bash
 sudo apt install ufw
 sudo apt enable ufw
 ```
 
-### Enable SSH
+#### Enable SSH
 
 ```bash
 sudo apt install openssh-server
@@ -129,11 +175,11 @@ sudo systemctl status ssh
 sudo ufw status numbered
 ```
 
-### Enable Samba File Sharing
+#### Enable Samba File Sharing
 
 [Samba Ubuntu guide](https://ubuntu.com/tutorials/install-and-configure-samba)
 
-### Enable Plex Remote Access
+#### Enable Plex Remote Access
 
 > Must manually specify port `32400` in Plex settings.
 
@@ -142,7 +188,7 @@ sudo ufw allow 32400/tcp comment "Plex"  # Allow Plex port through the firewall
 sudo ufw status numbered
 ```
 
-### Disable touchpad tap to drag feature on Cinnamon
+#### Disable touchpad tap to drag feature on Cinnamon
 
 ```shell
 gsettings set org.cinnamon.desktop.peripherals.touchpad tap-and-drag false;
@@ -150,7 +196,7 @@ gsettings set org.cinnamon.desktop.peripherals.touchpad tap-and-drag false;
 
 Source: [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=354384)
 
-### Add support for 8BitDo Ultimate controller
+#### Add support for 8BitDo Ultimate controller
 
 ```bash
 printf "ACTION==\"add\", ATTRS{idVendor}==\"2dc8\", ATTRS{idProduct}==\"3106\", RUN+=\"/sbin/modprobe xpad\", RUN+=\"/bin/sh -c 'echo 2dc8 3106 > /sys/bus/usb/drivers/xpad/new_id'\"" | sudo tee /etc/udev/rules.d/99-8bitdo-xinput.rules
@@ -159,7 +205,7 @@ sudo udevadm control --reload
 
 Source: [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=404318) & [Gist](https://gist.github.com/ammuench/0dcf14faf4e3b000020992612a2711e2)
 
-## iOS
+### iOS
 
 > Note that many system-level keymaps are not supported. (CAPSLOCK -> ESC)
 

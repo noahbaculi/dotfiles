@@ -2,6 +2,9 @@ return {
 	{
 		"nvim-tree/nvim-tree.lua",
 		cmd = { "NvimTreeToggle", "NvimTreeFocus", "NvimTreeOpen" },
+		keys = {
+			{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle Explorer" },
+		},
 		init = function()
 			vim.g.loaded_netrw = 1
 			vim.g.loaded_netrwPlugin = 1

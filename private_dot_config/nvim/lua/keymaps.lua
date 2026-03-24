@@ -38,7 +38,6 @@ vim.keymap.set("n", "<leader>q", "<cmd>confirm q<cr>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("n", "<C-q>", "<cmd>confirm qall<cr>", { desc = "Quit all" })
 vim.keymap.set("v", "<leader>p", [["_dP]], { desc = "Paste over selected text and discard selected text" })
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle Explorer" })
 
 -- Toggle comment (native neovim 0.10+)
 vim.keymap.set("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment line" })

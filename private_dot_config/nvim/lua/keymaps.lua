@@ -51,7 +51,6 @@ vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment fo
 --
 --
 which_key.add({ "<leader>f", group = "Find", icon = "" })
-vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnostics") end, { desc = "Find Trouble diagnostics" })
 
 --
 --
@@ -73,8 +72,6 @@ vim.keymap.set("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
 end, { desc = "Toggle word wrap" })
-vim.keymap.set("n", "<leader>uC", "<cmd>ColorizerToggle<cr>", { desc = "Toggle Colorizer" })
-vim.keymap.set("n", "<leader>ud", "<cmd>Twilight<cr>", { desc = "Toggle Twilight dimming" })
 
 --
 --
@@ -118,11 +115,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { desc = "Previous diagnostic" })
     vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
     vim.keymap.set("n", "<leader>lt", function() require("fzf-lua").lsp_typedefs() end, { buffer = ev.buf, desc = "Type definition" })
-    vim.keymap.set("n", "<leader>ls", function() require("aerial").toggle() end, { desc = "Toggle Aerial symbols outline" })
     vim.keymap.set("n", "<leader>lD", function() require("fzf-lua").diagnostics_document() end, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })
     vim.keymap.set("n", "<leader>lA", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
-    vim.keymap.set("n", "<leader>la", function() require("actions-preview").code_actions() end, { desc = "LSP code action (previewed)" })
     vim.keymap.set("n", "<leader>lr", function() vim.lsp.buf.rename() end, { desc = "Rename current symbol" })
     vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, { buffer = ev.buf, desc = "Format buffer" })
     vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })

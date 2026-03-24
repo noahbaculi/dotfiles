@@ -52,24 +52,7 @@ vim.keymap.set("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment fo
 --
 --
 which_key.add({ "<leader>f", group = "Find", icon = "" })
-vim.keymap.set("n", "<leader>fb", function() require("fzf-lua").buffers() end, { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fw", function() require("fzf-lua").grep_cword() end, { desc = "Find current word" })
-vim.keymap.set("n", "<leader>fC", function() require("fzf-lua").commands() end, { desc = "Find commands" })
-vim.keymap.set("n", "<leader>ff", function() require("fzf-lua").files() end, { desc = "Find files" })
-vim.keymap.set("n", "<leader>fo", function() require("fzf-lua").oldfiles({ cwd_only = true, include_current_session = false }) end, { desc = "Find old files" })
-vim.keymap.set("n", "<leader>fs", function() require("fzf-lua").live_grep() end, { desc = "Find string in files" })
-vim.keymap.set(
-  "n",
-  "<leader>fS",
-  function()
-    require("fzf-lua").live_grep({
-      rg_opts = "--hidden --no-ignore --column --line-number --no-heading --color=always --smart-case",
-    })
-  end,
-  { desc = "Find string in all files" }
-)
 vim.keymap.set("n", "<leader>fd", function() require("trouble").toggle("diagnostics") end, { desc = "Find Trouble diagnostics" })
-vim.keymap.set("n", "<leader>ft", "<cmd>TodoFzfLua<cr>", { desc = "Find todos" })
 
 --
 --
@@ -97,7 +80,6 @@ vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdate<cr>", { desc = "Mason Update
 --
 --
 which_key.add({ "<leader>u", group = "UI/UX", icon = "" })
-vim.keymap.set("n", "<leader>ut", function() require("fzf-lua").colorschemes() end, { desc = "Theme switcher" })
 vim.keymap.set("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })

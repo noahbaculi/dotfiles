@@ -2,6 +2,17 @@ return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = "FzfLua",
+  keys = {
+    { "<leader>fb", function() require("fzf-lua").buffers() end, desc = "Find buffers" },
+    { "<leader>fw", function() require("fzf-lua").grep_cword() end, desc = "Find current word" },
+    { "<leader>fC", function() require("fzf-lua").commands() end, desc = "Find commands" },
+    { "<leader>ff", function() require("fzf-lua").files() end, desc = "Find files" },
+    { "<leader>fo", function() require("fzf-lua").oldfiles({ cwd_only = true, include_current_session = false }) end, desc = "Find old files" },
+    { "<leader>fs", function() require("fzf-lua").live_grep() end, desc = "Find string in files" },
+    { "<leader>fS", function() require("fzf-lua").live_grep({ rg_opts = "--hidden --no-ignore --column --line-number --no-heading --color=always --smart-case" }) end, desc = "Find string in all files" },
+    { "<leader>ft", "<cmd>TodoFzfLua<cr>", desc = "Find todos" },  -- depends on todo-comments.nvim
+    { "<leader>ut", function() require("fzf-lua").colorschemes() end, desc = "Theme switcher" },
+  },
   config = function()
     local actions = require("fzf-lua").actions
     actions = {

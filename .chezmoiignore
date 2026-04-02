@@ -1,4 +1,5 @@
 README.md
+.config/theme-switcher/current-theme
  
 {{ if (and (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin") ) }}
 install-unix.sh
@@ -22,4 +23,7 @@ Library/Application Support
 .claude
 {{ end }}
 
-.config/theme-switcher/current-theme
+# EnterpriseDB Work Laptop Hostname
+{{ if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
+.claude/settings.json
+{{ end }}

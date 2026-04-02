@@ -1,10 +1,12 @@
 # Mise has many tools that are aliased by default. These are listed in the registry: https://mise.jdx.dev/registry.html
 # Mise supports several backends to install tools. If a tool is not in Mise's registry, the backend must be specified.
-#   - Aqua is preferred but it has its own registry: https://github.com/aquaproj/aqua-registry/blob/main/registry.yaml
+#   - Aqua is preferred but it has its own registry so not all tools are supported:
+#       https://github.com/aquaproj/aqua-registry/blob/main/registry.yaml
+#   - GitHub backend can be used if tool binaries are released on GitHub.
 #   - More specific backends can handle tools that do not release binary files.
 
 [tools]
-cargo-binstall = "latest"
+cargo-binstall = "latest"  # Used by other tools that use the `cargo` backend
 neovim = "latest"
 
 eza = "latest"
@@ -14,17 +16,17 @@ ripgrep = "latest"
 fd = "latest"
 "cargo:macchina" = "latest"
 github-cli = "latest"
-"aqua:atuinsh/atuin" = "latest"
+atuin = "latest"
 yazi = "latest"
 bottom = "latest"
 bat = "latest"
 zellij = "0.44.0"               # Pin version due to manual upgrade process
 "cargo:bacon" = "latest"
-"cargo:du-dust" = "latest"
+dust = "latest"
 hyperfine = "latest"
 "aqua:printfn/fend" = "latest"
 fzf = "latest"
-lazygit = "latest"
+"aqua:jesseduffield/lazygit" = "latest"
 delta = "latest"
 jq = "latest"
 tree-sitter = "latest"
@@ -32,7 +34,7 @@ node = "lts"    # Required for nvim copilot.lua
 
 {{ if .dev_env }}
 
-python = "3.12"
+python = "3.14"
 pipx = "latest"
 ruff = "latest"
 stylua = "latest"

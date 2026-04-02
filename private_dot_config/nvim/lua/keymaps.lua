@@ -72,6 +72,38 @@ which_key.add({ "<leader>s", group = "Session", icon = "󱂬" })
 
 which_key.add({ "<leader>w", group = "Wrap/surround", icon = "󰅪" })
 
+which_key.add({ "<leader>y", group = "Yank path", icon = "󰅍" })
+vim.keymap.set("n", "<leader>yr", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Yanked relative path" })
+end, { desc = "Relative path" })
+vim.keymap.set("n", "<leader>yl", function()
+  local path = vim.fn.expand("%:.") .. ":" .. vim.fn.line(".")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Yanked path:line" })
+end, { desc = "Relative path:line" })
+vim.keymap.set("v", "<leader>yl", function()
+  local first = vim.fn.getpos("v")[2]
+  local last = vim.fn.getpos(".")[2]
+  if first > last then
+    first, last = last, first
+  end
+  local path = vim.fn.expand("%:.") .. ":" .. first .. "-" .. last
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Yanked path:range" })
+end, { desc = "Relative path:line-range" })
+vim.keymap.set("n", "<leader>yp", function()
+  local path = vim.fn.expand("%:~")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Yanked home-relative path" })
+end, { desc = "Home-relative path" })
+vim.keymap.set("n", "<leader>yf", function()
+  local path = vim.fn.expand("%:t")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Yanked filename" })
+end, { desc = "Filename" })
+
 which_key.add({ "<leader>l", group = "LSP", icon = "" })
 vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
 

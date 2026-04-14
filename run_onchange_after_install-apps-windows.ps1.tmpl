@@ -1,4 +1,4 @@
-{{ if eq .chezmoi.os "windows" }}
+{{- if eq .chezmoi.os "windows" -}}
 # vim: filetype=pwsh
 
 echo "Installing packages for Windows..."
@@ -31,6 +31,5 @@ if ($install_personal_packages -eq 'y') {
 } else {
     echo "Skipping personal packages..."
 }
-
-{{ end }}
+{{- end }}
 

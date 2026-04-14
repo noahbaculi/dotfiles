@@ -1,0 +1,9 @@
+[".claude/skills/chezmoi"]
+    type = "git-repo"
+    url = "https://github.com/cosgroveb/chezmoi-skill.git"
+    refreshPeriod = "168h"
+
+[".claude/skills/humanizer"]
+    type = "git-repo"
+    url = "https://github.com/blader/humanizer.git"
+    refreshPeriod = "168h"

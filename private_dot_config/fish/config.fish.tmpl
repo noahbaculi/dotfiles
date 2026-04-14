@@ -22,9 +22,10 @@ zoxide init fish | source
 starship init fish | source
 atuin init fish | source
 
-{{ if .dev_env }}
+{{- if .dev_env }}
+
 source "$HOME/.cargo/env.fish"
-{{ end }}
+{{- end }}
 
 set -gx EDITOR nvim
 

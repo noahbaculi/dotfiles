@@ -1,27 +1,29 @@
 #!/bin/sh
 # vim: filetype=sh
 
-{{ if eq .chezmoi.os "darwin" }}
+{{- if eq .chezmoi.os "darwin" }}
+
 # Prevent macOS from creating `.DS_Store` files on network drives.
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 # defaults read com.apple.desktopservices DSDontWriteNetworkStores
+{{- else if eq .chezmoi.os "linux" }}
 
-{{ else if eq .chezmoi.os "linux" }}
 echo "Installing basic Linux packages..."
 sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-compiler
+{{- end }}
 
-{{ end }}
+{{- if eq .chezmoi.os "linux" "darwin" }}
 
-{{ if eq .chezmoi.os "linux" "darwin" }}
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.local/share/mise/bin"
 
 echo "Installing mise development environment manager..."
 curl https://mise.run | sh
 
-{{ if .dev_env }}
+{{- if .dev_env }}
+
 echo "Installing Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-{{ end }}
+{{- end }}
 
-{{ end }}
+{{- end }}

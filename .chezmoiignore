@@ -1,29 +1,29 @@
 README.md
 .config/theme-switcher/current-theme
- 
-{{ if (and (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin") ) }}
+
+{{- if (and (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin") ) }}
 install-unix.sh
 install-apps-unix.sh
-{{ end }}
+{{- end }}
 
-{{ if ne .chezmoi.os "windows" }}
+{{- if ne .chezmoi.os "windows" }}
 install-apps-windows.ps1
-{{ end }}
+{{- end }}
 
-{{ if ne .chezmoi.os "linux" }}
+{{- if ne .chezmoi.os "linux" }}
 .config/lazygit
-{{ end }}
+{{- end }}
 
-{{ if ne .chezmoi.os "darwin" }}
+{{- if ne .chezmoi.os "darwin" }}
 Library/Application Support
 .config/karabiner
-{{ end }}
+{{- end }}
 
-{{ if not .dev_env }}
+{{- if not .dev_env }}
 .claude
-{{ end }}
+{{- end }}
 
 # EnterpriseDB Work Laptop Hostname
-{{ if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
+{{- if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
 .claude/settings.json
-{{ end }}
+{{- end }}

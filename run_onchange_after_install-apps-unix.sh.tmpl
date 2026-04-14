@@ -1,7 +1,8 @@
 #!/bin/sh
 # vim: filetype=sh
 
-{{ if eq .chezmoi.os "linux" "darwin" }}
+{{- if eq .chezmoi.os "linux" "darwin" }}
+
 echo "Installing common packages for Linux, WSL, and MacOS..."
 
 # Ensure mise is on PATH even before shell config is sourced (first-run bootstrap)
@@ -12,10 +13,10 @@ mise install
 
 # Delete the default neovim themes
 find ~/.local/share/mise/installs/neovim/ -type f -path "*/colors/*" ! -name "*README*" ! -name "default.vim" ! -name "vim.lua" -delete
+{{- end }}
 
-{{ end }}
+{{- if eq .chezmoi.os "linux" }}
 
-{{ if eq .chezmoi.os "linux" }}
 echo "Installing packages for Linux..."
 sudo apt install git
 
@@ -23,10 +24,10 @@ sudo apt install git
 # Using the shim (not the versioned path) ensures this works across mise updates
 echo "Symlinking mise neovim to /usr/local/bin/nvim"
 sudo ln -sf ~/.local/share/mise/shims/nvim /usr/local/bin/nvim
+{{- end }}
 
-{{ end }}
+{{- if eq .chezmoi.os "darwin" }}
 
-{{ if eq .chezmoi.os "darwin" }}
 echo "Installing packages for MacOS..."
 
 brew install gnu-sed
@@ -39,12 +40,11 @@ brew install --cask karabiner-elements
 brew install --cask rectangle
 brew install --cask clipy
 # Not used much since I'm using the native MacOS text replacement. But could reconsider if needed on multiple platforms
-# brew install --cask espanso 
+# brew install --cask espanso
 brew install --cask obsidian
 brew install --cask balenaetcher
 brew install --cask veracrypt
 brew install --cask vlc
 brew install --cask logi-options+
-
-{{ end }}
+{{- end }}
 

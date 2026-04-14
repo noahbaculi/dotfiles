@@ -32,7 +32,7 @@ jq = "latest"
 tree-sitter = "latest"
 node = "lts"    # Required for nvim copilot.lua
 
-{{ if .dev_env }}
+{{- if .dev_env }}
 
 python = "3.14"
 pipx = "latest"
@@ -42,8 +42,7 @@ lua = "latest"
 bun = "latest"
 "pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
 "pipx:sqlfluff" = "latest"
-
-{{ end }}
+{{- end }}
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

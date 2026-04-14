@@ -14,5 +14,124 @@
     "playwright@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true
+  },
+  "syntaxHighlightingDisabled": false,
+  "effortLevel": "high",
+  "voiceEnabled": false,
+  "voice": {
+    "enabled": false,
+    "mode": "hold"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(curl:*)",
+            "command": "jq -r '.tool_input.command' | grep -qiE 'github\\.com' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Use gh api or other gh subcommands instead of curl for GitHub API requests. This avoids token/rate-limit issues and uses your gh auth credentials.\"}}' || true",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/noah.baculi/.local/share/mise/installs/node/latest/bin/node\" \"/Users/noah.baculi/.claude/agent-flow/hook.js\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ]
   }
 }

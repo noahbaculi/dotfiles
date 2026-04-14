@@ -1,0 +1,29 @@
+# Development Guidelines
+
+CRITICAL: When producing prose, refer to the `humanizer` skill.
+
+## Important Reminders
+
+**ALWAYS**:
+
+- Commit working code incrementally
+- Update plan documentation as you go
+- Learn from existing implementations
+- Stop after 3 failed attempts and reassess
+
+**NEVER**:
+
+- Use `--no-verify` to bypass commit hooks
+- Disable tests instead of fixing them
+- Commit code that doesn't compile
+- Make assumptions: verify with existing code
+
+{{- if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
+
+## EnterpriseDB AIDB Project
+
+- NEVER commit agent artifacts like `docs/plans` or `docs/superpowers`.
+- Before running the regression tests `mise run regress`, the extension must ALWAYS be recompiled and installed into the pgrx database with `cargo pgrx run`.
+- The regression tests `mise run regress` should never be run in parallel since the process is single threaded.
+- The regression tests `mise run regress` can run multiple tests by passing multiple test names to target specific tests: `mise run regress __test_1__ __test_2__`.
+{{- end }}

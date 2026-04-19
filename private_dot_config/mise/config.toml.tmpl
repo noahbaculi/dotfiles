@@ -42,6 +42,15 @@ lua = "latest"
 bun = "latest"
 "pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
 "pipx:sqlfluff" = "latest"
+
+# Use `mise run upgrade` instead of `mise upgrade` so pipx venvs get rebuilt after Python patch updates.
+[tasks.upgrade]
+description = "Upgrade all mise tools and rebuild pipx venvs (Python patch upgrades break pipx shebangs)"
+run = """
+mise upgrade
+mise uninstall pipx:mdformat-gfm pipx:sqlfluff
+mise install pipx:mdformat-gfm pipx:sqlfluff
+"""
 {{- end }}
 
 [settings]

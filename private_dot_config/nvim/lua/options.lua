@@ -47,3 +47,10 @@ vim.opt.writebackup = false -- disable making a backup before overwriting a file
 vim.opt.spell = true -- enable spell checking
 vim.opt.spelllang = "en_us" -- set the spell language
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+-- SMB mounts report mtime with coarse resolution, so Vim's default rename-over-original
+-- write triggers spurious "file changed since reading it" warnings on every save.
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+	pattern = "/mnt/jane-nas/*",
+	callback = function() vim.opt_local.backupcopy = "yes" end,
+})

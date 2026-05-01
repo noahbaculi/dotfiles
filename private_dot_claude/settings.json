@@ -6,7 +6,6 @@
   "permissions": {
     "defaultMode": "default"
   },
-  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -35,10 +34,13 @@
     "skill-creator@claude-plugins-official": true
   },
   "syntaxHighlightingDisabled": false,
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "voice": {
     "enabled": false,
     "mode": "hold"
   },
+  "editorMode": "vim",
+  "autoCompactEnabled": false,
+  "agentPushNotifEnabled": false,
   "voiceEnabled": false
 }

@@ -38,8 +38,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$HOME/.config/chezmoi"
+          # TOML literal strings (single-quoted) don't process escapes, so
+          # Windows paths like D:\a\dotfiles\dotfiles round-trip safely.
           cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
-          sourceDir = "$GITHUB_WORKSPACE"
+          sourceDir = '$GITHUB_WORKSPACE'
 
           [data]
           dev_env = ${{ matrix.dev_env }}

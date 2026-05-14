@@ -15,12 +15,14 @@ See the [Platform Prerequisites](#platform-prerequisites) section below for deta
 After installing Fish shell and GitHub CLI, install Chezmoi:
 
 **Linux/WSL:**
+
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
 ```
 
 **macOS:**
+
 ```fish
 sh -c "$(curl -fsLS get.chezmoi.io)"
 fish_add_path ./bin
@@ -28,6 +30,7 @@ fish_add_path /opt/homebrew/bin
 ```
 
 **Windows:**
+
 ```bash
 winget install twpayne.chezmoi
 ```
@@ -35,6 +38,7 @@ winget install twpayne.chezmoi
 ### 3. Set Development Environment Flag
 
 The `dev_env` flag controls whether development tools are installed. When set to `true`, Chezmoi will:
+
 - Install Rust via rustup
 - Apply Claude Code configuration (`.claude/` directory)
 
@@ -57,6 +61,7 @@ chezmoi init --apply noahbaculi
 ### 5. Verify Installation
 
 You'll know the setup worked when:
+
 - Fish shell starts without errors
 - Development tools (if `dev_env = true`) are accessible: `rustc --version`, `mise --version`
 - The `.claude/` directory exists in your home directory (if `dev_env = true`)

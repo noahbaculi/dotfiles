@@ -3,7 +3,6 @@
 Dotfiles for development and everyday use.
 
 ## New Machine Setup
-
 Follow these steps to set up a new machine with this dotfiles configuration:
 
 ### 1. Install Platform Prerequisites

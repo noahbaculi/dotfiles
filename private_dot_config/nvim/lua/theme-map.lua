@@ -2,9 +2,7 @@ local M = {}
 
 local theme_dir = vim.fn.expand("~/.config/theme-switcher/")
 
-function M.get_themes()
-  return dofile(theme_dir .. "themes.lua")
-end
+function M.get_themes() return dofile(theme_dir .. "themes.lua") end
 
 function M.get_current_family()
   local f = io.open(theme_dir .. "current-theme")

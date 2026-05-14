@@ -51,6 +51,6 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 -- SMB mounts report mtime with coarse resolution, so Vim's default rename-over-original
 -- write triggers spurious "file changed since reading it" warnings on every save.
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
-	pattern = "/mnt/jane-nas/*",
-	callback = function() vim.opt_local.backupcopy = "yes" end,
+  pattern = "/mnt/jane-nas/*",
+  callback = function() vim.opt_local.backupcopy = "yes" end,
 })

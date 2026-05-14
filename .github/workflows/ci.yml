@@ -82,3 +82,30 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check dot_wezterm.lua private_dot_config/nvim/init.lua private_dot_config/nvim/lua private_dot_config/theme-switcher/themes.lua
+
+  markdown-format:
+    name: markdown-format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install mdformat-gfm
+        run: pip install mdformat-gfm
+
+      - name: Mdformat check
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=$(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')
+          if [ -z "$files" ]; then
+            echo "No markdown files to check"
+            exit 0
+          fi
+          echo "Checking:"
+          echo "$files"
+          mdformat --check --number --wrap keep --end-of-line lf $files

@@ -69,3 +69,16 @@ jobs:
           # .chezmoiignore is always treated as a template even without a .tmpl suffix.
           render ".chezmoiignore"
           exit $fail
+
+  lua-format:
+    name: lua-format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: StyLua check
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check dot_wezterm.lua private_dot_config/nvim/init.lua private_dot_config/nvim/lua private_dot_config/theme-switcher/themes.lua

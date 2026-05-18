@@ -43,7 +43,7 @@ ruff = "latest"
 stylua = "latest"
 lua = "latest"
 bun = "latest"
-"pipx:sqlfluff" = "latest"
+"aqua:quarylabs/sqruff" = "latest"
 "aqua:LuaLS/lua-language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
 "aqua:rust-lang/rust-analyzer" = "latest"
@@ -52,12 +52,8 @@ bun = "latest"
 
 # Use `mise run upgrade` instead of `mise upgrade` so pipx venvs get rebuilt after Python patch updates.
 [tasks.upgrade]
-description = "Upgrade all mise tools and rebuild pipx venvs (Python patch upgrades break pipx shebangs)"
-run = """
-mise upgrade
-mise uninstall pipx:sqlfluff
-mise install pipx:sqlfluff
-"""
+description = "Upgrade all mise tools"
+run = "mise upgrade"
 {{- end }}
 
 [settings]

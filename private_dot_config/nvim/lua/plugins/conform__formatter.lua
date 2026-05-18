@@ -10,7 +10,7 @@ return {
         if found then
           return { "dprint", stop_after_first = true }
         end
-        return { "mdformat", stop_after_first = true }
+        return { "prettierd", stop_after_first = true }
       end,
       html = { "prettierd", stop_after_first = true },
       css = { "prettierd", stop_after_first = true },

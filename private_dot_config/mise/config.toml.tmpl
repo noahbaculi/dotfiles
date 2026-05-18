@@ -43,7 +43,6 @@ ruff = "latest"
 stylua = "latest"
 lua = "latest"
 bun = "latest"
-"pipx:mdformat-gfm" = { version = "latest", uvx = false, pipx_args = "--include-deps" }
 "pipx:sqlfluff" = "latest"
 "aqua:LuaLS/lua-language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
@@ -56,8 +55,8 @@ bun = "latest"
 description = "Upgrade all mise tools and rebuild pipx venvs (Python patch upgrades break pipx shebangs)"
 run = """
 mise upgrade
-mise uninstall pipx:mdformat-gfm pipx:sqlfluff
-mise install pipx:mdformat-gfm pipx:sqlfluff
+mise uninstall pipx:sqlfluff
+mise install pipx:sqlfluff
 """
 {{- end }}
 

@@ -22,12 +22,15 @@ zoxide init fish | source
 starship init fish | source
 atuin init fish | source
 
-{{- if .dev_env }}
-
-source "$HOME/.cargo/env.fish"
-{{- end }}
+# `-aP` appends to PATH directly (not the universal fish_user_paths) so mise's
+# shims, prepended above, stay first in PATH per mise doctor's recommendation.
+fish_add_path -aP ~/.config/theme-switcher
 
 set -gx EDITOR nvim
 
-fish_add_path -g ~/.config/theme-switcher
+{{- if .dev_env }}
+
+source "$HOME/.cargo/env.fish"
+
+{{- end }}
 

@@ -4,37 +4,13 @@ return {
     "neovim/nvim-lspconfig",
     event = { "VeryLazy" },
     dependencies = {
-      {
-        "hrsh7th/cmp-nvim-lsp",
-      },
-      {
-        "mason-org/mason.nvim",
-        opts = {},
-      },
-      {
-        "mason-org/mason-lspconfig.nvim",
-        event = { "VeryLazy" },
-        opts = {
-          ensure_installed = {
-            "taplo", -- TOML
-            "yamlls", -- YAML
-            "lua_ls", -- Lua
-            "biome", -- Javascript, Typescript, JSON
-            -- "rust_analyzer", -- Rust
-            -- "tinymist",      -- Typst
-            -- "ruff",  -- Python
-            -- "gopls", -- Go
-            -- "sqlls", -- SQL
-          },
-        },
-      },
+      { "hrsh7th/cmp-nvim-lsp" },
     },
     config = function()
       vim.lsp.config("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
             -- Settings at https://rust-analyzer.github.io/book/configuration.html
-
             check = {
               command = "clippy",
               -- features = "all",
@@ -48,6 +24,22 @@ return {
       })
 
       vim.lsp.config("tinymist", {})
+
+      local servers = {
+        { name = "taplo",         binary = "taplo" },
+        { name = "yamlls",        binary = "yaml-language-server" },
+        { name = "lua_ls",        binary = "lua-language-server" },
+        { name = "biome",         binary = "biome" },
+        { name = "rust_analyzer", binary = "rust-analyzer" },
+        { name = "tinymist",      binary = "tinymist" },
+        { name = "ruff",          binary = "ruff" },
+      }
+
+      for _, server in ipairs(servers) do
+        if vim.fn.executable(server.binary) == 1 then
+          vim.lsp.enable(server.name)
+        end
+      end
     end,
   },
   -- Autocompletion

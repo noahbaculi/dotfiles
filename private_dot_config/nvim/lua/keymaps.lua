@@ -54,8 +54,6 @@ which_key.add({ mode = { "n", "v" }, { "<leader>r", group = "Replace" } })
 
 which_key.add({ "<leader>p", group = "Plugins", icon = "" })
 vim.keymap.set("n", "<leader>pl", function() require("lazy").home() end, { desc = "Lazy plugins" })
-vim.keymap.set("n", "<leader>pm", "<cmd>Mason<cr>", { desc = "Mason plugins" })
-vim.keymap.set("n", "<leader>pM", "<cmd>MasonUpdate<cr>", { desc = "Mason Update" })
 
 which_key.add({ "<leader>u", group = "UI/UX", icon = "" })
 vim.keymap.set("n", "<leader>uw", function()

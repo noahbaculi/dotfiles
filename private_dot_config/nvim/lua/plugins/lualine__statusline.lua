@@ -37,7 +37,6 @@ return {
       "aerial",
       "fzf",
       "lazy",
-      "mason",
       "nvim-tree",
       "oil",
       "trouble",

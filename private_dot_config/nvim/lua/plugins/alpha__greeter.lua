@@ -207,7 +207,6 @@ return {
       dashboard.button("<LDR> f o", "  Recently opened files", "<cmd>FzfLua oldfiles<cr>"),
       dashboard.button("<LDR> f w", "  Find words", "<cmd>FzfLua live_grep<cr>"),
       dashboard.button("<LDR> p l", "󰒲  Lazy plugins", "<cmd>Lazy<cr>"),
-      dashboard.button("<LDR> p m", "󱢶  Mason plugins", "<cmd>Mason<cr>"),
       dashboard.button("<LDR> s l", "  Load last session", "<cmd>AutoSession restore<cr>"),
       dashboard.button("<LDR> q  ", "  Quit", "<cmd>qa<cr>"),
     }

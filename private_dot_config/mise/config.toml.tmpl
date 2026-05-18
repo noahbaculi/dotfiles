@@ -37,8 +37,6 @@ taplo = "latest"
 
 {{- if .dev_env }}
 
-python = "3.14"
-pipx = "latest"
 ruff = "latest"
 stylua = "latest"
 lua = "latest"
@@ -49,11 +47,6 @@ bun = "latest"
 "aqua:rust-lang/rust-analyzer" = "latest"
 "aqua:Myriad-Dreamin/tinymist" = "latest"
 "npm:@fsouza/prettierd" = "latest"
-
-# Use `mise run upgrade` instead of `mise upgrade` so pipx venvs get rebuilt after Python patch updates.
-[tasks.upgrade]
-description = "Upgrade all mise tools"
-run = "mise upgrade"
 {{- end }}
 
 [settings]

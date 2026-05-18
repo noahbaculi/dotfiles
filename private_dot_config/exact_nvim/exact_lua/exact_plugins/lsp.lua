@@ -3,9 +3,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     event = { "VeryLazy" },
-    dependencies = {
-      { "hrsh7th/cmp-nvim-lsp" },
-    },
     config = function()
       vim.lsp.config("rust_analyzer", {
         settings = {
@@ -24,6 +21,10 @@ return {
       })
 
       vim.lsp.config("tinymist", {})
+
+      vim.lsp.config("*", {
+        capabilities = require("blink.cmp").get_lsp_capabilities(),
+      })
 
       local servers = {
         { name = "taplo",         binary = "taplo" },
@@ -44,26 +45,19 @@ return {
   },
   -- Autocompletion
   {
-    "hrsh7th/nvim-cmp",
-    event = { "InsertEnter", "CmdlineEnter" },
+    "saghen/blink.cmp",
+    version = "v1.*",
+    event = { "InsertEnter" },
     dependencies = {
       {
         "windwp/nvim-autopairs",
         opts = {},
       },
       {
-        "onsails/lspkind.nvim",
-      },
-      {
         "L3MON4D3/LuaSnip",
-        build = "make install_jsregexp", -- optional
+        build = "make install_jsregexp",
         dependencies = {
-          {
-            "rafamadriz/friendly-snippets",
-          },
-          {
-            "saadparwaiz1/cmp_luasnip",
-          },
+          { "rafamadriz/friendly-snippets" },
         },
       },
       {
@@ -79,53 +73,64 @@ return {
           },
         },
       },
-      {
-        "zbirenbaum/copilot-cmp",
-        opts = {},
+      { "fang2hou/blink-copilot" },
+    },
+
+    opts = {
+      keymap = {
+        preset = "none",
+        ["<Up>"]   = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<C-p>"]  = { "select_prev", "fallback" },
+        ["<C-n>"]  = { "select_next", "fallback" },
+        ["<C-k>"]  = { "select_prev", "fallback" },
+        ["<C-j>"]  = { "select_next", "fallback" },
+        ["<C-e>"]  = { "hide", "fallback" },
+        ["<CR>"]   = { "accept", "fallback" },
+      },
+
+      snippets = { preset = "luasnip" },
+
+      sources = {
+        default = { "lsp", "copilot", "snippets", "buffer", "path" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            async = true,
+          },
+        },
+      },
+
+      completion = {
+        menu = { border = "rounded" },
+        documentation = {
+          auto_show = true,
+          window = { border = "rounded" },
+        },
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = false,
+          },
+        },
+      },
+
+      appearance = {
+        nerd_font_variant = "mono",
+        kind_icons = {
+          Copilot = "",
+        },
+      },
+
+      fuzzy = {
+        implementation = "prefer_rust_with_warning",
       },
     },
 
-    config = function()
-      local cmp = require("cmp")
-      local lspkind = require("lspkind")
+    config = function(_, opts)
+      require("blink.cmp").setup(opts)
       require("luasnip.loaders.from_vscode").lazy_load()
-      cmp.setup({
-        mapping = {
-          ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-          ["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-          ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-y>"] = cmp.config.disable,
-          ["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
-        },
-        snippet = {
-          expand = function(args) require("luasnip").lsp_expand(args.body) end,
-        },
-        sources = cmp.config.sources({
-          { name = "nvim_lsp", priority = 1000 },
-          { name = "copilot", priority = 900 },
-          { name = "luasnip", priority = 750 },
-          { name = "buffer", priority = 500 },
-          { name = "path", priority = 250 },
-        }),
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
-        },
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol",
-            max_width = 50,
-            symbol_map = { Copilot = "" },
-          }),
-        },
-      })
-
-      -- Insert a `(` after select function or method item
-      cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
     end,
   },
 }

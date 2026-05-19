@@ -1,3 +1,4 @@
+{{- if eq .chezmoi.os "windows" -}}
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 
@@ -64,3 +65,4 @@ config.keys = {
 }
 
 return config
+{{- end -}}

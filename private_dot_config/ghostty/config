@@ -1,0 +1,37 @@
+# Font. Ghostty ships JetBrains Mono and Nerd Font icons internally.
+font-family = JetBrains Mono
+font-size = 14
+
+# Active theme via include. The theme script swings the symlink.
+config-file = themes/active.conf
+
+# Zellij compatibility. Left Option becomes Alt so zellij's alt-prefix
+# mappings work. Right Option keeps its OS behavior for special chars
+# like ', ~, |, etc. Unbind Ghostty's opt+left/right defaults that
+# otherwise send ESC+b and ESC+f for word motion.
+macos-option-as-alt = left
+keybind = opt+left=unbind
+keybind = opt+right=unbind
+
+# Free up macOS tab/window shortcuts so Zellij can see them.
+# Without these, Cmd+T opens a Ghostty tab instead of reaching Zellij.
+keybind = cmd+t=unbind
+keybind = cmd+n=unbind
+keybind = cmd+w=unbind
+
+# Free up Ctrl+Tab and Ctrl+Shift+Tab. Ghostty binds them to next_tab
+# and previous_tab by default, which conflicts with Zellij's use of
+# Tab inside its tab and pane modes.
+keybind = ctrl+tab=unbind
+keybind = ctrl+shift+tab=unbind
+
+# SSH terminfo auto-install. Fixes xterm-ghostty unknown terminal errors
+# on remotes the first time you connect.
+shell-integration-features = ssh-env,ssh-terminfo
+
+# Keybindings. Preserve the existing Wezterm bindings.
+# Ghostty's ctrl+c only copies when a selection exists, otherwise it
+# passes through as SIGINT. Same behavior as the Wezterm setup.
+keybind = ctrl+c=copy_to_clipboard
+keybind = ctrl+v=paste_from_clipboard
+keybind = shift+enter=text:\x1b[200~\n\x1b[201~

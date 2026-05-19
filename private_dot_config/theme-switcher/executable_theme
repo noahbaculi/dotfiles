@@ -1,8 +1,17 @@
 #!/usr/bin/env fish
 
+# Theme picker is macOS/Linux only. On Windows, Wezterm's file watcher
+# handles reload directly from themes.lua, so the picker is not needed.
+set os (uname)
+if test "$os" != Darwin -a "$os" != Linux
+    echo "theme picker is macOS/Linux only (Windows uses Wezterm's own watcher)"
+    exit 0
+end
+
 set theme_dir (status dirname)
 set current_theme_file "$theme_dir/current-theme"
 set themes_file "$theme_dir/themes.lua"
+set ghostty_themes_dir "$HOME/.config/ghostty/themes"
 
 # Read current theme
 set current_theme (string trim (cat "$current_theme_file" 2>/dev/null))
@@ -10,8 +19,8 @@ if test -z "$current_theme"
     set current_theme "catppuccin"
 end
 
-# Parse family names from themes.lua (top-level keys)
-# Matches both `key = {` and `["key"] = {` forms
+# Parse family names from themes.lua (top-level keys).
+# Matches both `key = {` and `["key"] = {` forms.
 set families (lua -e "for k in pairs(dofile('$themes_file')) do print(k) end" | sort)
 
 if test -z "$families"
@@ -19,7 +28,7 @@ if test -z "$families"
     exit 1
 end
 
-# Use fzf to pick a theme, highlighting the current one
+# Use fzf to pick a theme, highlighting the current one.
 set selected (printf '%s\n' $families | fzf --prompt="Theme: " --header="Current: $current_theme" --layout=reverse --height=~50%)
 
 if test -z "$selected"
@@ -27,10 +36,21 @@ if test -z "$selected"
     exit 0
 end
 
-# Write selected theme
+# Verify the Ghostty conf file exists before changing any state.
+set new_link "$ghostty_themes_dir/$selected.conf"
+if not test -f "$new_link"
+    echo "ghostty theme file missing: $new_link"
+    echo "add $selected.conf to $ghostty_themes_dir/ then re-run the picker"
+    exit 1
+end
+
+# Write selected theme (drives nvim on next launch via its theme-map).
 echo "$selected" > "$current_theme_file"
 
-# Touch wezterm config to trigger its file-watcher reload
-touch ~/.wezterm.lua
+# Swing the Ghostty include symlink to the selected family.
+ln -sfn "$selected.conf" "$ghostty_themes_dir/active.conf"
+
+# Signal Ghostty to reload its config. Silent if no Ghostty is running.
+pkill -SIGUSR2 ghostty 2>/dev/null
 
 echo "Theme set to: $selected"

@@ -16,7 +16,7 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "wezterm",
+                                            "ghostty",
                                             "alacritty",
                                             "iterm2",
                                             "com.apple.Terminal",
@@ -25,7 +25,7 @@
                                             "com.riotgames.LeagueofLegends.LeagueClientUx"
                                         ],
                                         "file_paths": [
-                                            "wezterm-gui",
+                                            "ghostty",
                                             "alacritty",
                                             "iTerm2",
                                             "neovide",

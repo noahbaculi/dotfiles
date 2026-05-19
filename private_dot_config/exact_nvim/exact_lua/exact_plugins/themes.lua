@@ -2,19 +2,16 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     opts = {},
   },
   {
     "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "marko-cerovac/material.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     opts = {
       plugins = {
         "gitsigns",
@@ -32,28 +29,23 @@ return {
   },
   {
     "EdenEast/nightfox.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "sainnhe/everforest",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "loctvl842/monokai-pro.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "navarasu/onedark.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
 }

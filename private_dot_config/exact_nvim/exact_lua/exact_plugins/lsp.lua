@@ -116,6 +116,11 @@ return {
         },
       },
 
+      signature = {
+        enabled = true,
+        window = { border = "rounded" },
+      },
+
       appearance = {
         nerd_font_variant = "mono",
         kind_icons = {

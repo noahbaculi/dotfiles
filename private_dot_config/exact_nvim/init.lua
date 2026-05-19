@@ -33,5 +33,8 @@ require("options")
 -- Basic Keymaps
 require("keymaps")
 
+-- Long-line / big-file detection (replaces faster.nvim)
+require("long_lines")
+
 -- Set default colorscheme
 vim.cmd.colorscheme(require("theme-map").get_nvim_colorscheme("dark"))

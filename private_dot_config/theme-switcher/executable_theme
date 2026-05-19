@@ -54,3 +54,39 @@ ln -sfn "$selected.conf" "$ghostty_themes_dir/active.conf"
 pkill -SIGUSR2 ghostty 2>/dev/null
 
 echo "Theme set to: $selected"
+
+# Zellij update.
+# If the selected family has a zellij entry in themes.lua, rewrite the three
+# theme directives in the deployed ~/.config/zellij/config.kdl. Zellij's file
+# watcher picks up the change and applies it live to running sessions.
+# Families without a zellij entry skip this step.
+
+set zellij_dark  (lua -e "local t = dofile('$themes_file')['$selected']; if t and t.zellij then print(t.zellij.dark)  end")
+set zellij_light (lua -e "local t = dofile('$themes_file')['$selected']; if t and t.zellij then print(t.zellij.light) end")
+
+if test -z "$zellij_dark" -o -z "$zellij_light"
+    echo "Zellij coverage skipped for $selected"
+else
+    set zellij_config "$HOME/.config/zellij/config.kdl"
+    if not test -f "$zellij_config"
+        echo "Zellij config not found at $zellij_config; skipping Zellij update"
+    else
+        set theme_count       (grep -c '^theme '       "$zellij_config")
+        set theme_dark_count  (grep -c '^theme_dark '  "$zellij_config")
+        set theme_light_count (grep -c '^theme_light ' "$zellij_config")
+        if test "$theme_count" -ne 1 -o "$theme_dark_count" -ne 1 -o "$theme_light_count" -ne 1
+            echo "Zellij config layout unexpected; theme not updated"
+        else
+            if test "$os" = Darwin
+                sed -i '' "s/^theme \".*\"/theme \"$zellij_dark\"/"             "$zellij_config"
+                sed -i '' "s/^theme_dark \".*\"/theme_dark \"$zellij_dark\"/"   "$zellij_config"
+                sed -i '' "s/^theme_light \".*\"/theme_light \"$zellij_light\"/" "$zellij_config"
+            else
+                sed -i "s/^theme \".*\"/theme \"$zellij_dark\"/"             "$zellij_config"
+                sed -i "s/^theme_dark \".*\"/theme_dark \"$zellij_dark\"/"   "$zellij_config"
+                sed -i "s/^theme_light \".*\"/theme_light \"$zellij_light\"/" "$zellij_config"
+            end
+            echo "Zellij theme set to: $zellij_dark / $zellij_light"
+        end
+    end
+end

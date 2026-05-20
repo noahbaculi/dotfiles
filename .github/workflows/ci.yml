@@ -81,7 +81,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --check dot_wezterm.lua private_dot_config/nvim/init.lua private_dot_config/nvim/lua private_dot_config/theme-switcher/themes.lua
+          args: --check private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua
 
   markdown-format:
     name: markdown-format

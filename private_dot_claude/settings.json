@@ -23,8 +23,9 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/ccline/ccline",
-    "padding": 0
+    "command": "bunx -y ccstatusline@latest",
+    "padding": 0,
+    "refreshInterval": 10
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,

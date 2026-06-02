@@ -3,14 +3,6 @@
   "lines": [
     [
       {
-        "id": "6508fbd5-375c-4b9e-8731-def4b99595fa",
-        "type": "vim-mode",
-        "bold": false,
-        "metadata": {
-          "nerdFont": "true"
-        }
-      },
-      {
         "id": "8e7c2203-28f4-4658-9756-28f1d456744d",
         "type": "current-working-dir",
         "bold": false,
@@ -30,7 +22,8 @@
         "type": "git-review",
         "metadata": {
           "hideTitle": "true",
-          "hideStatus": "false"
+          "hideStatus": "false",
+          "hideNoGit": "true"
         }
       },
       {
@@ -50,7 +43,33 @@
         }
       }
     ],
-    [],
+    [
+      {
+        "id": "c6c052c5-95bf-4ddc-9053-121464b62126",
+        "type": "session-usage",
+        "metadata": {
+          "display": "time"
+        }
+      },
+      {
+        "id": "214967de-eb27-4148-a129-90c1a2fafc52",
+        "type": "reset-timer"
+      },
+      {
+        "id": "838523d0-7fb0-4e1a-a8e9-7a3805e2f39c",
+        "type": "weekly-usage",
+        "metadata": {
+          "display": "time"
+        }
+      },
+      {
+        "id": "8e14d4bb-0cc9-4918-a273-63d429663303",
+        "type": "skills",
+        "metadata": {
+          "hideWhenEmpty": "true"
+        }
+      }
+    ],
     []
   ],
   "flexMode": "full-minus-40",

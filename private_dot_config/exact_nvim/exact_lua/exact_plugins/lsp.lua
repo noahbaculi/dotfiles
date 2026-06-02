@@ -27,13 +27,13 @@ return {
       })
 
       local servers = {
-        { name = "taplo",         binary = "taplo" },
-        { name = "yamlls",        binary = "yaml-language-server" },
-        { name = "lua_ls",        binary = "lua-language-server" },
-        { name = "biome",         binary = "biome" },
+        { name = "taplo", binary = "taplo" },
+        { name = "yamlls", binary = "yaml-language-server" },
+        { name = "lua_ls", binary = "lua-language-server" },
+        { name = "biome", binary = "biome" },
         { name = "rust_analyzer", binary = "rust-analyzer" },
-        { name = "tinymist",      binary = "tinymist" },
-        { name = "ruff",          binary = "ruff" },
+        { name = "tinymist", binary = "tinymist" },
+        { name = "ruff", binary = "ruff" },
       }
 
       for _, server in ipairs(servers) do
@@ -79,14 +79,14 @@ return {
     opts = {
       keymap = {
         preset = "none",
-        ["<Up>"]   = { "select_prev", "fallback" },
+        ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
-        ["<C-p>"]  = { "select_prev", "fallback" },
-        ["<C-n>"]  = { "select_next", "fallback" },
-        ["<C-k>"]  = { "select_prev", "fallback" },
-        ["<C-j>"]  = { "select_next", "fallback" },
-        ["<C-e>"]  = { "hide", "fallback" },
-        ["<CR>"]   = { "accept", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
+        ["<C-k>"] = { "select_prev", "fallback" },
+        ["<C-j>"] = { "select_next", "fallback" },
+        ["<C-e>"] = { "hide", "fallback" },
+        ["<CR>"] = { "accept", "fallback" },
       },
 
       snippets = { preset = "luasnip" },

@@ -12,7 +12,9 @@ local READ_CHUNK = 1024 * 1024
 
 local function detect(filepath)
   local st = vim.uv.fs_stat(filepath)
-  if not st or st.type ~= "file" then return nil end
+  if not st or st.type ~= "file" then
+    return nil
+  end
 
   local fd = vim.uv.fs_open(filepath, "r", 438)
   if fd then
@@ -22,7 +24,9 @@ local function detect(filepath)
       local lineno = 0
       for line in data:gmatch("([^\n]+)") do
         lineno = lineno + 1
-        if lineno > LINES_TO_SAMPLE then break end
+        if lineno > LINES_TO_SAMPLE then
+          break
+        end
         if #line > LINE_LENGTH_LIMIT then
           return string.format("long line (%d chars)", #line)
         end
@@ -42,7 +46,9 @@ local group = vim.api.nvim_create_augroup("long_lines", { clear = true })
 vim.api.nvim_create_autocmd("BufReadPre", {
   group = group,
   callback = function(args)
-    if args.file == "" then return end
+    if args.file == "" then
+      return
+    end
     local reason = detect(args.file)
     if reason then
       vim.b[args.buf].long_lines_mode = true
@@ -54,7 +60,9 @@ vim.api.nvim_create_autocmd("BufReadPre", {
 vim.api.nvim_create_autocmd({ "BufReadPost", "FileType" }, {
   group = group,
   callback = function(args)
-    if not vim.b[args.buf].long_lines_mode then return end
+    if not vim.b[args.buf].long_lines_mode then
+      return
+    end
 
     vim.opt_local.foldmethod = "manual"
     vim.opt_local.spell = false
@@ -73,11 +81,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function(args)
     if vim.b[args.buf].long_lines_mode and not vim.b[args.buf].long_lines_notified then
       vim.b[args.buf].long_lines_notified = true
-      vim.notify(
-        "Lite editing mode: " .. (vim.b[args.buf].long_lines_reason or ""),
-        vim.log.levels.WARN,
-        { title = "long-lines" }
-      )
+      vim.notify("Lite editing mode: " .. (vim.b[args.buf].long_lines_reason or ""), vim.log.levels.WARN, { title = "long-lines" })
     end
   end,
 })

@@ -22,6 +22,14 @@ Remember: Your output should be highest quality since it will be reviewed by Ope
 - Commit code that doesn't compile
 - Make assumptions: verify with existing code
 
+## Available CLI Tools
+
+Installed globally via mise and usable in `Bash`. Prefer the dedicated `Grep`/`Read`/`Glob` tools when they fit; reach for these when shelling out:
+
+- `fd` instead of `find` (file/dir search)
+- `dust` instead of `du` (disk usage)
+- `hyperfine` for benchmarking commands
+
 {{- if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
 
 ## EnterpriseDB AIDB Project

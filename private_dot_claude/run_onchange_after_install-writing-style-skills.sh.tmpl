@@ -2,11 +2,12 @@
 # Refresh Noah's writing-style skills into ~/.claude/skills via the repo's
 # canonical install-skills.sh, the single home of the fetch logic.
 #
-# The run_onchange_ prefix reruns this whenever the file contents change, so
-# bump the version marker to force a refresh on the next apply. Fail soft so a
-# machine without gh still applies cleanly.
+# skills-rev below is the latest upstream commit touching skills/. chezmoi
+# rerenders this .tmpl each apply, so the line changes only when skills change,
+# which reruns this run_onchange script. No manual bump. Absent or unauthed gh
+# leaves it empty, so apply stays clean.
 #
-# version: 2026-06-10.2
+# skills-rev: {{ output "sh" "-c" "gh api 'repos/noahbaculi/noah-writing-style/commits?sha=claude-skills&path=skills&per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
 
 set -u
 

@@ -15,7 +15,10 @@
         "type": "git-branch",
         "color": "magenta",
         "bold": false,
-        "rawValue": false
+        "rawValue": false,
+        "metadata": {
+          "hideNoGit": "true"
+        }
       },
       {
         "id": "867b1688-a3a0-400f-afd1-758e3360a2a8",
@@ -29,18 +32,16 @@
       {
         "id": "1",
         "type": "model",
-        "color": "cyan"
+        "color": "cyan",
+        "rawValue": false
       },
       {
         "id": "3eff11ba-f579-4cb9-b968-e05e13911e32",
         "type": "thinking-effort"
       },
       {
-        "id": "29a0f62d-0c2d-443f-9518-f08eeade70d0",
-        "type": "context-bar",
-        "metadata": {
-          "display": "slider"
-        }
+        "id": "ecd18dc4-e52e-4ae5-82b7-ea0ae8faace1",
+        "type": "context-length"
       }
     ],
     [

@@ -55,6 +55,7 @@ Notable chords sorted by impact. "Real conflict" means two layers both intercept
 | `Alt-f`                                                                                  | passes                                     | sends Alt-f                   | sends Alt-f                       | toggle floating panes               | fish: forward-word (emacs binds)                   | **yes** for fish inside zellij                            |
 | `Alt-n`                                                                                  | passes                                     | sends Alt-n                   | sends Alt-n                       | new pane                            | none                                               | clean                                                     |
 | `Alt-h` / `Alt-j` / `Alt-k` / `Alt-l`                                                    | passes                                     | sends                         | sends                             | MoveFocus / MoveFocusOrTab          | none                                               | clean                                                     |
+| `Alt-Left` / `Alt-Right` / `Alt-Up` / `Alt-Down`                                         | passes                                     | sends                         | sends                             | passthrough                         | none                                               | clean (freed for shell/OpenCode word motion)              |
 | `Alt-i` / `Alt-o`                                                                        | passes                                     | sends                         | sends                             | MoveTab left/right                  | none                                               | clean                                                     |
 | `Alt-+` / `Alt--` / `Alt-=`                                                              | passes                                     | sends                         | sends                             | Resize                              | none                                               | clean                                                     |
 | `Alt-[` / `Alt-]`                                                                        | passes                                     | sends                         | sends                             | PreviousSwapLayout / NextSwapLayout | none                                               | clean, watch for escape-seq edge cases                    |
@@ -158,10 +159,10 @@ File: `private_dot_config/zellij/config.kdl`. Started with `keybinds clear-defau
 | `Alt-n`               | NewPane              |
 | `Alt-i`               | MoveTab Left         |
 | `Alt-o`               | MoveTab Right        |
-| `Alt-h` / `Alt-Left`  | MoveFocusOrTab Left  |
-| `Alt-l` / `Alt-Right` | MoveFocusOrTab Right |
-| `Alt-j` / `Alt-Down`  | MoveFocus Down       |
-| `Alt-k` / `Alt-Up`    | MoveFocus Up         |
+| `Alt-h`               | MoveFocusOrTab Left  |
+| `Alt-l`               | MoveFocusOrTab Right |
+| `Alt-j`               | MoveFocus Down       |
+| `Alt-k`               | MoveFocus Up         |
 | `Alt-=` / `Alt-+`     | Resize Increase      |
 | `Alt--`               | Resize Decrease      |
 | `Alt-[`               | PreviousSwapLayout   |
@@ -628,7 +629,7 @@ Default emacs binds (the user did not set `fish_vi_key_bindings`):
 - Line: `Ctrl-a` start, `Ctrl-e` end
 - Edit: `Ctrl-k` kill to end, `Ctrl-u` kill to start, `Ctrl-w` kill word back, `Ctrl-y` yank
 - History: `Up` / `Down` (or atuin if `atuin init` is sourced, which it is)
-- Accept suggestion: `Right` / `Ctrl-f`; partial word: `Alt-Right` / `Alt-f` (again, partially eaten by zellij)
+- Accept suggestion: `Right` / `Ctrl-f`; partial word: `Alt-Right` / `Alt-f`. `Alt-Right` now passes through to fish; `Alt-f` is still eaten by zellij ToggleFloatingPanes.
 - Toggle help: `Ctrl-h` shows what character does what. Also shadowed by zellij Move mode.
 
 ## 4. Audit

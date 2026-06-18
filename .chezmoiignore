@@ -1,4 +1,5 @@
 README.md
+docs
 .config/theme-switcher/current-theme
 
 {{- if (and (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin") ) }}

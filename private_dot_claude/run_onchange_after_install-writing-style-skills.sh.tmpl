@@ -1,13 +1,18 @@
 #!/bin/sh
-# Refresh Noah's writing-style skills into ~/.claude/skills via the repo's
+# Refresh Noah's writing-style skills into ~/.agents/skills via the repo's
 # canonical install-skills.sh, the single home of the fetch logic.
+#
+# ~/.agents/skills is the host-neutral skill directory that opencode
+# auto-discovers. Claude Code only scans ~/.claude/skills, so these skills
+# stop showing up there. That trade-off is intentional: opencode is the
+# primary host now.
 #
 # skills-rev below is the latest upstream commit touching skills/. chezmoi
 # rerenders this .tmpl each apply, so the line changes only when skills change,
 # which reruns this run_onchange script. No manual bump. Absent or unauthed gh
 # leaves it empty, so apply stays clean.
 #
-# skills-rev: {{ output "sh" "-c" "gh api 'repos/noahbaculi/noah-writing-style/commits?sha=claude-skills&path=skills&per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
+# skills-rev: {{ output "sh" "-c" "gh api 'repos/noahbaculi/noah-writing-style/commits?sha=skills&path=skills&per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
 
 set -u
 
@@ -21,7 +26,10 @@ gh auth status >/dev/null 2>&1 || {
   exit 0
 }
 
-# Pipe the canonical installer rather than reimplement its loop. || true keeps
-# a refresh hiccup from failing the whole apply.
-gh api "repos/noahbaculi/noah-writing-style/contents/scripts/install-skills.sh?ref=claude-skills" \
-  -H "Accept: application/vnd.github.raw" | sh || true
+# Pipe the canonical installer rather than reimplement its loop. DEST is pinned
+# to the opencode-discoverable path even though install-skills.sh already
+# defaults to it, so the choice is visible in the chezmoi tree and survives
+# upstream default changes. || true keeps a refresh hiccup from failing the
+# whole apply.
+gh api "repos/noahbaculi/noah-writing-style/contents/scripts/install-skills.sh?ref=skills" \
+  -H "Accept: application/vnd.github.raw" | DEST="$HOME/.agents/skills" sh || true

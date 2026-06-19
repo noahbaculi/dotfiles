@@ -21,9 +21,12 @@ keybind = ctrl+shift+tab=unbind
 # on remotes the first time you connect.
 shell-integration-features = ssh-env,ssh-terminfo
 
+# Fish enables enhanced keyboard reporting when it queries Ghostty. That can
+# leak CSI-u Ctrl-C bytes into foreground jobs like ping.
+env = fish_features=no-query-term
+
 # Keybindings. Preserve the existing Wezterm bindings.
-# Ghostty's ctrl+c only copies when a selection exists, otherwise it
-# passes through as SIGINT. Same behavior as the Wezterm setup.
-keybind = ctrl+c=copy_to_clipboard
+# Only consume Ctrl-C when there is a selection to copy.
+keybind = performable:ctrl+c=copy_to_clipboard
 keybind = ctrl+v=paste_from_clipboard
 keybind = shift+enter=text:\x1b[200~\n\x1b[201~

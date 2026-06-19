@@ -5,11 +5,9 @@ font-size = 14
 # Active theme via include. The theme script swings the symlink.
 config-file = themes/active.conf
 
-# Zellij compatibility. Left Option becomes Alt so zellij's alt-prefix
-# mappings work. Right Option keeps its OS behavior for special chars
-# like ', ~, |, etc. Unbind Ghostty's opt+left/right defaults that
-# otherwise send ESC+b and ESC+f for word motion.
-macos-option-as-alt = left
+# Zellij compatibility. Both Option keys become Alt so zellij's
+# alt-prefix mappings work from either side.
+macos-option-as-alt = true
 keybind = opt+left=unbind
 keybind = opt+right=unbind
 

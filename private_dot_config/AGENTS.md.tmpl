@@ -1,0 +1,47 @@
+# Development guidelines
+
+When producing prose, invoke the `humanizer` skill. Never use em dashes.
+
+## Always
+
+- Commit working code incrementally when the user has asked for commits.
+- Apply the `humanizer` skill to prose and documentation.
+- Write prose and Markdown to files as unwrapped lines: keep each paragraph on a single line and let the editor soft-wrap, rather than hard-wrapping at about 80 columns.
+- Update plan documentation as you go.
+- Learn from existing implementations and style.
+- Stop after 3 failed attempts and reassess.
+
+## Never
+
+- Use `--no-verify` to bypass commit hooks.
+- Disable tests instead of fixing them.
+- Commit code that does not compile.
+- Make assumptions when existing code can verify the behavior.
+
+## Writing style skills
+
+Invoke the matching skill when producing:
+
+- Personal website content, articles, or project writeups: `writing-style-website`.
+- GitHub README or repo docs: `writing-style-github`.
+- PR descriptions, code reviews, PR comments, or issue comments: `writing-style-github-collaboration`.
+- Code comments and doc-comments: `writing-style-code-comments`.
+- Cover letters: `writing-style-cover-letter`.
+- Resume bullets or summaries: `writing-style-resume`.
+
+## Available CLI tools
+
+Installed globally via mise and usable in `bash`:
+
+- Prefer `fd` over `find` for file and directory search.
+- Prefer `dust` over `du` for disk usage.
+- Use `hyperfine` for benchmarking commands.
+{{- if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
+
+## EnterpriseDB AIDB project
+
+- Never commit agent artifacts like `docs/plans` or `docs/superpowers`.
+- Before running `mise run regress`, recompile and install the extension into the pgrx database with `cargo pgrx run`.
+- Never run `mise run regress` in parallel because the process is single-threaded.
+- `mise run regress` can target multiple tests by passing multiple test names: `mise run regress __test_1__ __test_2__`.
+{{- end }}

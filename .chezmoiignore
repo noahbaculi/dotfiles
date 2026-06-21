@@ -22,6 +22,7 @@ Library/Application Support
 
 {{- if not .dev_env }}
 .claude
+.config/opencode
 {{- end }}
 
 # EnterpriseDB Work Laptop Hostname

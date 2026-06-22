@@ -140,33 +140,33 @@ File: `private_dot_config/zellij/config.kdl`. Started with `keybinds clear-defau
 
 #### Mode entries (shared in every mode except Locked)
 
-| Chord           | From                      | Action                                                |
-| --------------- | ------------------------- | ----------------------------------------------------- |
+| Chord           | From                      | Action                                                    |
+| --------------- | ------------------------- | --------------------------------------------------------- |
 | `Alt-g`         | any                       | toggle Locked mode (enter from outside, exit from inside) |
-| `Alt-p`         | non-pane                  | switch to Pane mode (toggle: `Alt-p` inside exits)    |
-| `Alt-r`         | non-resize                | switch to Resize mode (toggle)                        |
-| `Alt-u`         | non-scroll                | switch to Scroll mode (toggle)                        |
-| `Alt-s`         | non-session               | switch to Session mode (toggle); `q` inside Quits     |
-| `Alt-t`         | non-tab                   | switch to Tab mode (toggle)                           |
-| `Alt-m`         | non-move                  | switch to Move mode (toggle)                          |
-| `Enter` / `Esc` | any non-Normal non-Locked | back to Normal                                        |
+| `Alt-p`         | non-pane                  | switch to Pane mode (toggle: `Alt-p` inside exits)        |
+| `Alt-r`         | non-resize                | switch to Resize mode (toggle)                            |
+| `Alt-u`         | non-scroll                | switch to Scroll mode (toggle)                            |
+| `Alt-s`         | non-session               | switch to Session mode (toggle); `q` inside Quits         |
+| `Alt-t`         | non-tab                   | switch to Tab mode (toggle)                               |
+| `Alt-m`         | non-move                  | switch to Move mode (toggle)                              |
+| `Enter` / `Esc` | any non-Normal non-Locked | back to Normal                                            |
 
 #### Direct binds (shared in every mode except Locked, no mode switch)
 
-| Chord                 | Action               |
-| --------------------- | -------------------- |
-| `Alt-f`               | ToggleFloatingPanes  |
-| `Alt-n`               | NewPane              |
-| `Alt-i`               | MoveTab Left         |
-| `Alt-o`               | MoveTab Right        |
-| `Alt-h`               | MoveFocusOrTab Left  |
-| `Alt-l`               | MoveFocusOrTab Right |
-| `Alt-j`               | MoveFocus Down       |
-| `Alt-k`               | MoveFocus Up         |
-| `Alt-=` / `Alt-+`     | Resize Increase      |
-| `Alt--`               | Resize Decrease      |
-| `Alt-[`               | PreviousSwapLayout   |
-| `Alt-]`               | NextSwapLayout       |
+| Chord             | Action               |
+| ----------------- | -------------------- |
+| `Alt-f`           | ToggleFloatingPanes  |
+| `Alt-n`           | NewPane              |
+| `Alt-i`           | MoveTab Left         |
+| `Alt-o`           | MoveTab Right        |
+| `Alt-h`           | MoveFocusOrTab Left  |
+| `Alt-l`           | MoveFocusOrTab Right |
+| `Alt-j`           | MoveFocus Down       |
+| `Alt-k`           | MoveFocus Up         |
+| `Alt-=` / `Alt-+` | Resize Increase      |
+| `Alt--`           | Resize Decrease      |
+| `Alt-[`           | PreviousSwapLayout   |
+| `Alt-]`           | NextSwapLayout       |
 
 #### Pane mode
 
@@ -273,16 +273,16 @@ RenamePane: `Esc` undoes the rename and returns to Pane mode. `Ctrl-c` returns t
 
 #### Session mode
 
-| Chord    | Action                                                            |
-| -------- | ----------------------------------------------------------------- |
-| `d`      | Detach                                                            |
-| `q`      | Quit                                                              |
-| `w`      | launch `session-manager` plugin (floating), return to Normal      |
-| `c`      | launch `configuration` plugin, return to Normal                   |
-| `p`      | launch `plugin-manager`, return to Normal                         |
-| `l`      | launch `zellij:layout-manager` (floating), return to Normal       |
-| `s`      | launch `zellij:share`, return to Normal                           |
-| `Alt-s`  | back to Normal                                                    |
+| Chord   | Action                                                       |
+| ------- | ------------------------------------------------------------ |
+| `d`     | Detach                                                       |
+| `q`     | Quit                                                         |
+| `w`     | launch `session-manager` plugin (floating), return to Normal |
+| `c`     | launch `configuration` plugin, return to Normal              |
+| `p`     | launch `plugin-manager`, return to Normal                    |
+| `l`     | launch `zellij:layout-manager` (floating), return to Normal  |
+| `s`     | launch `zellij:share`, return to Normal                      |
+| `Alt-s` | back to Normal                                               |
 
 #### Locked mode
 

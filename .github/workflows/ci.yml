@@ -89,15 +89,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
-      - name: Install mdformat-gfm
-        run: pip install mdformat-gfm
-
-      - name: Mdformat check
+      - name: Prettier check
         shell: bash
         run: |
           set -euo pipefail
@@ -108,4 +100,4 @@ jobs:
           fi
           echo "Checking:"
           echo "$files"
-          mdformat --check --number --wrap keep --end-of-line lf $files
+          npx --yes prettier --check $files

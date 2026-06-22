@@ -211,3 +211,47 @@ To automount an SMB share, try [these instructions](https://www.reddit.com/r/Mac
 3. Install the [iSH app](https://ish.app/) and select the installed Nerd Font in the iSH in-app settings.
 4. In iSH, install SSH: `apk add openssh`
 5. In iSH, SSH to any host for development 🥳
+
+## Development
+
+CI checks markdown formatting with [prettier](https://prettier.io) and Lua formatting with [stylua](https://github.com/JohnnyMorganz/StyLua).
+
+A pre-commit hook enforces the same checks locally. The hook is not tracked by git (it lives in `.git/hooks/`), so install it manually after cloning:
+
+```bash
+cat > .git/hooks/pre-commit << 'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+staged_md=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md$' || true)
+staged_lua=$(git diff --cached --name-only --diff-filter=ACM | grep '\.lua$' || true)
+
+fail=0
+
+if [ -n "$staged_md" ]; then
+  echo "==> prettier --check on staged .md files"
+  if ! npx --yes prettier --check $staged_md; then
+    echo ""
+    echo "ERROR: Markdown formatting issues found. Run:"
+    echo "  npx prettier --write $staged_md"
+    fail=1
+  fi
+fi
+
+if [ -n "$staged_lua" ]; then
+  echo "==> stylua --check on staged .lua files"
+  stylua_bin="$(mise which stylua 2>/dev/null || echo stylua)"
+  if ! "$stylua_bin" --check $staged_lua; then
+    echo ""
+    echo "ERROR: Lua formatting issues found. Run:"
+    echo "  stylua $staged_lua"
+    fail=1
+  fi
+fi
+
+exit $fail
+EOF
+chmod +x .git/hooks/pre-commit
+```
+
+Fix formatting violations with `npx prettier --write <file>` or `stylua <file>`.

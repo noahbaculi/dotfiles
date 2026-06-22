@@ -29,4 +29,3 @@ env = fish_features=no-query-term
 # Only consume Ctrl-C when there is a selection to copy.
 keybind = performable:ctrl+c=copy_to_clipboard
 keybind = ctrl+v=paste_from_clipboard
-keybind = shift+enter=text:\x1b[200~\n\x1b[201~

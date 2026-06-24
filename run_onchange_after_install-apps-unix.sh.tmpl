@@ -18,7 +18,7 @@ find ~/.local/share/mise/installs/neovim/ -type f -path "*/colors/*" ! -name "*R
 {{- if eq .chezmoi.os "linux" }}
 
 echo "Installing packages for Linux..."
-sudo apt install git
+sudo apt install git mosh
 
 # Symlink mise's neovim shim to /usr/local/bin so sudoedit can find nvim
 # Using the shim (not the versioned path) ensures this works across mise updates
@@ -32,6 +32,7 @@ echo "Installing packages for MacOS..."
 
 brew install gnu-sed
 brew install wget
+brew install mosh
 brew install --cask google-chrome
 brew install --cask firefox
 brew install --cask ghostty

@@ -6,6 +6,14 @@ abbr gg 'lazygit'
 
 # Functions
 
+## Wrap mosh so dormant mosh-server processes self-reap after 6 hours.
+## Server-side env vars don't work: ssh runs `mosh-server` as a non-interactive
+## non-login shell, which skips /etc/profile and ~/.bashrc. The client's
+## --server flag is the only reliable place to inject the timeout.
+function mosh
+	command mosh --server="env MOSH_SERVER_NETWORK_TMOUT=21600 mosh-server" $argv
+end
+
 ## File browse with yazi. Press y to start browsing, press q to quit and change the CWD, press Q to quit without changing the CWD.
 function y
 	set tmp (mktemp -t "yazi-cwd.XXXXXX")

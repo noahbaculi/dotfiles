@@ -1,0 +1,69 @@
+#!/bin/sh
+# Wire global agentic-coding skills into the two discovery paths.
+#
+# 1. Flatten mattpocock skills: each engineering / productivity / misc skill
+#    under ~/.agents/skill-sources/mattpocock/skills/<category>/<name> gets a
+#    symlink at ~/.agents/skills/<name>. personal, deprecated, and
+#    in-progress are intentionally skipped.
+#
+# 2. Mirror ~/.agents/skills/ to ~/.claude/skills/: every entry there gets a
+#    symlink at ~/.claude/skills/<name>. Stale symlinks (target gone) are
+#    pruned. Non-symlink entries in ~/.claude/skills/ (e.g., claude-homelab
+#    symlinks, manual installs) are never touched.
+#
+# This script runs on every apply (no run_onchange caching) because
+# .chezmoiremove deletes the symlinks below on each apply. Without the
+# rerun, the symlinks would stay gone after the second apply. Cost is a
+# handful of stat and ln calls. The rerun also picks up upstream
+# mattpocock skill additions and removals, and cleans up any machine
+# still in the pre-migration state the next time apply runs there.
+
+set -u
+
+AGENTS_SKILLS="$HOME/.agents/skills"
+CLAUDE_SKILLS="$HOME/.claude/skills"
+MATTPOCOCK="$HOME/.agents/skill-sources/mattpocock/skills"
+
+mkdir -p "$AGENTS_SKILLS" "$CLAUDE_SKILLS"
+
+# 1. Flatten mattpocock skills.
+if [ -d "$MATTPOCOCK" ]; then
+    for category in engineering productivity misc; do
+        [ -d "$MATTPOCOCK/$category" ] || continue
+        for src in "$MATTPOCOCK/$category"/*/; do
+            [ -d "$src" ] || continue
+            name=$(basename "$src")
+            target="$AGENTS_SKILLS/$name"
+            if [ -L "$target" ]; then
+                ln -sfn "$src" "$target"
+            elif [ -e "$target" ]; then
+                echo "skills sync: skipping $target (exists, not a symlink)" >&2
+            else
+                ln -s "$src" "$target"
+            fi
+        done
+    done
+else
+    echo "skills sync: $MATTPOCOCK not present, skipping mattpocock flatten" >&2
+fi
+
+# 2. Mirror ~/.agents/skills/ to ~/.claude/skills/.
+for src in "$AGENTS_SKILLS"/*; do
+    [ -e "$src" ] || continue
+    name=$(basename "$src")
+    target="$CLAUDE_SKILLS/$name"
+    if [ -L "$target" ]; then
+        ln -sfn "$src" "$target"
+    elif [ -e "$target" ]; then
+        echo "skills sync: skipping $target (exists, not a symlink)" >&2
+    else
+        ln -s "$src" "$target"
+    fi
+done
+
+# Prune broken symlinks in ~/.claude/skills/.
+for entry in "$CLAUDE_SKILLS"/*; do
+    [ -L "$entry" ] || continue
+    [ -e "$entry" ] && continue
+    rm "$entry"
+done

@@ -29,3 +29,9 @@ Library/Application Support
 {{- if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
 .claude/settings.json
 {{- end }}
+
+# Work-only opencode plugin and its tests
+{{- if ne .chezmoi.hostname "MAC-LDLJ464QYT" }}
+.config/opencode/plugins/workflow-guards.ts
+.config/opencode/plugin-tests/workflow-guards.test.ts
+{{- end }}

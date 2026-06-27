@@ -29,3 +29,8 @@
     type = "git-repo"
     url = "https://github.com/mattpocock/skills.git"
     refreshPeriod = "168h"
+
+[".agents/skill-sources/superpowers"]
+    type = "git-repo"
+    url = "https://github.com/obra/superpowers.git"
+    refreshPeriod = "168h"

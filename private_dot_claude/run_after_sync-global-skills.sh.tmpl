@@ -6,23 +6,28 @@
 #    symlink at ~/.agents/skills/<name>. personal, deprecated, and
 #    in-progress are intentionally skipped.
 #
+# 1b. Flatten superpowers skills: each top-level skill under
+#     ~/.agents/skill-sources/superpowers/skills/<name> gets a symlink at
+#     ~/.agents/skills/<name>. Layout is already flat, so no category loop.
+#
 # 2. Mirror ~/.agents/skills/ to ~/.claude/skills/: every entry there gets a
 #    symlink at ~/.claude/skills/<name>. Stale symlinks (target gone) are
 #    pruned. Non-symlink entries in ~/.claude/skills/ (e.g., claude-homelab
 #    symlinks, manual installs) are never touched.
 #
-# This script runs on every apply (no run_onchange caching) because
-# .chezmoiremove deletes the symlinks below on each apply. Without the
-# rerun, the symlinks would stay gone after the second apply. Cost is a
-# handful of stat and ln calls. The rerun also picks up upstream
-# mattpocock skill additions and removals, and cleans up any machine
-# still in the pre-migration state the next time apply runs there.
+# This script runs on every apply (no run_onchange caching) so it picks up
+# upstream skill additions and removals from both source repos on the next
+# apply. `.chezmoiremove.tmpl` only deletes a fixed legacy set from the
+# pre-migration layout; ongoing churn in `$AGENTS_SKILLS` is handled by the
+# prune step at the bottom of this script, not by `.chezmoiremove`. Cost is
+# a handful of stat and ln calls per apply.
 
 set -u
 
 AGENTS_SKILLS="$HOME/.agents/skills"
 CLAUDE_SKILLS="$HOME/.claude/skills"
 MATTPOCOCK="$HOME/.agents/skill-sources/mattpocock/skills"
+SUPERPOWERS="$HOME/.agents/skill-sources/superpowers/skills"
 
 mkdir -p "$AGENTS_SKILLS" "$CLAUDE_SKILLS"
 
@@ -35,7 +40,14 @@ if [ -d "$MATTPOCOCK" ]; then
             name=$(basename "$src")
             target="$AGENTS_SKILLS/$name"
             if [ -L "$target" ]; then
-                ln -sfn "$src" "$target"
+                # Refresh only if already pointing inside mattpocock; a link
+                # into another source (e.g. superpowers) is a name collision
+                # and first-source-wins, so skip with a warning.
+                current=$(readlink "$target")
+                case "$current" in
+                    "$MATTPOCOCK"/*) ln -sfn "$src" "$target" ;;
+                    *) echo "skills sync: $name already linked to $current, skipping mattpocock" >&2 ;;
+                esac
             elif [ -e "$target" ]; then
                 echo "skills sync: skipping $target (exists, not a symlink)" >&2
             else
@@ -46,6 +58,39 @@ if [ -d "$MATTPOCOCK" ]; then
 else
     echo "skills sync: $MATTPOCOCK not present, skipping mattpocock flatten" >&2
 fi
+
+# 1b. Flatten superpowers skills (skills/<name> is already flat).
+if [ -d "$SUPERPOWERS" ]; then
+    for src in "$SUPERPOWERS"/*/; do
+        [ -d "$src" ] || continue
+        name=$(basename "$src")
+        target="$AGENTS_SKILLS/$name"
+        if [ -L "$target" ]; then
+            # Refresh only if already pointing inside superpowers; otherwise
+            # mattpocock (step 1) got there first and wins.
+            current=$(readlink "$target")
+            case "$current" in
+                "$SUPERPOWERS"/*) ln -sfn "$src" "$target" ;;
+                *) echo "skills sync: $name already linked to $current, skipping superpowers" >&2 ;;
+            esac
+        elif [ -e "$target" ]; then
+            echo "skills sync: skipping $target (exists, not a symlink)" >&2
+        else
+            ln -s "$src" "$target"
+        fi
+    done
+else
+    echo "skills sync: $SUPERPOWERS not present, skipping superpowers flatten" >&2
+fi
+
+# Prune broken symlinks in ~/.agents/skills/ so upstream skill removals
+# don't leave dangling targets. Done before the ~/.claude/skills/ mirror
+# below so its own prune step inherits a clean source.
+for entry in "$AGENTS_SKILLS"/*; do
+    [ -L "$entry" ] || continue
+    [ -e "$entry" ] && continue
+    rm "$entry"
+done
 
 # 2. Mirror ~/.agents/skills/ to ~/.claude/skills/.
 for src in "$AGENTS_SKILLS"/*; do

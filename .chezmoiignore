@@ -1,5 +1,7 @@
 README.md
 docs
+mise.toml
+.githooks
 .config/theme-switcher/current-theme
 
 {{- if (and (ne .chezmoi.os "linux") (ne .chezmoi.os "darwin") ) }}

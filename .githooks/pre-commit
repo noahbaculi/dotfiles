@@ -1,0 +1,41 @@
+#!/bin/sh
+# Pre-commit guard: run the same prettier and stylua checks as the
+# markdown-format and lua-format jobs in .github/workflows/ci.yml, so those
+# failures surface here instead of after a push. mise.toml's `[hooks] enter`
+# auto-activates this hook on the first `cd` into the worktree; `mise run setup`
+# is the manual fallback.
+#
+# The checks read the working tree, not a staged-only snapshot, because that
+# matches CI exactly. Building a staged-only view means stashing unstaged
+# changes, which is risky for little gain when commits stage everything they
+# touch. Bypass in a pinch with `git commit --no-verify`; agents must not.
+set -eu
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Each check runs only when a staged file could change its result, so unrelated
+# commits stay fast.
+md_changed=$(printf '%s\n' "$staged" | grep -Eq '\.md$' && echo 1 || true)
+lua_changed=$(printf '%s\n' "$staged" | grep -Eq '\.lua$' && echo 1 || true)
+
+if [ -n "$md_changed" ]; then
+  # Mirror the find expression in ci.yml's markdown-format job.
+  md_files=$(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')
+  if [ -n "$md_files" ]; then
+    if ! npx --yes prettier --check $md_files; then
+      echo "pre-commit: 'prettier --check' failed. Run 'npx prettier --write <files>', then re-stage and commit." >&2
+      exit 1
+    fi
+  fi
+fi
+
+if [ -n "$lua_changed" ]; then
+  # Mirror the explicit path list in ci.yml's lua-format job.
+  if ! stylua --check \
+    private_dot_config/exact_nvim/init.lua \
+    private_dot_config/exact_nvim/exact_lua \
+    private_dot_config/theme-switcher/themes.lua; then
+    echo "pre-commit: 'stylua --check' failed. Run 'stylua <files>', then re-stage and commit." >&2
+    exit 1
+  fi
+fi

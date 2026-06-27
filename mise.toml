@@ -1,0 +1,36 @@
+# Repo-local tool pins and dev tasks for the chezmoi dotfiles source.
+# These are scoped to this directory so they don't fight with the global
+# ~/.config/mise/config.toml that this same repo manages for the destination.
+# `.chezmoiignore` excludes this file (and .githooks/) from chezmoi apply.
+
+[tools]
+# Pin the runtimes CI uses for the format checks, so the pre-commit hook and
+# CI agree on the version. Node ships npx, which prettier rides on.
+node = "22"
+stylua = "latest"
+
+[tasks.setup]
+description = "Point this clone's git at the committed hooks in .githooks"
+run = "git config core.hooksPath .githooks"
+
+[tasks.lint]
+description = "Run the same checks the pre-commit hook and CI enforce"
+run = [
+  "npx --yes prettier --check $(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')",
+  "stylua --check private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua",
+]
+
+[tasks.fmt]
+description = "Auto-fix what `mise run lint` checks"
+run = [
+  "npx --yes prettier --write $(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')",
+  "stylua private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua",
+]
+
+[hooks]
+# Point this clone's git at .githooks the first time mise's shell integration
+# fires the enter hook here, so the committed pre-commit script runs without
+# anyone remembering `mise run setup`. The guard short-circuits when the value
+# is already correct, so re-entering the directory does not churn .git/config.
+# Each worktree has its own .git/config, so this fires per worktree.
+enter = "[ \"$(git config core.hooksPath)\" = .githooks ] || git config core.hooksPath .githooks"

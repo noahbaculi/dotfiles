@@ -216,42 +216,21 @@ To automount an SMB share, try [these instructions](https://www.reddit.com/r/Mac
 
 CI checks markdown formatting with [prettier](https://prettier.io) and Lua formatting with [stylua](https://github.com/JohnnyMorganz/StyLua).
 
-A pre-commit hook enforces the same checks locally. The hook is not tracked by git (it lives in `.git/hooks/`), so install it manually after cloning:
+A committed pre-commit hook at `.githooks/pre-commit` enforces the same checks locally. Activation is automatic on the first `cd` into the worktree if [mise](https://mise.jdx.dev) is installed and its shell integration is loaded — `mise.toml`'s `[hooks].enter` points `core.hooksPath` at `.githooks`. Each worktree has its own `.git/config`, so this fires per worktree.
+
+Manual activation (or for environments without mise's shell integration):
 
 ```bash
-cat > .git/hooks/pre-commit << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-
-staged_md=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md$' || true)
-staged_lua=$(git diff --cached --name-only --diff-filter=ACM | grep '\.lua$' || true)
-
-fail=0
-
-if [ -n "$staged_md" ]; then
-  echo "==> prettier --check on staged .md files"
-  if ! npx --yes prettier --check $staged_md; then
-    echo ""
-    echo "ERROR: Markdown formatting issues found. Run:"
-    echo "  npx prettier --write $staged_md"
-    fail=1
-  fi
-fi
-
-if [ -n "$staged_lua" ]; then
-  echo "==> stylua --check on staged .lua files"
-  stylua_bin="$(mise which stylua 2>/dev/null || echo stylua)"
-  if ! "$stylua_bin" --check $staged_lua; then
-    echo ""
-    echo "ERROR: Lua formatting issues found. Run:"
-    echo "  stylua $staged_lua"
-    fail=1
-  fi
-fi
-
-exit $fail
-EOF
-chmod +x .git/hooks/pre-commit
+mise run setup
+# or, without mise:
+git config core.hooksPath .githooks
 ```
 
-Fix formatting violations with `npx prettier --write <file>` or `stylua <file>`.
+Other useful tasks:
+
+```bash
+mise run lint   # same checks the hook and CI run
+mise run fmt    # auto-fix what `mise run lint` would flag
+```
+
+Fix individual violations with `npx prettier --write <file>` or `stylua <file>`.

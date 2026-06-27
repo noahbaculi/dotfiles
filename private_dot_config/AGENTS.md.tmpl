@@ -10,6 +10,7 @@ When producing prose, invoke the `humanizer` skill. Never use em dashes.
 - Update plan documentation as you go.
 - Learn from existing implementations and style.
 - Stop after 3 failed attempts and reassess.
+- Chunk large file writes. If a `write` tool call's `content` would exceed about 400 lines or 20 KB, split it: emit the first chunk (≤200 lines / ~10 KB) with `write`, then append the remainder with `bash` using `cat >> path << 'EOF' ... EOF`. OpenCode's tool-call streaming over `@ai-sdk/anthropic` via GitHub Copilot truncates large writes at the 32 000 output-token cap, leaving an orphaned tool call (upstream issue anomalyco/opencode#33687). The model sees `"Tool execution aborted"` with no recoverable state.
 
 ## Never
 

@@ -295,14 +295,14 @@ Leader: `<Space>`. Plugin manager: lazy.nvim. Completion: blink.cmp.
 #### 2.5.1 Global keymaps (from `keymaps.lua`)
 
 | Mode(s) | Chord               | Action                                                      |
-| ------- | ------------------- | ----------------------------------------------------------- | ------ |
+| ------- | ------------------- | ----------------------------------------------------------- |
 | n, v    | `<Space>`           | Nop (reserves leader)                                       |
 | n       | `j` / `k`           | count-aware `gj` / `gk` for wrapped lines                   |
 | v       | `J` / `K`           | move selected line(s) down / up and re-select               |
 | v       | `<Tab>` / `<S-Tab>` | indent / unindent and re-select                             |
 | n       | `<C-d>` / `<C-u>`   | scroll half page and centre cursor (`zz`)                   |
 | n       | `n` / `N`           | next / prev search and centre cursor (`zzzv`)               |
-| n       | `                   | `                                                           | vsplit |
+| n       | `\|`                | vsplit                                                      |
 | n       | `\`                 | hsplit                                                      |
 | n       | `<leader>q`         | `confirm q`                                                 |
 | n       | `<leader>Q`         | `confirm qall`                                              |

@@ -3,6 +3,7 @@ maki.setup({
         splash_animation = false,
         typewriter_ms_per_char = 0,
         mouse_scroll_lines = 5,
+        flash_duration_ms = 3000,
         tool_output_lines = {
             bash = 1,
             code_execution = 1,
@@ -14,5 +15,8 @@ maki.setup({
             web = 1,
             other = 1,
         },
+    },
+    agent = {
+        compaction_buffer = 10000,
     },
 })

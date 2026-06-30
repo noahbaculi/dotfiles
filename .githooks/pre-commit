@@ -20,7 +20,7 @@ lua_changed=$(printf '%s\n' "$staged" | grep -Eq '\.lua$' && echo 1 || true)
 
 if [ -n "$md_changed" ]; then
   # Mirror the find expression in ci.yml's markdown-format job.
-  md_files=$(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')
+  md_files=$(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*' -not -path './.superpowers/*')
   if [ -n "$md_files" ]; then
     if ! npx --yes prettier --check $md_files; then
       echo "pre-commit: 'prettier --check' failed. Run 'npx prettier --write <files>', then re-stage and commit." >&2

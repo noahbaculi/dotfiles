@@ -16,14 +16,14 @@ run = "git config core.hooksPath .githooks"
 [tasks.lint]
 description = "Run the same checks the pre-commit hook and CI enforce"
 run = [
-  "npx --yes prettier --check $(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')",
+  "npx --yes prettier --check $(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*' -not -path './.superpowers/*')",
   "stylua --check private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua",
 ]
 
 [tasks.fmt]
 description = "Auto-fix what `mise run lint` checks"
 run = [
-  "npx --yes prettier --write $(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*')",
+  "npx --yes prettier --write $(find . -type f -name '*.md' -not -path './.git/*' -not -path './docs/superpowers/*' -not -path './.superpowers/*')",
   "stylua private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua",
 ]
 

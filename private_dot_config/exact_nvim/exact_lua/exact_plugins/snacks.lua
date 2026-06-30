@@ -187,15 +187,7 @@ return {
         sections = {
           { section = "header" },
           { section = "keys", gap = 1, padding = 1 },
-          {
-            align = "center",
-            padding = 1,
-            text = function()
-              local stats = require("lazy").stats()
-              local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
-              return { { "⚡ " .. ms .. "ms", hl = "footer" } }
-            end,
-          },
+          { section = "startup" },
         },
       },
     }

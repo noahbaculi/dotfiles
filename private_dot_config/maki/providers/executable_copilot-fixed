@@ -111,6 +111,39 @@ JSON
     exec "$0" resolve
     ;;
 
+  dump)
+    # Print a JSON array shaped like the `models` subcommand above, populated
+    # from a live CAPI call. Use this to refresh the hardcoded list when GitHub
+    # retunes limits or adds models. Tier is left null because CAPI does not
+    # carry that concept; fix it up by hand after pasting.
+    #
+    #   ./copilot-fixed dump > /tmp/models.json
+    #   diff <(./copilot-fixed models | jq -S .) <(jq -S 'map(del(.tier))' /tmp/models.json)
+    #
+    # Requires: jq, curl. Sends the same headers the VS Code extension uses;
+    # `gh api` injects an X-Github-Api-Version header that CAPI rejects with
+    # HTTP 400, so we shell out to curl directly.
+    command -v jq >/dev/null || { echo "copilot-fixed: dump needs jq" >&2; exit 1; }
+    command -v curl >/dev/null || { echo "copilot-fixed: dump needs curl" >&2; exit 1; }
+    token=$(read_token)
+    curl -fsS https://api.githubcopilot.com/models \
+      -H "Authorization: Bearer ${token}" \
+      -H "Editor-Version: vscode/1.0" \
+      -H "Copilot-Integration-Id: vscode-chat" \
+    | jq '[
+        .data[]
+        | select(.capabilities.type == "chat")
+        | select(.model_picker_enabled != false)
+        | {
+            id,
+            tier: null,
+            context_window:    .capabilities.limits.max_context_window_tokens,
+            max_output_tokens: .capabilities.limits.max_output_tokens,
+            max_prompt_tokens: .capabilities.limits.max_prompt_tokens
+          }
+      ]'
+    ;;
+
   login)
     cat >&2 <<'EOF'
 copilot-fixed: this provider piggybacks on the gh CLI's token at
@@ -130,7 +163,7 @@ EOF
 
   *)
     echo "copilot-fixed: unknown subcommand '${1:-}'" >&2
-    echo "usage: $0 {info|models|resolve|refresh|login|logout}" >&2
+    echo "usage: $0 {info|models|resolve|refresh|dump|login|logout}" >&2
     exit 1
     ;;
 esac

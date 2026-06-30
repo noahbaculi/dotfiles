@@ -25,6 +25,7 @@ Library/Application Support
 {{- if not .dev_env }}
 .claude
 .config/opencode
+.config/maki/providers
 {{- end }}
 
 # EnterpriseDB Work Laptop Hostname

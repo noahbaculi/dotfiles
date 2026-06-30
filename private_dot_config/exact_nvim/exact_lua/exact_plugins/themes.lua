@@ -15,14 +15,11 @@ return {
     opts = {
       plugins = {
         "gitsigns",
-        "illuminate",
-        "indent-blankline",
         "noice",
         "nvim-tree",
         "nvim-web-devicons",
         "trouble",
         "which-key",
-        "nvim-notify",
       },
     },
   },

@@ -71,8 +71,8 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "FileType" }, {
     vim.opt_local.wrap = false
 
     pcall(vim.treesitter.stop, args.buf)
-    pcall(function() require("illuminate.engine").stop_buf(args.buf) end)
-    pcall(function() require("ibl").setup_buffer(args.buf, { enabled = false }) end)
+    -- snacks.words keys off LSP references and needs no per-buffer stop here.
+    vim.b[args.buf].snacks_indent = false -- disable snacks.indent guides in lite mode
   end,
 })
 

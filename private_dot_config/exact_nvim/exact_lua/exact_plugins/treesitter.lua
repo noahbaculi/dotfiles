@@ -5,14 +5,8 @@ return {
     lazy = false, -- main branch does not support lazy-loading
     build = ":TSUpdate",
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-    opts = {
-      highlight = { enable = true },
-      indent = { enable = true },
-    },
-    config = function(_, opts)
-      require("nvim-treesitter").setup(opts)
-
-      require("nvim-treesitter").install({
+    config = function()
+      local parsers = {
         "bash",
         "diff",
         "json",
@@ -28,6 +22,20 @@ return {
         "html",
         "javascript",
         "typescript",
+      }
+
+      require("nvim-treesitter").install(parsers)
+
+      -- The main branch ignores setup({highlight, indent}), so wire features per buffer.
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("treesitter_features", { clear = true }),
+        pattern = parsers,
+        callback = function()
+          pcall(vim.treesitter.start)
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          vim.wo.foldmethod = "expr"
+        end,
       })
     end,
   },

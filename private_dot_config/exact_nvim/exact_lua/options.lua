@@ -10,9 +10,9 @@ vim.opt.cursorline = true -- highlight the text line of the cursor
 vim.opt.expandtab = true -- enable the use of space in tab
 vim.opt.fileencoding = "utf-8" -- file content encoding for the buffer
 vim.opt.fillchars = { eob = " " } -- disable `~` on nonexistent lines
-vim.opt.foldcolumn = vim.fn.has("nvim-0.9") == 1 and "1" or nil -- show foldcolumn in nvim 0.9
-vim.opt.foldenable = true -- enable fold for nvim-ufo
-vim.opt.foldlevel = 99 -- set high foldlevel for nvim-ufo
+vim.opt.foldcolumn = "1" -- show foldcolumn
+vim.opt.foldenable = true -- enable treesitter folding
+vim.opt.foldlevel = 99 -- set high foldlevel so files open unfolded
 vim.opt.foldlevelstart = 99 -- start with all code unfolded
 vim.opt.history = 100 -- number of commands to remember in a history table
 vim.opt.ignorecase = true -- case insensitive searching

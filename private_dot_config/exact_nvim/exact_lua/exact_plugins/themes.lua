@@ -18,7 +18,6 @@ return {
         "illuminate",
         "indent-blankline",
         "noice",
-        "nvim-cmp",
         "nvim-tree",
         "nvim-web-devicons",
         "trouble",

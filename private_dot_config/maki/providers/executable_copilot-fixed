@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# Maki dynamic provider that wraps the built-in Copilot base with accurate
+# per-model context_window / max_output_tokens from the Copilot /models API.
+#
+# Why: the built-in Copilot provider hardcodes context_window=200_000 and
+# max_output_tokens=100_000 (maki-providers fallbacks). For claude-opus-4.7
+# these collapse the compaction trigger to ~100K. The Copilot API actually
+# advertises max_context_window_tokens=264_000 / max_prompt_tokens=200_000 /
+# max_output_tokens=64_000 for that model on a Pro+/Business plan. With
+# correct values, compaction triggers near ~200K instead.
+#
+# Auth: reads the same gh CLI yml that Maki's built-in load_token() already
+# uses as a fallback, so behavior matches what Maki was doing before. No
+# token exchange; the on-disk oauth_token is sent verbatim as the bearer
+# (this is also what the built-in does).
+#
+# Subcommand contract: https://maki.sh/docs/providers/#dynamic-providers
+
+set -euo pipefail
+
+HOSTS_YML="${GH_CONFIG_DIR:-$HOME/.config/gh}/hosts.yml"
+
+read_token() {
+  if [[ -n "${GH_COPILOT_TOKEN:-}" ]]; then
+    printf '%s' "$GH_COPILOT_TOKEN"
+    return 0
+  fi
+  if [[ -n "${COPILOT_GITHUB_TOKEN:-}" ]]; then
+    printf '%s' "$COPILOT_GITHUB_TOKEN"
+    return 0
+  fi
+  if [[ ! -r "$HOSTS_YML" ]]; then
+    echo "copilot-fixed: cannot read $HOSTS_YML" >&2
+    return 1
+  fi
+  # Pull the top-level oauth_token under github.com. The yml is shallow enough
+  # to parse with awk; avoids a hard dep on yq.
+  local token
+  token=$(awk '
+    /^github\.com:/ { in_host = 1; next }
+    in_host && /^[a-zA-Z]/ { in_host = 0 }
+    in_host && /^[[:space:]]+oauth_token:/ {
+      sub(/^[[:space:]]+oauth_token:[[:space:]]*/, "")
+      print
+      exit
+    }
+  ' "$HOSTS_YML")
+  if [[ -z "$token" ]]; then
+    echo "copilot-fixed: no oauth_token for github.com in $HOSTS_YML" >&2
+    return 1
+  fi
+  printf '%s' "$token"
+}
+
+case "${1:-}" in
+  info)
+    cat <<'JSON'
+{
+  "display_name": "Copilot (fixed limits)",
+  "base": "copilot",
+  "has_auth": true
+}
+JSON
+    ;;
+
+  models)
+    # Values pulled from `GET https://api.githubcopilot.com/models` on this
+    # account (Pro+/Business). Fields:
+    #   id              prefix-matched against the model id Maki resolves
+    #   tier            slot in /model picker
+    #   context_window  Copilot max_context_window_tokens
+    #   max_output_tokens  Copilot max_output_tokens
+    # Maki's compaction trigger fires when used >= context_window - max(compaction_buffer, max_output_tokens).
+    # With max_output_tokens at the real (smaller) values here, the configured
+    # compaction_buffer in init.lua becomes effective again.
+    cat <<'JSON'
+[
+  {"id": "claude-opus-4.7",    "tier": "strong", "context_window": 264000, "max_output_tokens": 64000},
+  {"id": "claude-opus-4.6",    "tier": "strong", "context_window": 264000, "max_output_tokens": 64000},
+  {"id": "claude-sonnet-4.6",  "tier": "medium", "context_window": 264000, "max_output_tokens": 64000},
+  {"id": "claude-sonnet-4.5",  "tier": "medium", "context_window": 200000, "max_output_tokens": 32000},
+  {"id": "claude-opus-4.5",    "tier": "strong", "context_window": 200000, "max_output_tokens": 32000},
+  {"id": "claude-haiku-4.5",   "tier": "weak",   "context_window": 200000, "max_output_tokens": 64000},
+  {"id": "gpt-5.5",            "tier": "strong", "context_window": 400000, "max_output_tokens": 128000},
+  {"id": "gpt-5.4",            "tier": "strong", "context_window": 400000, "max_output_tokens": 128000},
+  {"id": "gpt-5.3-codex",      "tier": "strong", "context_window": 400000, "max_output_tokens": 128000},
+  {"id": "gpt-5-mini",         "tier": "weak",   "context_window": 264000, "max_output_tokens": 64000},
+  {"id": "gemini-3.1-pro-preview", "tier": "strong", "context_window": 264000, "max_output_tokens": 64000},
+  {"id": "gemini-2.5-pro",     "tier": "medium", "context_window": 128000, "max_output_tokens": 64000}
+]
+JSON
+    ;;
+
+  resolve)
+    token=$(read_token)
+    # The built-in Copilot base passes our token through verbatim and skips
+    # GraphQL endpoint discovery when resolved_auth is set, so we hardcode
+    # the default endpoint here. This matches what Maki falls back to.
+    cat <<JSON
+{
+  "base_url": "https://api.githubcopilot.com",
+  "headers": {
+    "authorization": "Bearer ${token}"
+  }
+}
+JSON
+    ;;
+
+  refresh)
+    # No exchange happens; "refresh" just re-reads the token from disk.
+    exec "$0" resolve
+    ;;
+
+  login)
+    cat >&2 <<'EOF'
+copilot-fixed: this provider piggybacks on the gh CLI's token at
+~/.config/gh/hosts.yml. Run `gh auth login` (with Copilot scope on the
+account) to populate it.
+EOF
+    exit 1
+    ;;
+
+  logout)
+    cat >&2 <<'EOF'
+copilot-fixed: nothing to log out of - this provider only reads ~/.config/gh/hosts.yml.
+Run `gh auth logout` if you want to clear that token.
+EOF
+    exit 0
+    ;;
+
+  *)
+    echo "copilot-fixed: unknown subcommand '${1:-}'" >&2
+    echo "usage: $0 {info|models|resolve|refresh|login|logout}" >&2
+    exit 1
+    ;;
+esac

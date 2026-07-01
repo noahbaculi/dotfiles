@@ -29,3 +29,10 @@ env = fish_features=no-query-term
 # Only consume Ctrl-C when there is a selection to copy.
 keybind = performable:ctrl+c=copy_to_clipboard
 keybind = ctrl+v=paste_from_clipboard
+
+# Shift+Enter sends a raw newline for AI CLIs (Maki, Claude Code) that
+# don't parse Ghostty's default Kitty-protocol CSI 13;2u. Opencode learned
+# to parse \n as a newline separately from \r as submit (opencode PR #3233),
+# so this no longer breaks it. Avoid bracketed-paste wrappers here —
+# they made Opencode's TUI paste system clipboard contents alongside \n.
+keybind = shift+enter=text:\n

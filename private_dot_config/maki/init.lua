@@ -1,4 +1,5 @@
 maki.setup({
+    always_yolo = true,
     ui = {
         splash_animation = false,
         typewriter_ms_per_char = 0,

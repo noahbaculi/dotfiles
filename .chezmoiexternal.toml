@@ -25,6 +25,13 @@
     include = ["*/deep-research/**"]
     refreshPeriod = "168h"
 
+[".agents/skills/fact-checker"]
+    type = "archive"
+    url = "https://github.com/daymade/claude-code-skills/archive/refs/heads/main.tar.gz"
+    stripComponents = 2
+    include = ["*/fact-checker/**"]
+    refreshPeriod = "168h"
+
 [".agents/skill-sources/mattpocock"]
     type = "git-repo"
     url = "https://github.com/mattpocock/skills.git"

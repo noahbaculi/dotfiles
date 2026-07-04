@@ -1,0 +1,11 @@
+{
+  "$schema": "https://charm.land/crush.json",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^bash$",
+        "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/rtk-rewrite.sh"
+      }
+    ]
+  }
+}

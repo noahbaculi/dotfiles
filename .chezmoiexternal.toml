@@ -32,6 +32,13 @@
     include = ["*/fact-checker/**"]
     refreshPeriod = "168h"
 
+[".agents/skills/frontend-design"]
+    type = "archive"
+    url = "https://github.com/anthropics/skills/archive/refs/heads/main.tar.gz"
+    stripComponents = 3
+    include = ["*/skills/frontend-design/**"]
+    refreshPeriod = "168h"
+
 [".agents/skill-sources/mattpocock"]
     type = "git-repo"
     url = "https://github.com/mattpocock/skills.git"

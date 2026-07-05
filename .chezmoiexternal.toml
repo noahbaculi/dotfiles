@@ -48,3 +48,8 @@
     type = "git-repo"
     url = "https://github.com/obra/superpowers.git"
     refreshPeriod = "168h"
+
+[".agents/skill-sources/trailofbits"]
+    type = "git-repo"
+    url = "https://github.com/trailofbits/skills.git"
+    refreshPeriod = "168h"

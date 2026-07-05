@@ -10,6 +10,31 @@
 #     ~/.agents/skill-sources/superpowers/skills/<name> gets a symlink at
 #     ~/.agents/skills/<name>. Layout is already flat, so no category loop.
 #
+# 1c. Import a curated Rust-focused allowlist from trailofbits/skills.
+#     Upstream ships ~40 plugins (smart contracts, static analysis, workflow
+#     tooling), so this is an explicit allowlist (rust-review,
+#     property-based-testing) rather than a directory walk. Each plugin under
+#     ~/.agents/skill-sources/trailofbits/plugins/<name>/ ships a nested
+#     skills/<name>/SKILL.md plus sibling agents/, prompts/, scripts/ that
+#     the skill resolves at runtime via ${CLAUDE_PLUGIN_ROOT}. Symlinking the
+#     whole plugin folder (not the inner skill folder) keeps those siblings
+#     reachable; Crush's recursive scanner still finds the nested SKILL.md,
+#     and skill identity comes from the frontmatter `name:` field so the
+#     two-level nesting doesn't corrupt discovery.
+#
+#     Two consequences to be aware of:
+#       * Crush's stored skill.Path lands two levels below the top-level
+#         symlink (~/.agents/skills/<name>/skills/<name>/), not one hop like
+#         the mattpocock/superpowers imports.
+#       * Crush doesn't populate ${CLAUDE_PLUGIN_ROOT}, and rust-review's
+#         `find ~/.claude ~/.codex . -path '*/plugins/rust-review/...'`
+#         fallback (no -L) doesn't follow symlinks and can't match the
+#         ~/.claude/skills/ mirror path (no `plugins/` component). Until
+#         Crush grows plugin-root support, the orchestrator must manually
+#         export RUST_REVIEW_PLUGIN_ROOT to the trailofbits checkout when
+#         invoking rust-review under Crush. property-based-testing does not
+#         use ${CLAUDE_PLUGIN_ROOT}, so it is unaffected.
+#
 # 2. Mirror ~/.agents/skills/ to ~/.claude/skills/: every entry there gets a
 #    symlink at ~/.claude/skills/<name>. Stale symlinks (target gone) are
 #    pruned. Non-symlink entries in ~/.claude/skills/ (e.g., claude-homelab
@@ -28,6 +53,7 @@ AGENTS_SKILLS="$HOME/.agents/skills"
 CLAUDE_SKILLS="$HOME/.claude/skills"
 MATTPOCOCK="$HOME/.agents/skill-sources/mattpocock/skills"
 SUPERPOWERS="$HOME/.agents/skill-sources/superpowers/skills"
+TRAILOFBITS="$HOME/.agents/skill-sources/trailofbits/plugins"
 
 mkdir -p "$AGENTS_SKILLS" "$CLAUDE_SKILLS"
 
@@ -81,6 +107,38 @@ if [ -d "$SUPERPOWERS" ]; then
     done
 else
     echo "skills sync: $SUPERPOWERS not present, skipping superpowers flatten" >&2
+fi
+
+# 1c. Import curated trailofbits plugin skills. Symlink the whole plugin
+#     folder (not the inner skill folder) so sibling agents/, prompts/,
+#     scripts/ dirs travel with the SKILL.md. See header comment for the
+#     skill.Path depth and Crush ${CLAUDE_PLUGIN_ROOT} caveats.
+if [ -d "$TRAILOFBITS" ]; then
+    # Rust-focused subset; skip smart-contract and workflow plugins.
+    for name in rust-review property-based-testing; do
+        src="$TRAILOFBITS/$name/"
+        if [ ! -d "$src" ]; then
+            echo "skills sync: $src missing, skipping" >&2
+            continue
+        fi
+        target="$AGENTS_SKILLS/$name"
+        if [ -L "$target" ]; then
+            # Refresh only if already pointing inside trailofbits; a link
+            # into another source is a name collision and first-source-wins,
+            # so skip with a warning.
+            current=$(readlink "$target")
+            case "$current" in
+                "$TRAILOFBITS"/*) ln -sfn "$src" "$target" ;;
+                *) echo "skills sync: $name already linked to $current, skipping trailofbits" >&2 ;;
+            esac
+        elif [ -e "$target" ]; then
+            echo "skills sync: skipping $target (exists, not a symlink)" >&2
+        else
+            ln -s "$src" "$target"
+        fi
+    done
+else
+    echo "skills sync: $TRAILOFBITS not present, skipping trailofbits import" >&2
 fi
 
 # Prune broken symlinks in ~/.agents/skills/ so upstream skill removals

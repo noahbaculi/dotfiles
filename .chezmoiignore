@@ -23,7 +23,7 @@ Library/Application Support
 {{- end }}
 
 {{- if not .dev_env }}
-# Keep this list in sync with .chezmoiremove.tmpl.
+# Keep this list in sync with .chezmoiscripts/run_after_sync-purge-agentic.sh.tmpl.
 .agents
 .claude
 .config/AGENTS.md

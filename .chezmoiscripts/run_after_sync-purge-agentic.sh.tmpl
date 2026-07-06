@@ -1,0 +1,22 @@
+#!/bin/sh
+{{- if .dev_env }}
+exit 0
+{{- else }}
+# Purge previously-installed agentic-coding footprint on non-dev machines.
+# The seven paths mirror the non-dev block in .chezmoiignore.
+# Idempotent: missing paths are ignored.
+set -eu
+for path in \
+    "$HOME/.agents" \
+    "$HOME/.claude" \
+    "$HOME/.config/AGENTS.md" \
+    "$HOME/.config/ccstatusline" \
+    "$HOME/.config/crush" \
+    "$HOME/.config/maki" \
+    "$HOME/.config/opencode"
+do
+    if [ -e "$path" ] || [ -L "$path" ]; then
+        rm -rf -- "$path"
+    fi
+done
+{{- end }}

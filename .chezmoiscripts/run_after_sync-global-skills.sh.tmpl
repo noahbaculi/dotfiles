@@ -1,4 +1,7 @@
 #!/bin/sh
+{{- if not .dev_env }}
+exit 0
+{{- end }}
 # Wire global agentic-coding skills into the two discovery paths.
 #
 # 1. Flatten mattpocock skills: each engineering / productivity / misc skill

@@ -23,9 +23,14 @@ Library/Application Support
 {{- end }}
 
 {{- if not .dev_env }}
+# Keep this list in sync with .chezmoiremove.tmpl.
+.agents
 .claude
+.config/AGENTS.md
+.config/ccstatusline
+.config/crush
+.config/maki
 .config/opencode
-.config/maki/providers
 {{- end }}
 
 # EnterpriseDB Work Laptop Hostname

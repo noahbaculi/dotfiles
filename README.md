@@ -41,6 +41,7 @@ The `dev_env` flag controls whether development tools are installed. When set to
 
 - Install Rust via rustup
 - Apply Claude Code configuration (`.claude/` directory)
+- Clone agentic-coding skill sources into `~/.agents/` and materialize the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs
 
 To enable development tools:
 
@@ -48,7 +49,7 @@ To enable development tools:
 echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
 ```
 
-For non-development machines, omit this step or set `dev_env = false`.
+For non-development machines, omit this step or set `dev_env = false`. On the next `chezmoi apply`, any previously-installed agentic tooling under `~/.agents`, `~/.claude`, and the matching entries under `~/.config/` is removed.
 
 ### 4. Apply Dotfiles
 

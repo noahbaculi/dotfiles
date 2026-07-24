@@ -19,6 +19,14 @@ When producing prose, invoke the `humanizer` skill. Never use em dashes.
 - Commit code that does not compile.
 - Make assumptions when existing code can verify the behavior.
 - Add attribution trailers to commit messages, PR descriptions, or issue bodies. No `Co-Authored-By: Claude`, no `Assisted-by:`, no `🤖 Generated with Claude Code`, no `💘 Generated with Crush`, no `Generated with <any tool>` line. This applies to every AI assistant, every project, and every git-message surface.
+- Put ticket IDs (JIRA/Linear/etc.) in source code comments. The branch name and commit message carry them.
+- Prefix commit subjects with the ticket ID. Use a conventional prefix (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) instead.
+
+## Code comments
+
+- Terse and intent-focused. Verb-first summaries for functions, noun phrases for types.
+- No trailing periods, no em dashes, no prose semicolons.
+- No `This function ...` or `This type ...` openers.
 
 ## Writing style skills
 
@@ -48,7 +56,8 @@ Installed globally via mise and usable in `bash`:
 ## EnterpriseDB AIDB project
 
 - Never commit agent artifacts like `docs/plans` or `docs/superpowers`.
-- Before running `mise run regress`, recompile and install the extension into the pgrx database with `cargo pgrx run`.
+- Before running `mise run regress`, recompile and install the extension into the pgrx database with `echo '\q' | cargo pgrx run pg18`. A plain `cargo pgrx install` is insufficient.
 - Never run `mise run regress` in parallel because the process is single-threaded.
 - `mise run regress` can target multiple tests by passing multiple test names: `mise run regress __test_1__ __test_2__`.
+- Do not run the no-arg `mise run regress` suite (~30 min). Target specific tests and let CI cover the rest.
 {{- end }}

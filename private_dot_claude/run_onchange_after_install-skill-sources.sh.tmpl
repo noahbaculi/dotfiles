@@ -1,0 +1,52 @@
+#!/bin/sh
+# Keep ~/.agents/skill-sources clones current and relink ponytail skills.
+# Rev lines below are upstream HEAD SHAs; any change rerenders the template
+# and reruns this script. Empty on missing or unauthed gh, apply stays clean.
+#
+# mattpocock-rev:  {{ output "sh" "-c" "gh api 'repos/mattpocock/skills/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
+# superpowers-rev: {{ output "sh" "-c" "gh api 'repos/obra/superpowers/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
+# trailofbits-rev: {{ output "sh" "-c" "gh api 'repos/trailofbits/skills/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
+# ponytail-rev:    {{ output "sh" "-c" "gh api 'repos/DietrichGebert/ponytail/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
+
+set -u
+
+SOURCES_DIR="$HOME/.agents/skill-sources"
+SKILLS_DIR="$HOME/.agents/skills"
+mkdir -p "$SOURCES_DIR" "$SKILLS_DIR"
+
+# name|git-url per line
+REPOS="
+mattpocock|https://github.com/mattpocock/skills.git
+superpowers|https://github.com/obra/superpowers.git
+trailofbits|https://github.com/trailofbits/skills.git
+ponytail|https://github.com/DietrichGebert/ponytail.git
+"
+
+echo "$REPOS" | while IFS='|' read -r name url; do
+  [ -z "$name" ] && continue
+  dest="$SOURCES_DIR/$name"
+  if [ -d "$dest/.git" ]; then
+    echo "chezmoi: updating skill-source $name"
+    git -C "$dest" fetch --quiet --prune origin || true
+    default_branch=$(git -C "$dest" symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|^origin/||')
+    [ -z "$default_branch" ] && default_branch=main
+    git -C "$dest" reset --quiet --hard "origin/$default_branch" || true
+  else
+    echo "chezmoi: cloning skill-source $name"
+    git clone --quiet --depth 1 "$url" "$dest" || true
+  fi
+done
+
+# Link ponytail's six skills into the host-neutral skills dir
+PONYTAIL_SKILLS_SRC="$SOURCES_DIR/ponytail/skills"
+if [ -d "$PONYTAIL_SKILLS_SRC" ]; then
+  for skill in ponytail ponytail-review ponytail-audit ponytail-debt ponytail-gain ponytail-help; do
+    src="$PONYTAIL_SKILLS_SRC/$skill"
+    link="$SKILLS_DIR/$skill"
+    [ -d "$src" ] || continue
+    if [ -L "$link" ] || [ -e "$link" ]; then
+      rm -f "$link"
+    fi
+    ln -s "$src" "$link"
+  done
+fi

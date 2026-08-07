@@ -11,6 +11,18 @@
       {
         "matcher": "^bash$",
         "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/rtk-rewrite.sh"
+      },
+      {
+        "matcher": "^(edit|write|multiedit)$",
+        "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/remind-code-comments.sh"
+      },
+      {
+        "matcher": "^(edit|write|multiedit)$",
+        "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/remind-github-md.sh"
+      },
+      {
+        "matcher": "^bash$",
+        "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/remind-gh-collab.sh"
       }
     ]
   }

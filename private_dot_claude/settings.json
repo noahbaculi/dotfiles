@@ -9,6 +9,19 @@
   "hooks": {
     "PreToolUse": [
       {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.config/crush/hooks/remind-code-comments.sh"
+          },
+          {
+            "type": "command",
+            "command": "~/.config/crush/hooks/remind-github-md.sh"
+          }
+        ]
+      },
+      {
         "matcher": "Bash",
         "hooks": [
           {
@@ -16,6 +29,10 @@
             "command": "jq -r '.tool_input.command' | grep -qiE 'github\\.com' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Use gh api or other gh subcommands instead of curl for GitHub API requests. This avoids token/rate-limit issues and uses your gh auth credentials.\"}}' || true",
             "if": "Bash(curl:*)",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "~/.config/crush/hooks/remind-gh-collab.sh"
           }
         ]
       },

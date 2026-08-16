@@ -1,5 +1,5 @@
 return {
   "mechatroner/rainbow_csv",
-  event = "BufRead *.csv",
+  ft = { "csv", "tsv" },
   opts = {},
 }

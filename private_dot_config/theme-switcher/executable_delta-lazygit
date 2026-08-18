@@ -1,0 +1,35 @@
+#!/bin/sh
+set -eu
+
+mode=${DELTA_LAZYGIT_MODE:-}
+
+if [ -z "$mode" ]; then
+  case "$(uname -s)" in
+    Darwin)
+      if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null || true)" = Dark ]; then
+        mode=dark
+      else
+        mode=light
+      fi
+      ;;
+    Linux)
+      if command -v gsettings >/dev/null 2>&1 && gsettings get org.gnome.desktop.interface color-scheme 2>/dev/null | grep -qi dark; then
+        mode=dark
+      else
+        mode=light
+      fi
+      ;;
+    *)
+      mode=light
+      ;;
+  esac
+fi
+
+case "$mode" in
+  dark)
+    exec delta --dark "$@"
+    ;;
+  light|*)
+    exec delta --light "$@"
+    ;;
+esac

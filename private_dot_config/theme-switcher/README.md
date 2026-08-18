@@ -1,6 +1,6 @@
 # theme-switcher
 
-A unified theme switcher for `ghostty` and `nvim` (and `wezterm` on Windows). Pick a theme family once and the active apps update together, with automatic light/dark mode support via macOS appearance detection.
+A unified theme switcher for `ghostty`, `nvim`, and lazygit's delta renderer (and `wezterm` on Windows). Pick a theme family once and the active apps update together, with automatic light/dark mode support via macOS appearance detection.
 
 ## Usage
 
@@ -10,7 +10,7 @@ Run `theme` to open an interactive fzf picker:
 ❯ theme
 ```
 
-Select a theme family. On macOS and Linux the picker swings the Ghostty include symlink and signals Ghostty (SIGUSR2) to reload. Nvim picks up the change on next launch (or when auto-dark-mode polls). On Windows, the picker is a no-op; Wezterm watches its own config file.
+Select a theme family. On macOS and Linux the picker swings the Ghostty include symlink and signals Ghostty (SIGUSR2) to reload. Nvim picks up the change on next launch (or when auto-dark-mode polls). Lazygit calls `delta-lazygit`, which picks `delta --dark` or `delta --light` from the platform appearance each time it renders a diff. On Windows, the picker is a no-op; Wezterm watches its own config file.
 
 ## How it works
 
@@ -21,6 +21,7 @@ Select a theme family. On macOS and Linux the picker swings the Ghostty include 
 - Reload mechanisms differ per app:
   - Ghostty: `pkill -SIGUSR2 ghostty` (auto-fired by the picker).
   - Nvim: reads `current-theme` on launch via `lua/theme-map.lua`.
+  - Lazygit: calls `delta-lazygit`; macOS reads `AppleInterfaceStyle`, Linux checks GNOME color-scheme when available, and other platforms fall back to light.
   - Wezterm (Windows): watches the source file and reloads on touch.
 
 ## Adding a theme

@@ -527,7 +527,7 @@ File: `private_dot_config/yazi.toml`. Only sort and linemode preferences are set
 
 ### 2.7 Lazygit
 
-File: `private_dot_config/lazygit/config.yml.tmpl`, which includes `.chezmoitemplates/lazygit_config.yml`. Only the `delta` pager is configured. No custom keybinds. Defaults apply (see section 3).
+File: `private_dot_config/lazygit/config.yml.tmpl`, which includes `.chezmoitemplates/lazygit_config.yml`. Only the `delta-lazygit` diff renderer is configured. No custom keybinds. Defaults apply (see section 3).
 
 ### 2.8 Atuin
 

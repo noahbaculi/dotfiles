@@ -3,21 +3,29 @@
     type = "git-repo"
     url = "https://github.com/cosgroveb/chezmoi-skill.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 
 [".agents/skills/humanizer"]
     type = "git-repo"
     url = "https://github.com/blader/humanizer.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 
 [".agents/skills/rust-skills"]
     type = "git-repo"
     url = "https://github.com/leonardomso/rust-skills.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 
 [".agents/skills/antivibe"]
     type = "git-repo"
     url = "https://github.com/mohi-devhub/antivibe.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 
 [".agents/skills/deep-research"]
     type = "archive"
@@ -44,14 +52,20 @@
     type = "git-repo"
     url = "https://github.com/mattpocock/skills.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 
 [".agents/skill-sources/superpowers"]
     type = "git-repo"
     url = "https://github.com/obra/superpowers.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 
 [".agents/skill-sources/trailofbits"]
     type = "git-repo"
     url = "https://github.com/trailofbits/skills.git"
     refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 {{- end }}

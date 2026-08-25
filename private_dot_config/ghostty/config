@@ -1,5 +1,10 @@
-# Font. Ghostty ships JetBrains Mono and Nerd Font icons internally.
-font-family = JetBrains Mono
+# Font rotation. Ghostty 1.2+ auto-scales its built-in Symbols Nerd Font
+# behind any primary font, so unpatched casks work with Neovim icons.
+# Swap the active line to change scenery:
+#   JetBrains Mono (built in),
+#   Maple Mono (chezmoi external),
+#   Monaspace Neon | Argon | Xenon | Radon | Krypton (chezmoi external)
+font-family = Maple Mono
 font-size = 14
 
 # Active theme via include. The theme script swings the symlink.

@@ -1,4 +1,21 @@
-{{- if .dev_env -}}
+{{/* Coding fonts for GUI machines. macOS is always a GUI client; Linux
+     machines opt in via the gui flag (guarded with hasKey so machines that
+     have not re-run chezmoi init keep rendering). Pinned versions: bump the
+     URL to upgrade, chezmoi re-downloads when the URL changes. */}}
+{{- $fontDir := ".local/share/fonts" }}
+{{- if eq .chezmoi.os "darwin" }}{{- $fontDir = "Library/Fonts" }}{{- end }}
+{{- if or (eq .chezmoi.os "darwin") (and (eq .chezmoi.os "linux") (hasKey . "gui") .gui) }}
+["{{ $fontDir }}/MapleMono"]
+    type = "archive"
+    url = "https://github.com/subframe7536/maple-font/releases/download/v7.9/MapleMono-Variable.zip"
+
+["{{ $fontDir }}/Monaspace"]
+    type = "archive"
+    url = "https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-static-v1.400.zip"
+{{- end }}
+
+{{- if .dev_env }}
+
 [".agents/skills/chezmoi"]
     type = "git-repo"
     url = "https://github.com/cosgroveb/chezmoi-skill.git"

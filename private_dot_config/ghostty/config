@@ -4,7 +4,7 @@
 #   JetBrains Mono (built in),
 #   Maple Mono (chezmoi external),
 #   Monaspace Neon | Argon | Xenon | Radon | Krypton (chezmoi external)
-font-family = Maple Mono
+font-family = Monaspace Neon
 font-size = 14
 
 # Active theme via include. The theme script swings the symlink.

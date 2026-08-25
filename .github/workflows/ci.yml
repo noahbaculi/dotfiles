@@ -15,12 +15,13 @@ permissions:
 
 jobs:
   chezmoi-templates:
-    name: chezmoi-templates (${{ matrix.os }} dev_env=${{ matrix.dev_env }})
+    name: chezmoi-templates (${{ matrix.os }} dev_env=${{ matrix.dev_env }} gui=${{ matrix.gui }})
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         dev_env: [true, false]
+        gui: [true, false]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -45,6 +46,7 @@ jobs:
 
           [data]
           dev_env = ${{ matrix.dev_env }}
+          gui = ${{ matrix.gui }}
           EOF
           echo "---- chezmoi.toml ----"
           cat "$HOME/.config/chezmoi/chezmoi.toml"
@@ -62,12 +64,19 @@ jobs:
               fail=1
             fi
           }
-          # All *.tmpl files in the repo, excluding the git dir.
+          # All *.tmpl files in the repo, excluding the git dir and the config
+          # template, whose prompt functions only exist in init context.
           while IFS= read -r -d '' f; do
             render "$f"
-          done < <(find . -type f -name '*.tmpl' -not -path './.git/*' -print0)
+          done < <(find . -type f -name '*.tmpl' -not -path './.git/*' -not -name '.chezmoi.toml.tmpl' -print0)
           # .chezmoiignore is always treated as a template even without a .tmpl suffix.
           render ".chezmoiignore"
+          # The config template needs init context for promptBoolOnce.
+          echo "==> rendering .chezmoi.toml.tmpl (--init)"
+          if ! chezmoi execute-template --init --promptBool dev_env=${{ matrix.dev_env }} --promptBool gui=${{ matrix.gui }} < .chezmoi.toml.tmpl > /dev/null; then
+            echo "FAILED to render: .chezmoi.toml.tmpl" >&2
+            fail=1
+          fi
           exit $fail
 
   lua-format:

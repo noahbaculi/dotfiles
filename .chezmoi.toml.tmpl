@@ -1,0 +1,8 @@
+{{/* Machine trait flags (see README for what each gates). promptBoolOnce
+     reuses answers already present in the local chezmoi.toml, so existing
+     machines are only asked for keys they are missing. The prompt text is
+     the bare key because --promptBool matches on prompt text:
+     chezmoi init --promptBool dev_env=true --promptBool gui=false */}}
+[data]
+    dev_env = {{ promptBoolOnce . "dev_env" "dev_env" }}
+    gui = {{ promptBoolOnce . "gui" "gui" }}

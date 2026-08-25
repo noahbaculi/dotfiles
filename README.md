@@ -35,21 +35,22 @@ fish_add_path /opt/homebrew/bin
 winget install twpayne.chezmoi
 ```
 
-### 3. Set Development Environment Flag
+### 3. Machine Trait Flags
 
-The `dev_env` flag controls whether development tools are installed. When set to `true`, Chezmoi will:
+`chezmoi init` prompts once per machine for two trait flags and stores the answers in `~/.config/chezmoi/chezmoi.toml`. Re-running `init` only asks for flags the machine is missing.
 
-- Install Rust via rustup
-- Apply Claude Code configuration (`.claude/` directory)
-- Clone agentic-coding skill sources into `~/.agents/` and materialize the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs
+| Flag      | Question it answers     | What it gates                                                                                                                                                                               |
+| --------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dev_env` | Do I write code here?   | Rust via rustup, dev mise tools, Claude Code configuration (`.claude/`), agentic skill sources in `~/.agents/`, the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs |
+| `gui`     | Does it have a display? | Coding fonts (Maple Mono, Monaspace) on Linux; macOS always installs them                                                                                                                   |
 
-To enable development tools:
+For non-interactive setup, pass the answers as flags:
 
 ```shell
-echo -e "[data]\ndev_env = true" > ~/.config/chezmoi/chezmoi.toml
+chezmoi init --promptBool dev_env=true --promptBool gui=false
 ```
 
-For non-development machines, omit this step or set `dev_env = false`. On the next `chezmoi apply`, any previously-installed agentic tooling under `~/.agents`, `~/.claude`, and the matching entries under `~/.config/` is removed.
+Flipping `dev_env` to `false` removes previously-installed agentic tooling under `~/.agents`, `~/.claude`, and the matching entries under `~/.config/` on the next `chezmoi apply`.
 
 ### 4. Apply Dotfiles
 

@@ -41,3 +41,9 @@ keybind = ctrl+v=paste_from_clipboard
 # so this no longer breaks it. Avoid bracketed-paste wrappers here —
 # they made Opencode's TUI paste system clipboard contents alongside \n.
 keybind = shift+enter=text:\n
+
+# Machine-local overrides, unmanaged by chezmoi. Loaded last so its values
+# win. To override the font here, reset the fallback list first:
+#   font-family = ""
+#   font-family = Monaspace Krypton
+config-file = ?local.conf

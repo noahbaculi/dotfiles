@@ -4,6 +4,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Remote clipboard provider. Must be set before plugins call `has('clipboard')`
+require("clipboard")
+
 --- Check if a plugin is defined in lazy. Useful with lazy loading when a plugin is not necessarily loaded yet
 ---@param plugin string The plugin to search for
 ---@return boolean available # Whether the plugin is available

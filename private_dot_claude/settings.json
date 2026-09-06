@@ -4,8 +4,9 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
+  "model": "sonnet",
   "hooks": {
     "PreToolUse": [
       {
@@ -37,19 +38,17 @@
         ]
       },
       {
-        "_tag": "ccstatusline-managed",
+        "matcher": "Skill",
         "hooks": [
           {
             "type": "command",
             "command": "bunx -y ccstatusline@latest --hook"
           }
-        ],
-        "matcher": "Skill"
+        ]
       }
     ],
     "UserPromptSubmit": [
       {
-        "_tag": "ccstatusline-managed",
         "hooks": [
           {
             "type": "command",
@@ -74,11 +73,13 @@
   },
   "syntaxHighlightingDisabled": false,
   "effortLevel": "medium",
+  "tui": "fullscreen",
   "voice": {
     "enabled": false,
     "mode": "hold"
   },
-  "editorMode": "vim",
+  "theme": "auto",
+  "editorMode": "normal",
   "autoCompactEnabled": false,
   "agentPushNotifEnabled": false,
   "voiceEnabled": false

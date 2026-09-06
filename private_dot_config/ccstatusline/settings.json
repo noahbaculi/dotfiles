@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "lines": [
     [
       {
@@ -17,16 +17,14 @@
         "bold": false,
         "rawValue": false,
         "metadata": {
-          "hideNoGit": "true"
+          "hide": "no-git"
         }
       },
       {
         "id": "867b1688-a3a0-400f-afd1-758e3360a2a8",
         "type": "git-review",
         "metadata": {
-          "hideTitle": "true",
-          "hideStatus": "false",
-          "hideNoGit": "true"
+          "hide": "no-git,no-data,title"
         }
       },
       {
@@ -67,7 +65,7 @@
         "id": "8e14d4bb-0cc9-4918-a273-63d429663303",
         "type": "skills",
         "metadata": {
-          "hideWhenEmpty": "true"
+          "hide": "empty"
         }
       }
     ],

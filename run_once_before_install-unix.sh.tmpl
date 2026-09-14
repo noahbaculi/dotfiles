@@ -14,7 +14,7 @@ if [ ! -x /opt/homebrew/bin/brew ]; then
 fi
 
 # Same bootstrap PATH as the after-script so brew resolves inside sh
-export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:/opt/homebrew/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.cargo/bin:/opt/homebrew/bin:$PATH"
 
 echo "Installing Fish shell..."
 brew install fish
@@ -42,7 +42,7 @@ curl https://mise.run | sh
 {{- if .dev_env }}
 
 echo "Installing Rust..."
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 {{- end }}
 
 {{- end }}

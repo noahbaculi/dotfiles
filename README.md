@@ -6,7 +6,7 @@ Dotfiles for development and everyday use.
 
 ### macOS and Linux
 
-On macOS, install the Command Line Tools first and wait for the dialog to finish. Chezmoi needs `git` to clone this repo before any script runs, and Homebrew, cargo, and pgrx need the compiler and linker from the same package:
+On macOS, install the Command Line Tools first and wait for the dialog to finish. Then check Software Update and accept any Command Line Tools update it offers, otherwise the linker can be older than the SDK it ships with and every compile fails. Chezmoi needs `git` to clone this repo before any script runs, and Homebrew, cargo, and pgrx need the compiler and linker from the same package:
 
 ```sh
 xcode-select --install
@@ -18,7 +18,7 @@ One command does the rest. It installs Homebrew (macOS), Fish, mise, and everyth
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply noahbaculi
 ```
 
-The command pauses once to register an SSH key with GitHub. Chrome opens the page with the key already on the clipboard. Press Enter after saving it. Expect three password prompts on macOS: Homebrew's sudo, the `/etc/shells` sudo (usually still cached), and `chsh`. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
+The command pauses once to sign in to GitHub. The GitHub CLI prints a one-time code and a URL, which you approve from any device, then it registers the machine SSH key. Expect three password prompts on macOS: Homebrew's sudo, the `/etc/shells` sudo (usually still cached), and `chsh`. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
 
 Only Apple Silicon Macs are covered. Homebrew lives under `/usr/local` on Intel and the scripts hardcode `/opt/homebrew`.
 

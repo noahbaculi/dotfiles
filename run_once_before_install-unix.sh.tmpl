@@ -20,12 +20,12 @@ echo "Installing Fish shell..."
 brew install fish
 fish_path=/opt/homebrew/bin/fish
 
-echo "Installing Google Chrome..."
-brew install --cask google-chrome
+echo "Installing GitHub CLI for the SSH key step..."
+brew install gh
 {{- else if eq .chezmoi.os "linux" }}
 
 echo "Installing basic Linux packages..."
-sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-compiler fish
+sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-compiler fish gh
 fish_path=/usr/bin/fish
 {{- end }}
 
@@ -37,21 +37,18 @@ grep -qx "$fish_path" /etc/shells || echo "$fish_path" | sudo tee -a /etc/shells
 chsh -s "$fish_path"
 
 # The managed .gitconfig forces SSH for GitHub, so the externals need a
-# registered key before chezmoi can clone them. Loop until GitHub accepts it.
+# registered key before chezmoi can clone them. gh's device flow works on
+# headless machines: it prints a code and a URL to approve from any device.
 echo "Ensuring GitHub SSH access..."
 mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
 [ -f "$HOME/.ssh/id_ed25519" ] || ssh-keygen -t ed25519 -N "" -f "$HOME/.ssh/id_ed25519"
+gh auth status >/dev/null 2>&1 || gh auth login --hostname github.com --git-protocol ssh --web </dev/tty
+pubkey=$(cut -d' ' -f2 "$HOME/.ssh/id_ed25519.pub")
+gh ssh-key list 2>/dev/null | grep -q "$pubkey" || gh ssh-key add "$HOME/.ssh/id_ed25519.pub" --title "$(hostname)"
 until ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com 2>&1 | grep -q "successfully authenticated"; do
-	echo
-	echo "Add this public key at https://github.com/settings/ssh/new then press Enter:"
-	cat "$HOME/.ssh/id_ed25519.pub"
-	if command -v pbcopy >/dev/null; then
-		pbcopy <"$HOME/.ssh/id_ed25519.pub"
-		echo "(copied to the clipboard)"
-		open -a "Google Chrome" "https://github.com/settings/ssh/new" || open "https://github.com/settings/ssh/new"
-	fi
-	read -r _ </dev/tty
+	echo "Waiting for GitHub to accept the key..."
+	sleep 2
 done
 
 mkdir -p "$HOME/.local/bin"

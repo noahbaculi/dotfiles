@@ -37,24 +37,26 @@ sudo ln -sf ~/.local/share/mise/shims/nvim /usr/local/bin/nvim
 
 echo "Installing packages for MacOS..."
 
-brew install gnu-sed
-brew install wget
-brew install mosh
-brew install --cask google-chrome
-brew install --cask firefox
-brew install --cask ghostty
-brew install --cask font-symbols-only-nerd-font
-brew install --cask karabiner-elements
-brew install --cask maccy
-# Not used much since I'm using the native MacOS text replacement. But could reconsider if needed on multiple platforms
-# brew install --cask espanso
-brew install --cask obsidian
-brew install --cask balenaetcher
-brew install --cask veracrypt
-brew install --cask vlc
-brew install --cask logi-options+
-brew install --cask betterdisplay
-brew install --cask xykong/tap/flux-markdown
-brew install --cask smoothcsv
+brew install gnu-sed wget mosh
+
+# One invocation fetches everything first, then installs back to back so the
+# pkg casks share a single sudo prompt. Comment a line out to skip it
+grep -v '^#' <<-EOF | xargs brew install --cask
+	google-chrome
+	firefox
+	ghostty
+	font-symbols-only-nerd-font
+	karabiner-elements
+	maccy
+	# espanso: native macOS text replacement covers it for now
+	obsidian
+	balenaetcher
+	veracrypt
+	vlc
+	logi-options+
+	betterdisplay
+	xykong/tap/flux-markdown
+	smoothcsv
+EOF
 {{- end }}
 

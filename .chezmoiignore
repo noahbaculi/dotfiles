@@ -33,13 +33,13 @@ Library/Application Support
 .config/opencode
 {{- end }}
 
-# EnterpriseDB Work Laptop Hostname
-{{- if eq .chezmoi.hostname "MAC-LDLJ464QYT" }}
+# Work-only Claude settings
+{{- if .work }}
 .claude/settings.json
 {{- end }}
 
 # Work-only opencode plugin and its tests
-{{- if ne .chezmoi.hostname "MAC-LDLJ464QYT" }}
+{{- if not .work }}
 .config/opencode/plugins/workflow-guards.ts
 .config/opencode/plugin-tests/workflow-guards.test.ts
 {{- end }}

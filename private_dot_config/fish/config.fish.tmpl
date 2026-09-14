@@ -25,6 +25,11 @@ function y
 	rm -f -- "$tmp"
 end
 
+# mise, chezmoi, and the mise shims live here. Set on $PATH directly (-P), not the
+# universal fish_user_paths, so this is not machine-local state. mise activate
+# below prepends its own paths ahead of it.
+fish_add_path -P ~/.local/bin
+
 # Source
 mise activate fish | source
 zoxide init fish | source

@@ -4,89 +4,49 @@ Dotfiles for development and everyday use.
 
 ## New Machine Setup
 
-Follow these steps to set up a new machine with this dotfiles configuration:
+### macOS and Linux
 
-### 1. Install Platform Prerequisites
+One command on a fresh machine. It installs Homebrew (macOS), Fish, mise, and everything else this repo manages, then makes Fish the login shell:
 
-See the [Platform Prerequisites](#platform-prerequisites) section below for detailed installation steps for your platform (Linux/WSL, macOS, or Windows).
-
-### 2. Install Chezmoi
-
-After installing Fish shell and GitHub CLI, install Chezmoi:
-
-**Linux/WSL:**
-
-```fish
-sh -c "$(curl -fsLS get.chezmoi.io)"
-fish_add_path ./bin
+```sh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply noahbaculi
 ```
 
-**macOS:**
+Expect three password prompts on macOS: Homebrew's sudo, the `/etc/shells` sudo (usually still cached), and `chsh`. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
 
-```fish
-sh -c "$(curl -fsLS get.chezmoi.io)"
-fish_add_path ./bin
-fish_add_path /opt/homebrew/bin
-```
+Only Apple Silicon Macs are covered. Homebrew lives under `/usr/local` on Intel and the scripts hardcode `/opt/homebrew`.
 
-**Windows:**
+### Windows
+
+See [Platform Prerequisites](#platform-prerequisites), then:
 
 ```bash
 winget install twpayne.chezmoi
+chezmoi init --apply noahbaculi
 ```
 
-### 3. Machine Trait Flags
+### Machine Trait Flags
 
-`chezmoi init` prompts once per machine for two trait flags and stores the answers in `~/.config/chezmoi/chezmoi.toml`. Re-running `init` only asks for flags the machine is missing.
+`chezmoi init` prompts once per machine for three trait flags and stores the answers in `~/.config/chezmoi/chezmoi.toml`. Re-running `init` only asks for flags the machine is missing.
 
-| Flag      | Question it answers     | What it gates                                                                                                                                                                               |
-| --------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dev_env` | Do I write code here?   | Rust via rustup, dev mise tools, Claude Code configuration (`.claude/`), agentic skill sources in `~/.agents/`, the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs |
-| `gui`     | Does it have a display? | Coding fonts (Maple Mono, Monaspace) on Linux; macOS always installs them                                                                                                                   |
+| Flag      | Question it answers              | What it gates                                                                                                                                                                               |
+| --------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dev_env` | Do I write code here?            | Rust via rustup, dev mise tools, Claude Code configuration (`.claude/`), agentic skill sources in `~/.agents/`, the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs |
+| `gui`     | Does it have a display?          | Coding fonts (Maple Mono, Monaspace) on Linux; macOS always installs them                                                                                                                   |
+| `work`    | Is this an EnterpriseDB machine? | Excludes the personal `.claude/settings.json`, installs the opencode `workflow-guards` plugin and its tests, and adds the EnterpriseDB section to `AGENTS.md`                               |
 
 For non-interactive setup, pass the answers as flags:
 
-```shell
-chezmoi init --promptBool dev_env=true --promptBool gui=false
+```sh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply noahbaculi --promptBool dev_env=true --promptBool gui=true --promptBool work=true
 ```
 
 Flipping `dev_env` to `false` removes previously-installed agentic tooling under `~/.agents`, `~/.claude`, and the matching entries under `~/.config/` on the next `chezmoi apply`.
 
-### 4. Apply Dotfiles
+### After Setup
 
-Run the following command once to initialize and apply the dotfiles:
-
-```shell
-chezmoi init --apply noahbaculi
-```
-
-### 5. Verify Installation
-
-You'll know the setup worked when:
-
-- Fish shell starts without errors
-- Development tools (if `dev_env = true`) are accessible: `rustc --version`, `mise --version`
-- The `.claude/` directory exists in your home directory (if `dev_env = true`)
-- Your terminal prompt and shell configuration match the expected appearance
-
-## Platform Prerequisites
-
-### Linux / WSL
-
-1. Install [Fish shell](https://fishshell.com/)
-
-2. Make Fish shell default
-
-```bash
-echo /usr/bin/fish | sudo tee -a /etc/shells
-chsh -s /usr/bin/fish
-
-exec $SHELL  # restart shell
-```
-
-3. Install [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
-
-Authenticate
+1. Open a new terminal. It should start in Fish without errors.
+2. Authenticate GitHub CLI and pick SSH, so private clones do not default to HTTPS:
 
 > I have been using SSH lately
 
@@ -94,35 +54,13 @@ Authenticate
 gh auth login
 ```
 
-### macOS
+3. Check the rest:
 
-1. Install [Homebrew](https://brew.sh/)
+- Development tools (if `dev_env = true`) are accessible: `rustc --version`, `mise --version`
+- The `.claude/` directory exists in your home directory (if `dev_env = true`)
+- Your terminal prompt and shell configuration match the expected appearance
 
-```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-2. Install Fish shell
-
-```bash
-brew install fish
-```
-
-3. Make Fish shell default
-
-```bash
-echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells
-chsh -s /opt/homebrew/bin/fish
-
-exec $SHELL  # restart shell
-```
-
-4. Install GitHub CLI
-
-```bash
-brew install gh
-gh auth login
-```
+## Platform Prerequisites
 
 ### Windows
 

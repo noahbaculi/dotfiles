@@ -6,13 +6,32 @@
 # Prevent macOS from creating `.DS_Store` files on network drives.
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 # defaults read com.apple.desktopservices DSDontWriteNetworkStores
+
+# Apple Silicon only: /opt/homebrew is hardcoded here and in the after-script
+if [ ! -x /opt/homebrew/bin/brew ]; then
+	echo "Installing Homebrew..."
+	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Same bootstrap PATH as the after-script so brew resolves inside sh
+export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:/opt/homebrew/bin:$PATH"
+
+echo "Installing Fish shell..."
+brew install fish
+fish_path=/opt/homebrew/bin/fish
 {{- else if eq .chezmoi.os "linux" }}
 
 echo "Installing basic Linux packages..."
-sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-compiler
+sudo apt install -y build-essential pkg-config libssl-dev zip unzip protobuf-compiler fish
+fish_path=/usr/bin/fish
 {{- end }}
 
 {{- if eq .chezmoi.os "linux" "darwin" }}
+
+echo "Making Fish the login shell..."
+grep -qx "$fish_path" /etc/shells || echo "$fish_path" | sudo tee -a /etc/shells
+# $SHELL reflects the calling process, not the login shell, so no guard. run_once_ prevents re-runs
+chsh -s "$fish_path"
 
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.local/share/mise/bin"

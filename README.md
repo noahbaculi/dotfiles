@@ -35,11 +35,11 @@ chezmoi init --apply noahbaculi
 
 `chezmoi init` prompts once per machine for three trait flags and stores the answers in `~/.config/chezmoi/chezmoi.toml`. Re-running `init` only asks for flags the machine is missing.
 
-| Flag      | Question it answers              | What it gates                                                                                                                                                                               |
-| --------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dev_env` | Do I write code here?            | Rust via rustup, dev mise tools, Claude Code configuration (`.claude/`), agentic skill sources in `~/.agents/`, the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs |
-| `gui`     | Does it have a display?          | Coding fonts (Maple Mono, Monaspace) on Linux; macOS always installs them                                                                                                                   |
-| `work`    | Is this an EnterpriseDB machine? | Excludes the personal `.claude/settings.json`, installs the opencode `workflow-guards` plugin and its tests, and adds the EnterpriseDB section to `AGENTS.md`                               |
+| Flag      | Question it answers              | What it gates                                                                                                                                                                                                                                |
+| --------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dev_env` | Do I write code here?            | Rust via rustup, dev mise tools, Claude Code configuration (`.claude/`), agentic skill sources in `~/.agents/`, the shared `AGENTS.md` plus Crush, Maki, Opencode, and ccstatusline configs                                                  |
+| `gui`     | Does it have a display?          | Coding fonts (Maple Mono, Monaspace) on Linux; macOS always installs them                                                                                                                                                                    |
+| `work`    | Is this an EnterpriseDB machine? | Excludes the personal `.claude/settings.json`, installs the opencode `workflow-guards` plugin and its tests, adds the EnterpriseDB section to `AGENTS.md`, and exports `NODE_USE_SYSTEM_CA=1` so bun trusts the Netskope TLS interception CA |
 
 For non-interactive setup, pass the answers as flags:
 

@@ -12,21 +12,13 @@ On macOS, install the Command Line Tools first and wait for the dialog to finish
 xcode-select --install
 ```
 
-The managed `.gitconfig` rewrites every GitHub HTTPS URL to SSH, so the machine needs a registered SSH key before chezmoi can clone the skill-source externals. Generate one, copy the public half, and add it at <https://github.com/settings/ssh/new>:
-
-```sh
-ssh-keygen -t ed25519
-pbcopy < ~/.ssh/id_ed25519.pub
-ssh -T git@github.com
-```
-
-The last line should greet you by GitHub username. Then one command does the rest. It installs Homebrew (macOS), Fish, mise, and everything else this repo manages, then makes Fish the login shell:
+One command does the rest. It installs Homebrew (macOS), Fish, mise, and everything else this repo manages, then makes Fish the login shell:
 
 ```sh
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply noahbaculi
 ```
 
-Expect three password prompts on macOS: Homebrew's sudo, the `/etc/shells` sudo (usually still cached), and `chsh`. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
+The command pauses once to register an SSH key with GitHub. Chrome opens the page with the key already on the clipboard. Press Enter after saving it. Expect three password prompts on macOS: Homebrew's sudo, the `/etc/shells` sudo (usually still cached), and `chsh`. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
 
 Only Apple Silicon Macs are covered. Homebrew lives under `/usr/local` on Intel and the scripts hardcode `/opt/homebrew`.
 

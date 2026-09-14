@@ -19,6 +19,9 @@ export PATH="$HOME/.local/bin:$HOME/.local/share/mise/bin:$HOME/.cargo/bin:/opt/
 echo "Installing Fish shell..."
 brew install fish
 fish_path=/opt/homebrew/bin/fish
+
+echo "Installing Google Chrome..."
+brew install --cask google-chrome
 {{- else if eq .chezmoi.os "linux" }}
 
 echo "Installing basic Linux packages..."
@@ -32,6 +35,24 @@ echo "Making Fish the login shell..."
 grep -qx "$fish_path" /etc/shells || echo "$fish_path" | sudo tee -a /etc/shells
 # $SHELL reflects the calling process, not the login shell, so no guard. run_once_ prevents re-runs
 chsh -s "$fish_path"
+
+# The managed .gitconfig forces SSH for GitHub, so the externals need a
+# registered key before chezmoi can clone them. Loop until GitHub accepts it.
+echo "Ensuring GitHub SSH access..."
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+[ -f "$HOME/.ssh/id_ed25519" ] || ssh-keygen -t ed25519 -N "" -f "$HOME/.ssh/id_ed25519"
+until ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -T git@github.com 2>&1 | grep -q "successfully authenticated"; do
+	echo
+	echo "Add this public key at https://github.com/settings/ssh/new then press Enter:"
+	cat "$HOME/.ssh/id_ed25519.pub"
+	if command -v pbcopy >/dev/null; then
+		pbcopy <"$HOME/.ssh/id_ed25519.pub"
+		echo "(copied to the clipboard)"
+		open -a "Google Chrome" "https://github.com/settings/ssh/new" || open "https://github.com/settings/ssh/new"
+	fi
+	read -r _ </dev/tty
+done
 
 mkdir -p "$HOME/.local/bin"
 mkdir -p "$HOME/.local/share/mise/bin"

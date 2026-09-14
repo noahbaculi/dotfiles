@@ -18,7 +18,7 @@ One command does the rest. It installs Homebrew (macOS), Fish, mise, and everyth
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply noahbaculi
 ```
 
-The command pauses once to sign in to GitHub. The GitHub CLI prints a one-time code and a URL, which you approve from any device, then it registers the machine SSH key. Expect three password prompts on macOS: Homebrew's sudo, the `/etc/shells` sudo (usually still cached), and `chsh`. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
+The command pauses once to sign in to GitHub. The GitHub CLI prints a one-time code and a URL, which you approve from any device, then it registers the machine SSH key. On macOS the script asks for your password up front to cache sudo for the Homebrew installer and the `/etc/shells` step, then Homebrew shows its summary and waits for RETURN, and `chsh` asks for your password once more. `-b` puts the `chezmoi` binary in `~/.local/bin`, which `config.fish` adds to `PATH`.
 
 Only Apple Silicon Macs are covered. Homebrew lives under `/usr/local` on Intel and the scripts hardcode `/opt/homebrew`.
 

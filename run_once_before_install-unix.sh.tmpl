@@ -1,6 +1,9 @@
 #!/bin/sh
 # vim: filetype=sh
 
+# Stop at the first failure so a missing Homebrew cannot cascade into a broken chsh
+set -eu
+
 {{- if eq .chezmoi.os "darwin" }}
 
 # Prevent macOS from creating `.DS_Store` files on network drives.
@@ -9,8 +12,9 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 # Apple Silicon only: /opt/homebrew is hardcoded here and in the after-script
 if [ ! -x /opt/homebrew/bin/brew ]; then
-	echo "Installing Homebrew..."
-	NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	echo "Installing Homebrew. It needs sudo, so enter your macOS password once."
+	sudo -v
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 # Same bootstrap PATH as the after-script so brew resolves inside sh

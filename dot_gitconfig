@@ -1,0 +1,9 @@
+[user]
+	email = noahbaculi@gmail.com
+	name = Noah Baculi
+[push]
+	autoSetupRemote = true
+[pull]
+	ff = only
+[url "git@github.com:"]
+	insteadOf = https://github.com/

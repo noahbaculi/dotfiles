@@ -15,13 +15,14 @@ permissions:
 
 jobs:
   chezmoi-templates:
-    name: chezmoi-templates (${{ matrix.os }} dev_env=${{ matrix.dev_env }} gui=${{ matrix.gui }})
+    name: chezmoi-templates (${{ matrix.os }} dev_env=${{ matrix.dev_env }} gui=${{ matrix.gui }} work=${{ matrix.work }})
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         dev_env: [true, false]
         gui: [true, false]
+        work: [true, false]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +48,7 @@ jobs:
           [data]
           dev_env = ${{ matrix.dev_env }}
           gui = ${{ matrix.gui }}
+          work = ${{ matrix.work }}
           EOF
           echo "---- chezmoi.toml ----"
           cat "$HOME/.config/chezmoi/chezmoi.toml"
@@ -73,7 +75,7 @@ jobs:
           render ".chezmoiignore"
           # The config template needs init context for promptBoolOnce.
           echo "==> rendering .chezmoi.toml.tmpl (--init)"
-          if ! chezmoi execute-template --init --promptBool dev_env=${{ matrix.dev_env }} --promptBool gui=${{ matrix.gui }} < .chezmoi.toml.tmpl > /dev/null; then
+          if ! chezmoi execute-template --init --promptBool dev_env=${{ matrix.dev_env }} --promptBool gui=${{ matrix.gui }} --promptBool work=${{ matrix.work }} < .chezmoi.toml.tmpl > /dev/null; then
             echo "FAILED to render: .chezmoi.toml.tmpl" >&2
             fail=1
           fi

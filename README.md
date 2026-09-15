@@ -47,6 +47,8 @@ For non-interactive setup, pass the answers as flags:
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin" init --apply noahbaculi --promptBool dev_env=true --promptBool gui=true --promptBool work=true
 ```
 
+Templates read the flags directly, so a machine missing one fails to render until `chezmoi init` asks for it.
+
 Flipping `dev_env` to `false` removes previously-installed agentic tooling under `~/.agents`, `~/.claude`, and the matching entries under `~/.config/` on the next `chezmoi apply`.
 
 ### After Setup

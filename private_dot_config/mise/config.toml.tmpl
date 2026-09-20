@@ -69,7 +69,8 @@ run = [
   "sudo apt upgrade -y",
   "sudo apt autoremove -y",
 {{- end }}
-  "mise self-update -y",
+  # Tolerate failure: it is the one step that burns GitHub API quota
+  "mise self-update -y || true",
   "mise cache clear",
   "mise upgrade",
   "mise install",

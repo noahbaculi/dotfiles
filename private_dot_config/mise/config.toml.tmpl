@@ -56,3 +56,22 @@ opencode = "latest"
 idiomatic_version_file_enable_tools = ["node"]
 # Signed prebuilt binaries when the crate author publishes none for this target
 cargo.binstall_quickinstall = true
+
+[tasks.update-machine]
+description = "Update dotfiles, mise tools, and OS packages on this machine"
+# chezmoi update can rewrite this file. mise has already parsed the task by
+# then, so a changed definition takes effect on the next run, not this one.
+run = [
+  "chezmoi update",
+  "mise self-update -y",
+  "mise cache clear",
+  "mise upgrade",
+  "mise install",
+  "mise prune",
+  "command -v rustup >/dev/null && rustup update || true",
+{{- if eq .chezmoi.os "linux" }}
+  "sudo apt update -y",
+  "sudo apt upgrade -y",
+  "sudo apt autoremove -y",
+{{- end }}
+]

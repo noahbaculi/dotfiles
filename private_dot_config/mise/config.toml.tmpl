@@ -63,15 +63,16 @@ description = "Update dotfiles, mise tools, and OS packages on this machine"
 # then, so a changed definition takes effect on the next run, not this one.
 run = [
   "chezmoi update",
+{{- if eq .chezmoi.os "linux" }}
+  # Early so the sudo prompt lands at the start, not after the slow steps
+  "sudo apt update -y",
+  "sudo apt upgrade -y",
+  "sudo apt autoremove -y",
+{{- end }}
   "mise self-update -y",
   "mise cache clear",
   "mise upgrade",
   "mise install",
   "mise prune",
   "command -v rustup >/dev/null && rustup update || true",
-{{- if eq .chezmoi.os "linux" }}
-  "sudo apt update -y",
-  "sudo apt upgrade -y",
-  "sudo apt autoremove -y",
-{{- end }}
 ]

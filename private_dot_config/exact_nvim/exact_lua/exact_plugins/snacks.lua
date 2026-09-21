@@ -168,6 +168,10 @@ return {
     local header = table.concat(headers[math.random(#headers)], "\n")
 
     return {
+      -- image stays off until Zellij's kitty graphics support matures. Tested on Zellij 0.45.1 + Ghostty 1.3.1:
+      -- works outside Zellij, but inside it unicode placeholders never render (so no inline markdown images)
+      -- and forcing direct placement (SNACKS_ZELLIJ=false SNACKS_WEZTERM=true SNACKS_SSH=true) draws in the wrong spot.
+      -- Yazi previews break the same way: https://github.com/zellij-org/zellij/issues/4336
       notifier = { enabled = true },
       words = { enabled = true },
       indent = { enabled = true },

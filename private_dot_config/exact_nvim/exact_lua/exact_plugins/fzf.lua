@@ -48,6 +48,10 @@ return {
       fzf_opts = {
         ["--layout"] = "default",
       },
+      files = {
+        -- fzf-lua defaults plus PDFs, which are build output rather than editable source
+        fd_opts = [[--color=never --type f --type l --exclude .git --exclude .jj --exclude '*.pdf']],
+      },
     })
 
     require("fzf-lua").register_ui_select()

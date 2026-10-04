@@ -1,12 +1,13 @@
 #!/bin/sh
 # Keep ~/.agents/skill-sources clones current and relink ponytail skills.
 # Rev lines below are upstream HEAD SHAs; any change rerenders the template
-# and reruns this script. Empty on missing or unauthed gh, apply stays clean.
+# and reruns this script. ls-remote skips the API rate limit and prints nothing
+# when offline, so apply stays clean.
 #
-# mattpocock-rev:  {{ output "sh" "-c" "gh api 'repos/mattpocock/skills/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
-# superpowers-rev: {{ output "sh" "-c" "gh api 'repos/obra/superpowers/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
-# trailofbits-rev: {{ output "sh" "-c" "gh api 'repos/trailofbits/skills/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
-# ponytail-rev:    {{ output "sh" "-c" "gh api 'repos/DietrichGebert/ponytail/commits?per_page=1' -q '.[0].sha' 2>/dev/null || true" | trim }}
+# mattpocock-rev:  {{ output "sh" "-c" "GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/mattpocock/skills.git HEAD 2>/dev/null | cut -f1" | trim }}
+# superpowers-rev: {{ output "sh" "-c" "GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/obra/superpowers.git HEAD 2>/dev/null | cut -f1" | trim }}
+# trailofbits-rev: {{ output "sh" "-c" "GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/trailofbits/skills.git HEAD 2>/dev/null | cut -f1" | trim }}
+# ponytail-rev:    {{ output "sh" "-c" "GIT_TERMINAL_PROMPT=0 git ls-remote https://github.com/DietrichGebert/ponytail.git HEAD 2>/dev/null | cut -f1" | trim }}
 
 set -u
 

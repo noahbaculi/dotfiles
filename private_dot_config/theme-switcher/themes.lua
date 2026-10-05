@@ -29,7 +29,8 @@ return {
   tokyonight = {
     wezterm = { dark = "Tokyo Night", light = "Tokyo Night Day" },
     nvim = { dark = "tokyonight-night", light = "tokyonight-day" },
-    zellij = { dark = "tokyo-night", light = "tokyo-night-light" },
+    -- Zellij's built-in tokyo-night-light ships dark unselected backgrounds (15 15 20) as of 0.45.1
+    zellij = { dark = "tokyo-night", light = "iceberg-light" },
   },
   material = {
     wezterm = { dark = "Material Darker (base16)", light = "Material Lighter (base16)" },

@@ -50,6 +50,8 @@ source "$HOME/.cargo/env.fish"
 
 {{- if .work }}
 
+abbr c 'claude --model opus'
+
 # Netskope re-signs TLS with a CA that only lives in the macOS keychain. bun ships
 # its own root store and skips the keychain, so `bunx` fails with
 # SELF_SIGNED_CERT_IN_CHAIN. bun's --cafile and --use-system-ca flags do not reach

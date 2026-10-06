@@ -1,6 +1,6 @@
 # Development guidelines
 
-When producing prose, invoke the `humanizer` skill. Never use em dashes.
+When producing prose for the user to copy-paste, invoke the `humanizer` skill. Never use em dashes.
 
 ## Always
 
@@ -10,6 +10,7 @@ When producing prose, invoke the `humanizer` skill. Never use em dashes.
 - Update plan documentation as you go.
 - Learn from existing implementations and style.
 - Stop after 3 failed attempts and reassess.
+- When the user is asking for explanations or clarification on decisions or foundational concepts, start with brief high level for context. Use clear unicode diagrams where it would be helpful.
 - Chunk large file writes. If a `write` tool call's `content` would exceed about 400 lines or 20 KB, split it: emit the first chunk (≤200 lines / ~10 KB) with `write`, then append the remainder with `bash` using `cat >> path << 'EOF' ... EOF`. OpenCode's tool-call streaming over `@ai-sdk/anthropic` via GitHub Copilot truncates large writes at the 32 000 output-token cap, leaving an orphaned tool call (upstream issue anomalyco/opencode#33687). The model sees `"Tool execution aborted"` with no recoverable state.
 
 ## Never
@@ -21,6 +22,14 @@ When producing prose, invoke the `humanizer` skill. Never use em dashes.
 - Add attribution trailers to commit messages, PR descriptions, or issue bodies. No `Co-Authored-By: Claude`, no `Assisted-by:`, no `🤖 Generated with Claude Code`, no `💘 Generated with Crush`, no `Generated with <any tool>` line. This applies to every AI assistant, every project, and every git-message surface.
 - Put ticket IDs (JIRA/Linear/etc.) in source code comments. The branch name and commit message carry them.
 - Prefix commit subjects with the ticket ID. Use a conventional prefix (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) instead.
+
+## Available CLI tools
+
+Installed globally via mise and usable in `bash`:
+
+- Prefer `fd` over `find` for file and directory search.
+- Prefer `dust` over `du` for disk usage.
+- Use `hyperfine` for benchmarking commands.
 
 ## Code comments
 
@@ -43,14 +52,6 @@ Invoke the matching skill when producing:
 
 - My interactive shell is `fish`. Suggested commands for me to run should use fish syntax (`set -x VAR value`, `cmd; and other`).
 - Agent `bash` tool calls run under POSIX/bash. Scripts executed by the agent stay POSIX/bash.
-
-## Available CLI tools
-
-Installed globally via mise and usable in `bash`:
-
-- Prefer `fd` over `find` for file and directory search.
-- Prefer `dust` over `du` for disk usage.
-- Use `hyperfine` for benchmarking commands.
 
 ## Ponytail rules
 

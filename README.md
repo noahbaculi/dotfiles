@@ -150,6 +150,23 @@ Source: [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=404318) 
 
 To automount an SMB share, try [these instructions](https://www.reddit.com/r/MacOS/comments/1boyxko/comment/lzi97eb/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button).
 
+### macOS mosh server
+
+To mosh into a Mac, the application firewall has to allow inbound UDP to `mosh-server`. Without it, SSH works but mosh stalls on "Nothing received from mosh server". `mosh-server` is an ad-hoc-signed Homebrew binary, so the firewall's auto-allow for signed software does not cover it.
+
+On a personal Mac, add the binary from a regular terminal (sudo needs a TTY, so Claude Code's `!` prefix fails):
+
+```shell
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add /opt/homebrew/Cellar/mosh/<version>/bin/mosh-server
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp /opt/homebrew/Cellar/mosh/<version>/bin/mosh-server
+```
+
+On a work Mac, MDM rejects those with "Firewall settings cannot be modified from command line on managed Mac computers". Use System Settings > Network > Firewall > Options, click +, press Cmd+Shift+G, paste the `mosh-server` path, and set it to Allow incoming connections.
+
+> Note: the Cellar path is versioned, so the entry stops matching after `brew upgrade mosh`. Re-add the new path when mosh stalls again.
+
+The `mosh` wrapper in `config.fish` runs `mosh-server` by name, and non-interactive SSH sessions only get the `PATH` that `config.fish` sets. `config.fish` appends `/opt/homebrew/bin` for that reason. If you see `env: mosh-server: No such file or directory`, that line is missing.
+
 ### iOS
 
 > Note that many system-level keymaps are not supported. (CAPSLOCK -> ESC)

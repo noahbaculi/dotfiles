@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+t=$(security find-generic-password -s "Claude Code-credentials" -w | jq -r .claudeAiOauth.accessToken)
+curl -sS https://api.anthropic.com/api/oauth/usage \
+  -H "Authorization: Bearer $t" \
+  -H "anthropic-beta: oauth-2025-04-20" |
+  jq -c '{h:.five_hour.utilization,w:.seven_day.utilization}'

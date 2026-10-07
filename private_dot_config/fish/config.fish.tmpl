@@ -30,6 +30,10 @@ end
 # below prepends its own paths ahead of it.
 fish_add_path -P ~/.local/bin
 
+# Homebrew on macOS. Needed by non-interactive ssh sessions so the mosh wrapper
+# above finds mosh-server. Appended so mise and ~/.local/bin keep priority.
+fish_add_path -aP /opt/homebrew/bin
+
 # Source
 mise activate fish | source
 zoxide init fish | source

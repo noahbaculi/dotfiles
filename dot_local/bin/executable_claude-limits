@@ -4,4 +4,6 @@ t=$(security find-generic-password -s "Claude Code-credentials" -w | jq -r .clau
 curl -sS https://api.anthropic.com/api/oauth/usage \
   -H "Authorization: Bearer $t" \
   -H "anthropic-beta: oauth-2025-04-20" |
-  jq -c '{h:.five_hour.utilization,w:.seven_day.utilization}'
+  jq -c 'def local: sub("\\.[0-9]+";"") | sub("\\+00:00$";"Z") | fromdateiso8601 | strflocaltime("%a %H:%M");
+    {h:.five_hour.utilization, h_reset:(.five_hour.resets_at|local),
+     w:.seven_day.utilization, w_reset:(.seven_day.resets_at|local)}'

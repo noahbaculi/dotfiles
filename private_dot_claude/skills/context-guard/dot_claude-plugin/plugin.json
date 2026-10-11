@@ -1,0 +1,1 @@
+{ "name": "context-guard", "version": "0.1.0", "description": "Warns from 175k context tokens and compacts at 300k", "types": "./types/index.d.ts" }

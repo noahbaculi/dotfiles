@@ -96,4 +96,11 @@
     refreshPeriod = "168h"
     clone.args = ["--depth", "1"]
     pull.args = ["--ff-only"]
+
+[".agents/skill-sources/ponytail"]
+    type = "git-repo"
+    url = "https://github.com/DietrichGebert/ponytail.git"
+    refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
 {{- end }}

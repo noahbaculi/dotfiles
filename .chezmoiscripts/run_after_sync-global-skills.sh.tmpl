@@ -38,13 +38,17 @@ exit 0
 #         invoking rust-review under Crush. property-based-testing does not
 #         use ${CLAUDE_PLUGIN_ROOT}, so it is unaffected.
 #
+# 1d. Flatten ponytail skills: each top-level skill under
+#     ~/.agents/skill-sources/ponytail/skills/<name> gets a symlink at
+#     ~/.agents/skills/<name>, same as superpowers.
+#
 # 2. Mirror ~/.agents/skills/ to ~/.claude/skills/: every entry there gets a
 #    symlink at ~/.claude/skills/<name>. Stale symlinks (target gone) are
 #    pruned. Non-symlink entries in ~/.claude/skills/ (e.g., claude-homelab
 #    symlinks, manual installs) are never touched.
 #
 # This script runs on every apply (no run_onchange caching) so it picks up
-# upstream skill additions and removals from both source repos on the next
+# upstream skill additions and removals from every source repo on the next
 # apply. `.chezmoiremove.tmpl` only deletes a fixed legacy set from the
 # pre-migration layout; ongoing churn in `$AGENTS_SKILLS` is handled by the
 # prune step at the bottom of this script, not by `.chezmoiremove`. Cost is
@@ -57,6 +61,7 @@ CLAUDE_SKILLS="$HOME/.claude/skills"
 MATTPOCOCK="$HOME/.agents/skill-sources/mattpocock/skills"
 SUPERPOWERS="$HOME/.agents/skill-sources/superpowers/skills"
 TRAILOFBITS="$HOME/.agents/skill-sources/trailofbits/plugins"
+PONYTAIL="$HOME/.agents/skill-sources/ponytail/skills"
 
 mkdir -p "$AGENTS_SKILLS" "$CLAUDE_SKILLS"
 
@@ -142,6 +147,28 @@ if [ -d "$TRAILOFBITS" ]; then
     done
 else
     echo "skills sync: $TRAILOFBITS not present, skipping trailofbits import" >&2
+fi
+
+# 1d. Flatten ponytail skills (skills/<name> is already flat).
+if [ -d "$PONYTAIL" ]; then
+    for src in "$PONYTAIL"/*/; do
+        [ -d "$src" ] || continue
+        name=$(basename "$src")
+        target="$AGENTS_SKILLS/$name"
+        if [ -L "$target" ]; then
+            current=$(readlink "$target")
+            case "$current" in
+                "$PONYTAIL"/*) ln -sfn "$src" "$target" ;;
+                *) echo "skills sync: $name already linked to $current, skipping ponytail" >&2 ;;
+            esac
+        elif [ -e "$target" ]; then
+            echo "skills sync: skipping $target (exists, not a symlink)" >&2
+        else
+            ln -s "$src" "$target"
+        fi
+    done
+else
+    echo "skills sync: $PONYTAIL not present, skipping ponytail flatten" >&2
 fi
 
 # Prune broken symlinks in ~/.agents/skills/ so upstream skill removals

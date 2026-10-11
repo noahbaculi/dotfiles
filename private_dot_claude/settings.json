@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bunx -y ccstatusline@latest --hook"
+            "command": "bun ~/.local/share/mise/installs/npm-ccstatusline/latest/node_modules/ccstatusline/dist/ccstatusline.js --hook"
           }
         ]
       }
@@ -72,7 +72,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bunx -y ccstatusline@latest --hook"
+            "command": "bun ~/.local/share/mise/installs/npm-ccstatusline/latest/node_modules/ccstatusline/dist/ccstatusline.js --hook"
           }
         ]
       }
@@ -80,7 +80,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bunx -y ccstatusline@latest",
+    "command": "bun ~/.local/share/mise/installs/npm-ccstatusline/latest/node_modules/ccstatusline/dist/ccstatusline.js",
     "padding": 0,
     "refreshInterval": 10
   },

@@ -163,6 +163,9 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  keys = {
+    { "<leader>ud", function() Snacks.toggle.dim():toggle() end, desc = "Toggle dimming" },
+  },
   opts = function()
     math.randomseed(os.time())
     local header = table.concat(headers[math.random(#headers)], "\n")

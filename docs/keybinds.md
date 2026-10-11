@@ -417,7 +417,7 @@ Inside an fzf-lua picker (action map):
 | `<leader>bP`        | BufferMovePrevious  |
 | `<leader>bI`        | BufferPin / Unpin   |
 
-**Git (gitsigns + lazygit)**:
+**Git (gitsigns + snacks lazygit)**:
 
 | Chord        | Action                    |
 | ------------ | ------------------------- |
@@ -432,6 +432,8 @@ Inside an fzf-lua picker (action map):
 | `<leader>gu` | undo stage hunk           |
 | `<leader>gd` | diff this                 |
 | `<leader>gg` | open LazyGit              |
+| `<leader>gG` | LazyGit log               |
+| `<leader>gf` | LazyGit file history      |
 
 **Replace (spectre)**:
 

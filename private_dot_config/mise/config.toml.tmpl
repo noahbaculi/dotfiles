@@ -64,19 +64,27 @@ cargo.binstall_quickinstall = true
 description = "Update dotfiles, mise tools, and OS packages on this machine"
 # chezmoi update can rewrite this file. mise has already parsed the task by
 # then, so a changed definition takes effect on the next run, not this one.
-run = [
-  "chezmoi update",
+run = """
+set -e
+# Authenticated API calls avoid the 60/hour unauthenticated GitHub rate limit
+if command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
+  GITHUB_TOKEN=$(gh auth token)
+  export GITHUB_TOKEN
+fi
+chezmoi update
+# Headless restore to the lockfile; the bang blocks until plugins finish
+nvim --headless '+Lazy! restore' +qa
 {{- if eq .chezmoi.os "linux" }}
-  # Early so the sudo prompt lands at the start, not after the slow steps
-  "sudo apt update -y",
-  "sudo apt upgrade -y",
-  "sudo apt autoremove -y",
+# Early so the sudo prompt lands at the start, not after the slow steps
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt autoremove -y
 {{- end }}
-  # Tolerate failure: it is the one step that burns GitHub API quota
-  "mise self-update -y || true",
-  "mise cache clear",
-  "mise upgrade",
-  "mise install",
-  "mise prune",
-  "command -v rustup >/dev/null && rustup update || true",
-]
+# Tolerate failure: it is the one step that burns GitHub API quota
+mise self-update -y || true
+mise cache clear
+mise upgrade
+mise install
+mise prune
+command -v rustup >/dev/null && rustup update || true
+"""

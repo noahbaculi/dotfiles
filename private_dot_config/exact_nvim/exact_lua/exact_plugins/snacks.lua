@@ -164,7 +164,6 @@ return {
   priority = 1000,
   lazy = false,
   keys = {
-    { "<leader>ud", function() Snacks.toggle.dim():toggle() end, desc = "Toggle dimming" },
     { "<leader>gg", function() Snacks.lazygit() end, desc = "LazyGit" },
     { "<leader>gG", function() Snacks.lazygit.log() end, desc = "LazyGit log" },
     { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "LazyGit file history" },

@@ -28,9 +28,12 @@ When producing prose for the user to copy-paste, invoke the `humanizer` skill. N
 Ask decision questions through the harness's multiple-choice prompt (such as `AskUserQuestion`) when it has one.
 
 - One question per prompt. Batch only small, related questions that need no real thought.
-- Offer 2 to 4 options with the recommended one first. Simple choices like keep / drop / blank are fine when they are the real decision. When the decision is open-ended, brainstorm diverse and distinct variations instead.
-- Give options a `preview` showing the actual variation (draft text, snippet, layout) so the user can compare them side by side and add notes with `n`.
-- Keep the question to one sentence. Put the context, drafts, and anything long in chat before the prompt. The prompt covers part of the chat window but the rest stays readable while answering, so don't cram context into the question or previews.
+- Offer 2 to 4 options with the recommended one first, marked "(Recommended)" in its label and the reason in its description. Write each label and description so the choice makes sense with the preview hidden. Simple choices like keep / drop / blank are fine when they are the real decision. When the decision is open-ended, brainstorm diverse and distinct variations instead.
+- When the decision depends on anything beyond the question itself (context, drafts, an explanation), end the turn with it as plain chat and open the prompt on the next turn. Text written before a tool call in the same turn can reach the user only as a one-line summary, or not at all, and the agent can't tell. If the user says they can't see something, resend it as the final text of a turn.
+- Keep the question to one sentence, and don't cram context into the question or previews.
+- Give each item enough context to decide cold: a line on what the subject is, the whole current and proposed text rather than an excerpt of the part that changed, and a definition for any shorthand like "Q2" right next to it.
+- In Claude Code, use `preview` only to compare concrete text, code, or layouts on a single-select question. Keep each to the part that differs, under about 15 lines and 2,000 characters, or it is clipped or withheld. Give a "keep as is" option a preview of the current text too.
+- Don't add an "Other" option when the prompt already has one: Claude Code prompts without previews, OpenCode, Codex, and Gemini all add their own. A Claude Code prompt with previews swaps "Other" for notes, so there add a last option like "Something else (add a note)".
 - Don't end a turn with a lettered menu in chat when a prompt would work.
 
 ## Available CLI tools

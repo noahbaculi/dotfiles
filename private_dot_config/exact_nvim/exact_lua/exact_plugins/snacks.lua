@@ -163,6 +163,11 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  keys = {
+    { "<leader>gg", function() Snacks.lazygit() end, desc = "LazyGit" },
+    { "<leader>gG", function() Snacks.lazygit.log() end, desc = "LazyGit log" },
+    { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "LazyGit file history" },
+  },
   opts = function()
     math.randomseed(os.time())
     local header = table.concat(headers[math.random(#headers)], "\n")
@@ -171,6 +176,7 @@ return {
       notifier = { enabled = true },
       words = { enabled = true },
       indent = { enabled = true },
+      lazygit = { enabled = true },
       dashboard = {
         preset = {
           header = header,

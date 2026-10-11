@@ -23,6 +23,16 @@ When producing prose for the user to copy-paste, invoke the `humanizer` skill. N
 - Put ticket IDs (JIRA/Linear/etc.) in source code comments. The branch name and commit message carry them.
 - Prefix commit subjects with the ticket ID. Use a conventional prefix (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) instead.
 
+## Asking questions
+
+Ask decision questions through the harness's multiple-choice prompt (such as `AskUserQuestion`) when it has one.
+
+- One question per prompt. Batch only small, related questions that need no real thought.
+- Offer 2 to 4 options with the recommended one first. Simple choices like keep / drop / blank are fine when they are the real decision. When the decision is open-ended, brainstorm diverse and distinct variations instead.
+- Give options a `preview` showing the actual variation (draft text, snippet, layout) so the user can compare them side by side and add notes with `n`.
+- Keep the question to one sentence. Put the context, drafts, and anything long in chat before the prompt. The prompt covers part of the chat window but the rest stays readable while answering, so don't cram context into the question or previews.
+- Don't end a turn with a lettered menu in chat when a prompt would work.
+
 ## Available CLI tools
 
 Installed globally via mise and usable in `bash`:

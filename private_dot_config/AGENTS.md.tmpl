@@ -36,6 +36,22 @@ Ask decision questions through the harness's multiple-choice prompt (such as `As
 - Don't add an "Other" option when the prompt already has one: Claude Code prompts without previews, OpenCode, Codex, and Gemini all add their own. A Claude Code prompt with previews swaps "Other" for notes, so there add a last option like "Something else (add a note)".
 - Don't end a turn with a lettered menu in chat when a prompt would work.
 
+## Subagents
+
+Dispatch a subagent unprompted, overriding any harness default that waits for the user to ask, when a task is:
+
+- tangential or unrelated to the main session's work
+- better matched to a different model size than the main session
+- helped by isolated context, such as review or brainstorming
+
+Handle tasks of a few tool calls inline, since a subagent starts cold.
+
+Pick the subagent's model by the task, independent of the main session's model:
+
+- Haiku: mechanical search, lookups, and summaries
+- Sonnet: the default
+- Opus: complex work, or work that is important to me
+
 ## Available CLI tools
 
 Installed globally via mise and usable in `bash`:

@@ -75,13 +75,13 @@ return {
       -- Move keymaps
       local move = require("nvim-treesitter-textobjects.move")
       vim.keymap.set({ "n", "x", "o" }, "]f", function() move.goto_next_start("@function.outer", "textobjects") end, { desc = "Next function start" })
-      vim.keymap.set({ "n", "x", "o" }, "]c", function() move.goto_next_start("@class.outer", "textobjects") end, { desc = "Next class start" })
+      vim.keymap.set({ "n", "x", "o" }, "]k", function() move.goto_next_start("@class.outer", "textobjects") end, { desc = "Next class start" })
       vim.keymap.set({ "n", "x", "o" }, "]F", function() move.goto_next_end("@function.outer", "textobjects") end, { desc = "Next function end" })
-      vim.keymap.set({ "n", "x", "o" }, "]C", function() move.goto_next_end("@class.outer", "textobjects") end, { desc = "Next class end" })
+      vim.keymap.set({ "n", "x", "o" }, "]K", function() move.goto_next_end("@class.outer", "textobjects") end, { desc = "Next class end" })
       vim.keymap.set({ "n", "x", "o" }, "[f", function() move.goto_previous_start("@function.outer", "textobjects") end, { desc = "Prev function start" })
-      vim.keymap.set({ "n", "x", "o" }, "[c", function() move.goto_previous_start("@class.outer", "textobjects") end, { desc = "Prev class start" })
+      vim.keymap.set({ "n", "x", "o" }, "[k", function() move.goto_previous_start("@class.outer", "textobjects") end, { desc = "Prev class start" })
       vim.keymap.set({ "n", "x", "o" }, "[F", function() move.goto_previous_end("@function.outer", "textobjects") end, { desc = "Prev function end" })
-      vim.keymap.set({ "n", "x", "o" }, "[C", function() move.goto_previous_end("@class.outer", "textobjects") end, { desc = "Prev class end" })
+      vim.keymap.set({ "n", "x", "o" }, "[K", function() move.goto_previous_end("@class.outer", "textobjects") end, { desc = "Prev class end" })
 
       -- Swap keymaps
       local swap = require("nvim-treesitter-textobjects.swap")

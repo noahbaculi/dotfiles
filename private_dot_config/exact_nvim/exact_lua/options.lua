@@ -8,15 +8,12 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Options for insert mo
 vim.opt.copyindent = true -- copy the previous indentation on autoindenting
 vim.opt.cursorline = true -- highlight the text line of the cursor
 vim.opt.expandtab = true -- enable the use of space in tab
-vim.opt.fileencoding = "utf-8" -- file content encoding for the buffer
 vim.opt.fillchars = { eob = " " } -- disable `~` on nonexistent lines
 vim.opt.foldcolumn = "1" -- show foldcolumn
 vim.opt.foldenable = true -- enable treesitter folding
 vim.opt.foldlevel = 99 -- set high foldlevel so files open unfolded
 vim.opt.foldlevelstart = 99 -- start with all code unfolded
-vim.opt.history = 100 -- number of commands to remember in a history table
 vim.opt.ignorecase = true -- case insensitive searching
-vim.opt.incsearch = true -- show search matches as you type
 vim.opt.infercase = true -- infer cases in keyword completion
 vim.opt.laststatus = 3 -- global statusline
 vim.opt.linebreak = true -- wrap lines at 'breakat'
@@ -53,4 +50,10 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
   pattern = "/mnt/jane-nas/*",
   callback = function() vim.opt_local.backupcopy = "yes" end,
+})
+
+vim.diagnostic.config({
+  virtual_text = { current_line = true }, -- message only on the cursor line
+  severity_sort = true,
+  jump = { float = true },
 })

@@ -22,6 +22,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and keep cursor cent
 vim.keymap.set("n", "n", "nzzzv", { desc = "Move to next search result and keep cursor centered" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Move to previous search result and keep cursor centered" })
 
+-- Ghostty eats Ctrl-v for paste, so reach visual block another way
+vim.keymap.set("n", "<leader>v", "<C-v>", { desc = "Visual block" })
+
 -- File operations
 vim.keymap.set("n", "|", "<cmd>vsplit<cr>", { desc = "Vertical Split" })
 vim.keymap.set("n", "\\", "<cmd>split<cr>", { desc = "Horizontal Split" })
@@ -60,6 +63,15 @@ vim.keymap.set("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("Toggled Word Wrap", vim.log.levels.INFO, { title = "Word Wrap" })
 end, { desc = "Toggle word wrap" })
+vim.keymap.set("n", "<leader>uv", function()
+  local on = not vim.diagnostic.config().virtual_text
+  vim.diagnostic.config({ virtual_text = on and { current_line = true } or false })
+  vim.notify(on and "Diagnostic text on" or "Diagnostic text off", vim.log.levels.INFO, { title = "Diagnostics" })
+end, { desc = "Toggle diagnostic virtual text" })
+vim.keymap.set("n", "<leader>uu", function()
+  vim.cmd.packadd("nvim.undotree")
+  require("undotree").open()
+end, { desc = "Undo tree" })
 
 which_key.add({ "<leader>b", group = "Buffers", icon = "󰓩" })
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<cmd>write<cr>", { desc = "Save buffer" })
@@ -103,7 +115,8 @@ vim.keymap.set("n", "<leader>yf", function()
 end, { desc = "Filename" })
 
 which_key.add({ "<leader>l", group = "LSP", icon = "" })
-vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
+vim.keymap.set("n", "<leader>li", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP information" })
+vim.keymap.set("n", "<leader>lR", "<cmd>lsp restart<cr>", { desc = "Restart LSP clients" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -112,14 +125,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
     vim.keymap.set("n", "gd", function() require("fzf-lua").lsp_definitions() end, { buffer = ev.buf, desc = "Go to definition" })
-    vim.keymap.set("n", "gr", function() require("fzf-lua").lsp_references() end, { desc = "Find references" })
-    vim.keymap.set("n", "gi", function() require("fzf-lua").lsp_implementations() end, { desc = "Find implementations" })
+    vim.keymap.set("n", "grr", function() require("fzf-lua").lsp_references() end, { buffer = ev.buf, desc = "Find references" })
+    vim.keymap.set("n", "gri", function() require("fzf-lua").lsp_implementations() end, { buffer = ev.buf, desc = "Find implementations" })
+    vim.keymap.set("n", "grt", function() require("fzf-lua").lsp_typedefs() end, { buffer = ev.buf, desc = "Type definition" })
     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "Go to declaration" })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "Signature documentation" })
-    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Previous diagnostic" })
-    vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next diagnostic" })
-    vim.keymap.set("n", "<leader>lt", function() require("fzf-lua").lsp_typedefs() end, { buffer = ev.buf, desc = "Type definition" })
     vim.keymap.set("n", "<leader>lD", function() require("fzf-lua").diagnostics_document() end, { desc = "Search diagnostics" })
     vim.keymap.set("n", "<leader>ld", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })
     vim.keymap.set("n", "<leader>lA", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })

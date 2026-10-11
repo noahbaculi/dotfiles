@@ -24,14 +24,7 @@
                                             "com.carriez.rustdesk",
                                             "com.riotgames.LeagueofLegends.LeagueClientUx"
                                         ],
-                                        "file_paths": [
-                                            "ghostty",
-                                            "alacritty",
-                                            "iTerm2",
-                                            "neovide",
-                                            "RustDesk",
-                                            "League of Legends"
-                                        ],
+                                        "file_paths": ["ghostty", "alacritty", "iTerm2", "neovide", "RustDesk", "League of Legends"],
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
@@ -141,6 +134,15 @@
                             "to": [{ "key_code": "f12" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": { // Akko keyboard
+                        "is_keyboard": true,
+                        "is_pointing_device": true,
+                        "product_id": 9248,
+                        "vendor_id": 9639
+                    },
+                    "ignore": false
                 }
             ],
             "name": "Default profile",

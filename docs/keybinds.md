@@ -433,15 +433,17 @@ Inside an fzf-lua picker (action map):
 | `<leader>gd` | diff this                 |
 | `<leader>gg` | open LazyGit              |
 
-**Replace (spectre)**:
+**Replace (grug-far)**:
 
-| Mode | Chord        | Action                                                   |
-| ---- | ------------ | -------------------------------------------------------- |
-| n    | `<leader>rr` | toggle Spectre                                           |
-| n    | `<leader>rw` | open_visual with current word                            |
-| v    | `<leader>rw` | open_visual with selection                               |
-| n    | `<leader>rh` | open_file_search with current word (here = current file) |
-| v    | `<leader>rh` | open_file_search with selection                          |
+| Mode | Chord        | Action                                       |
+| ---- | ------------ | -------------------------------------------- |
+| n    | `<leader>rr` | toggle grug-far                              |
+| n    | `<leader>rw` | open with current word                       |
+| v    | `<leader>rw` | open with selection                          |
+| n    | `<leader>rh` | open with current word (here = current file) |
+| v    | `<leader>rh` | open with selection (here = current file)    |
+
+In the grug-far buffer, apply replacements with `<localleader>R` (moved from `r` so it does not shadow the `<leader>r` group).
 
 **Session (auto-session)**:
 
@@ -670,7 +672,7 @@ Default emacs binds (the user did not set `fish_vi_key_bindings`):
 
 - Which-key has groups defined for `<leader>` paths but only for the ones declared in `keymaps.lua`. Plugin-defined keys with their own paths (yanky's `[y`/`]y`, flash `s`/`S`, treesitter `]f`/`[c` etc., surround `<leader>w*`) don't get group icons or descriptions. Minor; only matters if you forget the binds and reach for which-key to remind you.
 - The `<leader>p` group is "Plugins" in Normal mode but a direct command in Visual mode (paste-over-without-overwrite). That's a fine pattern but worth knowing so a visual-mode `<leader>p` doesn't surprise you.
-- The `<leader>r` group is "Replace" (spectre) but `<leader>lr` is LSP rename. Two different "rename" / "replace" semantics with overlapping mental models.
+- The `<leader>r` group is "Replace" (grug-far) but `<leader>lr` is LSP rename. Two different "rename" / "replace" semantics with overlapping mental models.
 
 ### Cross-platform notes
 

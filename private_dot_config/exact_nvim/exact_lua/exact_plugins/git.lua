@@ -18,12 +18,4 @@ return {
       { "<leader>gd", function() require("gitsigns").diffthis() end, desc = "View Git diff" },
     },
   },
-  {
-    "kdheepak/lazygit.nvim",
-    cmd = { "LazyGit" },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    keys = {
-      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-    },
-  },
 }

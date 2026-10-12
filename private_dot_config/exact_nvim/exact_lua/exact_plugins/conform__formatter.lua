@@ -16,6 +16,7 @@ return {
       css = { "prettierd", stop_after_first = true },
       javascript = { "prettierd", stop_after_first = true },
       sql = { "sqruff", stop_after_first = true },
+      python = { "ruff_format" },
     },
     format_on_save = {
       timeout_ms = 500,

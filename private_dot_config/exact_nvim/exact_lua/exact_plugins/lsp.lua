@@ -34,6 +34,7 @@ return {
         { name = "rust_analyzer", binary = "rust-analyzer" },
         { name = "tinymist", binary = "tinymist" },
         { name = "ruff", binary = "ruff" },
+        { name = "ty", binary = "ty" },
       }
 
       for _, server in ipairs(servers) do

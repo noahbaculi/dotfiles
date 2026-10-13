@@ -21,13 +21,6 @@
         }
       },
       {
-        "id": "867b1688-a3a0-400f-afd1-758e3360a2a8",
-        "type": "git-review",
-        "metadata": {
-          "hide": "no-git,no-data,title"
-        }
-      },
-      {
         "id": "1",
         "type": "model",
         "color": "cyan",
@@ -38,11 +31,18 @@
         "type": "thinking-effort"
       },
       {
-        "id": "ecd18dc4-e52e-4ae5-82b7-ea0ae8faace1",
-        "type": "context-length"
+        "id": "867b1688-a3a0-400f-afd1-758e3360a2a8",
+        "type": "git-review",
+        "metadata": {
+          "hide": "no-git,no-data,title"
+        }
       }
     ],
     [
+      {
+        "id": "1990e925-47ad-4c26-8b7d-e0b256e714c5",
+        "type": "context-length"
+      },
       {
         "id": "c6c052c5-95bf-4ddc-9053-121464b62126",
         "type": "session-usage",
@@ -76,9 +76,12 @@
   "colorLevel": 3,
   "defaultSeparator": "|",
   "defaultPadding": "",
+  "defaultPaddingSide": "both",
   "inheritSeparatorColors": false,
   "globalBold": false,
   "gitCacheTtlSeconds": 5,
+  "terminalWidthCacheTtlSeconds": 5,
+  "customCommandCacheTtlSeconds": 0,
   "minimalistMode": false,
   "powerline": {
     "enabled": false,

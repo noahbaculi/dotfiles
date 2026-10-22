@@ -2,10 +2,9 @@
 # Refresh Noah's writing-style skills into ~/.agents/skills via the repo's
 # canonical install-skills.sh, the single home of the fetch logic.
 #
-# ~/.agents/skills is the host-neutral skill directory that opencode
-# auto-discovers. Claude Code only scans ~/.claude/skills, so these skills
-# stop showing up there. That trade-off is intentional: opencode is the
-# primary host now.
+# ~/.agents/skills is the host-neutral skill directory that Crush and Maki
+# read. Claude Code only scans ~/.claude/skills, which
+# run_after_sync-global-skills.sh.tmpl mirrors from ~/.agents/skills.
 #
 # skills-rev below is the latest upstream commit touching skills/. chezmoi
 # rerenders this .tmpl each apply, so the line changes only when skills change,
@@ -28,9 +27,9 @@ gh auth status >/dev/null 2>&1 || {
 }
 
 # Pipe the canonical installer rather than reimplement its loop. DEST is pinned
-# to the opencode-discoverable path even though install-skills.sh already
-# defaults to it, so the choice is visible in the chezmoi tree and survives
-# upstream default changes. Fetch before piping so an API error body never
+# to the host-neutral path even though install-skills.sh already defaults to
+# it, so the choice is visible in the chezmoi tree and survives upstream
+# default changes. Fetch before piping so an API error body never
 # reaches sh. || true keeps a refresh hiccup from failing the whole apply.
 installer=$(gh api "repos/noahbaculi/noah-writing-style/contents/scripts/install-skills.sh?ref=skills" \
   -H "Accept: application/vnd.github.raw") &&

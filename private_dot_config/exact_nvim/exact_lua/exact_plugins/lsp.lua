@@ -4,22 +4,6 @@ return {
     "neovim/nvim-lspconfig",
     event = { "VeryLazy" },
     config = function()
-      vim.lsp.config("rust_analyzer", {
-        settings = {
-          ["rust-analyzer"] = {
-            -- Settings at https://rust-analyzer.github.io/book/configuration.html
-            check = {
-              command = "clippy",
-              -- features = "all",
-            },
-            cargo = {
-              -- features = "all",
-              allTargets = true,
-            },
-          },
-        },
-      })
-
       vim.lsp.config("tinymist", {})
 
       vim.lsp.config("*", {
@@ -31,7 +15,6 @@ return {
         { name = "yamlls", binary = "yaml-language-server" },
         { name = "lua_ls", binary = "lua-language-server" },
         { name = "biome", binary = "biome" },
-        { name = "rust_analyzer", binary = "rust-analyzer" },
         { name = "tinymist", binary = "tinymist" },
         { name = "ruff", binary = "ruff" },
         { name = "ty", binary = "ty" },

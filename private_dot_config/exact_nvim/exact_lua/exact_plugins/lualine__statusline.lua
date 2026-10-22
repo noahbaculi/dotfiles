@@ -1,3 +1,5 @@
+local lsp_status = ""
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
@@ -22,8 +24,8 @@ return {
       },
       lualine_x = {
         {
-          function() return vim.lsp.status() end,
-          cond = function() return vim.lsp.status() ~= "" end,
+          function() return lsp_status end,
+          cond = function() return lsp_status ~= "" end,
         },
         "copilot",
         "encoding",
@@ -52,9 +54,12 @@ return {
   },
   config = function(_, opts)
     require("lualine").setup(opts)
-    -- Redraw on progress so vim.lsp.status() stays current
+    -- Cache per event since vim.lsp.status() consumes the progress queue
     vim.api.nvim_create_autocmd("LspProgress", {
-      callback = function() require("lualine").refresh() end,
+      callback = function(ev)
+        lsp_status = ev.data.params.value.kind == "end" and "" or vim.lsp.status()
+        require("lualine").refresh()
+      end,
     })
   end,
 }

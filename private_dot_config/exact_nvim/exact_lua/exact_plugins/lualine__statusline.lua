@@ -4,7 +4,6 @@ return {
   dependencies = {
     { "nvim-tree/nvim-web-devicons" },
     { "AndreM222/copilot-lualine" },
-    { "arkav/lualine-lsp-progress" },
   },
   opts = {
     sections = {
@@ -21,7 +20,16 @@ return {
       lualine_c = {
         -- 'filename'  -- Hide the filename since it is already displayed by bufferline
       },
-      lualine_x = { "lsp_progress", "copilot", "encoding", "fileformat", "filetype" },
+      lualine_x = {
+        {
+          function() return vim.lsp.status() end,
+          cond = function() return vim.lsp.status() ~= "" end,
+        },
+        "copilot",
+        "encoding",
+        "fileformat",
+        "filetype",
+      },
       lualine_y = { "progress" },
       lualine_z = { "location" },
     },
@@ -42,4 +50,11 @@ return {
       "trouble",
     },
   },
+  config = function(_, opts)
+    require("lualine").setup(opts)
+    -- Redraw on progress so vim.lsp.status() stays current
+    vim.api.nvim_create_autocmd("LspProgress", {
+      callback = function() require("lualine").refresh() end,
+    })
+  end,
 }

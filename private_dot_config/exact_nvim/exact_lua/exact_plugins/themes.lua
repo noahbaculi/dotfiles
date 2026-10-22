@@ -15,7 +15,6 @@ return {
     opts = {
       plugins = {
         "gitsigns",
-        "noice",
         "nvim-tree",
         "nvim-web-devicons",
         "trouble",

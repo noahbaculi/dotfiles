@@ -1,5 +1,5 @@
 return {
-  "allaman/emoji.nvim",
+  "Allaman/emoji.nvim",
   cmd = { "Emoji", "EmojiByGroup" },
   opts = {},
 }

@@ -209,6 +209,13 @@ plugins {
     configuration location="zellij:configuration"
     plugin-manager location="zellij:plugin-manager"
     about location="zellij:about"
+    radar location="file:~/.config/zellij/plugins/zj_radar.wasm" {
+        notify false
+        density "comfortable"
+        header false
+        spinner_fps 1
+        glyphs "nerd"
+    }
 }
 
 // Plugins to load in the background when a new session starts

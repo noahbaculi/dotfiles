@@ -221,10 +221,6 @@ plugins {
 // Plugins to load in the background when a new session starts
 load_plugins {
   "zellij:link"
-  "file:~/.config/zellij/plugins/zellij-attention.wasm" {
-    waiting_icon "󰔟"
-    completed_icon "󰄬"
-  }
   // "file:/path/to/my-plugin.wasm"
   // "https://example.com/my-plugin.wasm"
 }

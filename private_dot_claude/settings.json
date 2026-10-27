@@ -92,5 +92,6 @@
   "editorMode": "normal",
   "autoCompactEnabled": false,
   "agentPushNotifEnabled": false,
-  "voiceEnabled": false
+  "voiceEnabled": false,
+  "promptSuggestionEnabled": false
 }

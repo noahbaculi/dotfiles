@@ -87,9 +87,19 @@
     "padding": 0,
     "refreshInterval": 10
   },
+  "extraKnownMarketplaces": {
+    "zj-radar": {
+      "source": {
+        "source": "github",
+        "repo": "marktoda/zj-radar",
+        "ref": "v0.11.0"
+      }
+    }
+  },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true
+    "skill-creator@claude-plugins-official": true,
+    "zj-radar-claude@zj-radar": true
   },
   "syntaxHighlightingDisabled": false,
   "effortLevel": "medium",

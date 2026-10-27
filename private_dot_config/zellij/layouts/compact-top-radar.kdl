@@ -1,0 +1,26 @@
+// compact-top with the zj-radar agent rail on the left
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+        pane split_direction="vertical" {
+            pane size=32 borderless=true {
+                plugin location="radar"
+            }
+            children
+        }
+    }
+    // Runtime tabs need a concrete focused pane, a nested children is dropped
+    new_tab_template {
+        pane size=1 borderless=true {
+            plugin location="compact-bar"
+        }
+        pane split_direction="vertical" {
+            pane size=32 borderless=true {
+                plugin location="radar"
+            }
+            pane focus=true
+        }
+    }
+}

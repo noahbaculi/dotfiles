@@ -38,6 +38,7 @@ Library/Application Support
 # Work-only Claude settings
 {{- if .work }}
 .claude/settings.json
+.config/ccstatusline
 {{- end }}
 
 # HAPI hub autostart on the work Mac only

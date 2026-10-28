@@ -13,14 +13,14 @@
     url = "https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-static-v1.400.zip"
 {{- end }}
 
+{{- if .dev_env }}
+
 {{/* Agent status rail, loaded only by the compact-top-radar layout. Bump
      together with the zj-radar CLI pin in mise, using the release's .sha256. */}}
 [".config/zellij/plugins/zj_radar.wasm"]
     type = "file"
     url = "https://github.com/marktoda/zj-radar/releases/download/v0.11.0/zj_radar.wasm"
     checksum.sha256 = "36192b742a840432d58ac1e1eaed47076a19b79adc8191d2284499470faaf0e1"
-
-{{- if .dev_env }}
 
 [".agents/skills/chezmoi"]
     type = "git-repo"

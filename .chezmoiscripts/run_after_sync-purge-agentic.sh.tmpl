@@ -3,7 +3,7 @@
 exit 0
 {{- else }}
 # Purge previously-installed agentic-coding footprint on non-dev machines.
-# The six paths mirror the non-dev block in .chezmoiignore.
+# The nine paths mirror the non-dev block in .chezmoiignore.
 # Idempotent: missing paths are ignored.
 set -eu
 for path in \
@@ -12,7 +12,10 @@ for path in \
     "$HOME/.config/AGENTS.md" \
     "$HOME/.config/ccstatusline" \
     "$HOME/.config/crush" \
-    "$HOME/.config/maki"
+    "$HOME/.config/maki" \
+    "$HOME/.config/zellij/plugins/zj_radar.wasm" \
+    "$HOME/.config/zellij/layouts/compact-top-radar.kdl" \
+    "$HOME/.config/zellij/layouts/compact-top-radar.swap.kdl"
 do
     if [ -e "$path" ] || [ -L "$path" ]; then
         rm -rf -- "$path"

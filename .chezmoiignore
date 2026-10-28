@@ -30,6 +30,9 @@ Library/Application Support
 .config/ccstatusline
 .config/crush
 .config/maki
+.config/zellij/plugins/zj_radar.wasm
+.config/zellij/layouts/compact-top-radar.kdl
+.config/zellij/layouts/compact-top-radar.swap.kdl
 {{- end }}
 
 # Work-only Claude settings

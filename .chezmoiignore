@@ -36,3 +36,8 @@ Library/Application Support
 {{- if .work }}
 .claude/settings.json
 {{- end }}
+
+# HAPI hub autostart on the work Mac only
+{{- if or (not .work) (ne .chezmoi.os "darwin") }}
+Library/LaunchAgents/com.hapi.hub.plist
+{{- end }}

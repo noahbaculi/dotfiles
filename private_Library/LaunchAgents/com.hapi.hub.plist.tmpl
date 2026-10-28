@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- HAPI hub on loopback, published to the tailnet by `tailscale serve --bg 3006` -->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.hapi.hub</string>
+    <key>ProgramArguments</key>
+    <array>
+        <!-- mise shim so version bumps need no plist change -->
+        <string>{{ .chezmoi.homeDir }}/.local/share/mise/shims/hapi</string>
+        <string>hub</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>{{ .chezmoi.homeDir }}/.hapi/logs/hub.log</string>
+    <key>StandardErrorPath</key>
+    <string>{{ .chezmoi.homeDir }}/.hapi/logs/hub.log</string>
+</dict>
+</plist>

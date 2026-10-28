@@ -56,6 +56,10 @@ rtk = "latest"
 "npm:ccstatusline" = "latest"
 
 {{- end }}
+{{- if .work }}
+
+"github:tiann/hapi" = "0.31.3"  # Pin: the hub and every CLI must run the same version
+{{- end }}
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]

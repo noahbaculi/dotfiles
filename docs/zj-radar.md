@@ -32,6 +32,8 @@ Restart zellij sessions and Claude sessions to load the new wasm and hooks.
 - [#86](https://github.com/marktoda/zj-radar/issues/86): there's no option to hide the `─ earlier ─` ledger.
 - `attention-next`/`attention-prev` keybinds only switch once: pressed again from the target tab they do nothing, though the same message sent with `zellij action pipe --plugin radar` keeps cycling. The binds were dropped until this is understood.
 
+- The rail sits on the right edge because zellij 0.45.1 mishandles a non-selectable pane on the left: floating swap layouts are positioned from column 0 instead of the viewport, and the rail's last column is reserved for a boundary that never draws, so floating pane text lingers there. Move it back once zellij adds `viewport.x` in `apply_floating_pane_position` and `pane_content_offset`.
+
 Recheck these on each bump.
 
 ## Prompt suggestion workaround

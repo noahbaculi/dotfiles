@@ -3,10 +3,10 @@ tab_template name="ui" {
        plugin location="compact-bar"
    }
    pane split_direction="vertical" {
+       children
        pane size=32 borderless=true {
            plugin location="radar"
        }
-       children
    }
 }
 

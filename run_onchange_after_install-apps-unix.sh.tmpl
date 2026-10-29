@@ -42,7 +42,6 @@ brew install gnu-sed wget mosh
 # One invocation fetches everything first, then installs back to back so the
 # pkg casks share a single sudo prompt. Comment a line out to skip it
 grep -v '^#' <<-EOF | xargs brew install --cask
-	google-chrome
 	firefox
 	ghostty
 	font-symbols-only-nerd-font
@@ -56,6 +55,7 @@ grep -v '^#' <<-EOF | xargs brew install --cask
 	logi-options+
 	betterdisplay
 	xykong/tap/flux-markdown
+	darrylmorley/whatcable/whatcable
 	smoothcsv
 EOF
 {{- end }}

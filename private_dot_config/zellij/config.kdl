@@ -215,6 +215,7 @@ plugins {
         header false
         spinner_fps 1
         glyphs "nerd"
+        naming "off"
     }
 }
 

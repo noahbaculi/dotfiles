@@ -13,12 +13,10 @@ curl -sL https://github.com/marktoda/zj-radar/releases/download/__TAG__/zj_radar
 
 1. `.chezmoiexternal.toml.tmpl`: wasm `url` tag and `checksum.sha256`
 2. `private_dot_config/mise/config.toml.tmpl`: `"github:marktoda/zj-radar"` version, without the `v`
-3. `private_dot_claude/settings.json`: `extraKnownMarketplaces.zj-radar.source.ref`
-4. Work machines: the same `ref` in the local `~/.claude/settings.json`, since chezmoi ignores that file when `.work` is set
+3. `private_dot_claude/settings.json.tmpl`: `extraKnownMarketplaces.zj-radar.source.ref`
 
 ```shell
-chezmoi apply ~/.config/zellij/plugins/zj_radar.wasm ~/.config/mise/config.toml
-chezmoi apply ~/.claude/settings.json  # non-work machines only, fails as not managed on work
+chezmoi apply ~/.config/zellij/plugins/zj_radar.wasm ~/.config/mise/config.toml ~/.claude/settings.json
 mise install
 ```
 
@@ -36,6 +34,13 @@ Restart zellij sessions and Claude sessions to load the new wasm and hooks.
 
 Recheck these on each bump.
 
-## Prompt suggestion workaround
+## Stuck-at-working workaround
 
-`"promptSuggestionEnabled": false` is set in `private_dot_claude/settings.json` and the work machine's local `~/.claude/settings.json`. Claude Code's prompt-suggestion helper sends a `SubagentStop` with an empty `agent_type` about 2s after `Stop`, and v0.11.0 maps it back to running, leaving finished rows stuck at working ([#81](https://github.com/marktoda/zj-radar/issues/81)). Remove the setting from both files once a release includes [#84](https://github.com/marktoda/zj-radar/pull/84).
+Claude Code's internal helpers send a `SubagentStop` with an empty `agent_type`, and v0.11.0 maps it back to running, leaving finished rows stuck at working ([#81](https://github.com/marktoda/zj-radar/issues/81)). Two of them are turned off in `private_dot_claude/settings.json.tmpl`:
+
+- `"promptSuggestionEnabled": false`: the prompt suggestion, about 2s after `Stop`
+- `"awaySummaryEnabled": false`: the session recap, when returning to an idle pane
+
+Manual `/recap` flips the row the same way, so skip it. Idle compaction (after about 54 min idle) and background `Agent` progress summaries still send it.
+
+Remove both settings once a release includes [#84](https://github.com/marktoda/zj-radar/pull/84).

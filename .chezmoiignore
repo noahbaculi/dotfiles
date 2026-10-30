@@ -35,9 +35,8 @@ Library/Application Support
 .config/zellij/layouts/compact-top-radar.swap.kdl
 {{- end }}
 
-# Work-only Claude settings
+# Unmanaged on work machines
 {{- if .work }}
-.claude/settings.json
 .config/ccstatusline
 {{- end }}
 

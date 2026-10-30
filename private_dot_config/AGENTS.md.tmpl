@@ -11,7 +11,6 @@ When producing prose for the user to copy-paste, invoke the `humanizer` skill pl
 - Learn from existing implementations and style.
 - Stop after 3 failed attempts and reassess.
 - When the user is asking for explanations or clarification on decisions or foundational concepts, start with brief high level for context. Use clear unicode diagrams where it would be helpful.
-- Chunk large file writes. If a `write` tool call's `content` would exceed about 400 lines or 20 KB, split it: emit the first chunk (≤200 lines / ~10 KB) with `write`, then append the remainder with `bash` using `cat >> path << 'EOF' ... EOF`. OpenCode's tool-call streaming over `@ai-sdk/anthropic` via GitHub Copilot truncates large writes at the 32 000 output-token cap, leaving an orphaned tool call (upstream issue anomalyco/opencode#33687). The model sees `"Tool execution aborted"` with no recoverable state.
 
 ## Never
 
@@ -22,6 +21,7 @@ When producing prose for the user to copy-paste, invoke the `humanizer` skill pl
 - Add attribution trailers to commit messages, PR descriptions, or issue bodies. No `Co-Authored-By: Claude`, no `Assisted-by:`, no `🤖 Generated with Claude Code`, no `💘 Generated with Crush`, no `Generated with <any tool>` line. This applies to every AI assistant, every project, and every git-message surface.
 - Put ticket IDs (JIRA/Linear/etc.) in source code comments. The branch name and commit message carry them.
 - Prefix commit subjects with the ticket ID. Use a conventional prefix (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) instead.
+- Publish to GitHub, Slack, Jira, or any other shared surface without my explicit go-ahead on the final text. Create PR reviews as pending (omit `event`) so I submit them myself. Picking a format or option in a prompt is not approval to post.
 
 ## Asking questions
 
@@ -33,7 +33,7 @@ Ask decision questions through the harness's multiple-choice prompt (such as `As
 - Keep the question to one sentence, and don't cram context into the question or previews.
 - Give each item enough context to decide cold: a line on what the subject is, the whole current and proposed text rather than an excerpt of the part that changed, and a definition for any shorthand like "Q2" right next to it.
 - In Claude Code, use `preview` only to compare concrete text, code, or layouts on a single-select question. Keep each to the part that differs, under about 15 lines and 2,000 characters, or it is clipped or withheld. Give a "keep as is" option a preview of the current text too.
-- Don't add an "Other" option when the prompt already has one: Claude Code prompts without previews, OpenCode, Codex, and Gemini all add their own. A Claude Code prompt with previews swaps "Other" for notes, so there add a last option like "Something else (add a note)".
+- Don't add an "Other" option when the prompt already has one, as Claude Code's does without previews. A Claude Code prompt with previews swaps "Other" for notes, so there add a last option like "Something else (add a note)".
 - Don't end a turn with a lettered menu in chat when a prompt would work.
 
 ## Subagents

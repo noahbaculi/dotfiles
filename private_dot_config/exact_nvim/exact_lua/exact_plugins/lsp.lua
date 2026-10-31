@@ -5,6 +5,8 @@ return {
     event = { "VeryLazy" },
     config = function()
       vim.lsp.config("tinymist", {})
+      -- Keep format-on-save a no-op in repos without a .clang-format
+      vim.lsp.config("clangd", { cmd = { "clangd", "--fallback-style=none" } })
 
       vim.lsp.config("*", {
         capabilities = require("blink.cmp").get_lsp_capabilities(),
@@ -18,6 +20,7 @@ return {
         { name = "tinymist", binary = "tinymist" },
         { name = "ruff", binary = "ruff" },
         { name = "ty", binary = "ty" },
+        { name = "clangd", binary = "clangd" },
       }
 
       for _, server in ipairs(servers) do

@@ -3,6 +3,7 @@
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.g.c_syntax_for_h = 1 -- .h defaults to cpp, extension headers are C
 
 -- Remote clipboard provider. Must be set before plugins call `has('clipboard')`
 require("clipboard")

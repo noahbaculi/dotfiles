@@ -78,6 +78,7 @@
     include = ["*/skills/playwright-cli/**"]
     refreshPeriod = "168h"
 
+
 [".agents/skill-sources/mattpocock"]
     type = "git-repo"
     url = "https://github.com/mattpocock/skills.git"
@@ -105,4 +106,16 @@
     refreshPeriod = "168h"
     clone.args = ["--depth", "1"]
     pull.args = ["--ff-only"]
+
+{{- if .work }}
+
+{{/* pgrx is work-only. Pinned to a release so advice matches the installed
+     cargo-pgrx. Bump the tag together with cargo-pgrx. */}}
+[".agents/skills/cargo-pgrx"]
+    type = "archive"
+    url = "https://github.com/pgcentralfoundation/pgrx/archive/refs/tags/v0.19.3.tar.gz"
+    stripComponents = 3
+    include = ["*/skills/cargo-pgrx/**"]
+{{- end }}
+
 {{- end }}

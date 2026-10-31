@@ -98,6 +98,6 @@ mise self-update -y || true
 mise cache clear
 mise upgrade
 mise install
-mise prune
+mise prune -y
 command -v rustup >/dev/null && rustup update || true
 """

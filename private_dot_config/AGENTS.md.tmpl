@@ -94,4 +94,11 @@ Apply the lazy-senior-dev ladder from `~/.agents/skill-sources/ponytail/AGENTS.m
 - Never run `mise run regress` in parallel because the process is single-threaded.
 - `mise run regress` can target multiple tests by passing multiple test names: `mise run regress __test_1__ __test_2__`.
 - Do not run the no-arg `mise run regress` suite (~30 min). Target specific tests and let CI cover the rest.
+
+## Postgres C extensions
+
+- Build and install PGXS extensions such as pgvector against pgrx's Postgres with `make PG_CONFIG=~/.pgrx/18.6/pgrx-install/bin/pg_config install`.
+- Run regression tests with `make installcheck PG_CONFIG=~/.pgrx/18.6/pgrx-install/bin/pg_config`, after starting the server with `cargo pgrx start pg18`. Target specific tests with `REGRESS="__test_1__ __test_2__"`.
+- Regenerate `compile_commands.json` for clangd with `make clean` and then `bear -- make PG_CONFIG=...`. bear records only the files that compile in that run, so an incremental build leaves gaps.
+- Never reformat whole files. Postgres code follows `pgindent`, so match the surrounding style.
 {{- end }}

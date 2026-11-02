@@ -1,4 +1,9 @@
 {
+{{- if not .work }}
+  "env": {
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
+  },
+{{- end }}
   "attribution": {
     "commit": "",
     "pr": ""
@@ -17,11 +22,7 @@
     }
   },
 {{- else }}
-  "model": "sonnet",
-  "effortLevel": "medium",
-  "env": {
-    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
-  },
+  "model": "opus",
 {{- end }}
   "hooks": {
     "PreToolUse": [
@@ -80,6 +81,12 @@
     "padding": 0,
     "refreshInterval": 10
   },
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "zj-radar-claude@zj-radar": true
+  },
   "extraKnownMarketplaces": {
     "zj-radar": {
       "source": {
@@ -89,13 +96,12 @@
       }
     }
   },
-  "enabledPlugins": {
-    "clangd-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true,
-    "zj-radar-claude@zj-radar": true
-  },
   "syntaxHighlightingDisabled": false,
+{{- if not .work }}
+  "effortLevel": "medium",
+{{- end }}
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "voice": {
     "enabled": false,
@@ -105,7 +111,5 @@
   "editorMode": "normal",
   "autoCompactEnabled": false,
   "agentPushNotifEnabled": false,
-  "voiceEnabled": false,
-  "promptSuggestionEnabled": false,
-  "awaySummaryEnabled": false
+  "voiceEnabled": false
 }

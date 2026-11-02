@@ -26,6 +26,30 @@ run = [
   "stylua private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua",
 ]
 
+[tasks."nvim:update"]
+description = "Update nvim plugins and commit and push the lockfile"
+# Push before any host runs update-machine, whose chezmoi update pulls this
+# lockfile and restores plugins from it. Commits only the lockfile so other
+# re-add changes stay unstaged for review. Hosts pull main, so a lockfile
+# pushed from another branch never reaches them
+run = [
+  "test \"$(git branch --show-current)\" = main || { echo 'nvim:update pushes the lockfile to main; switch to main first' >&2; exit 1; }",
+  "nvim --headless '+Lazy! update' +qa",
+  "chezmoi re-add ~/.config/nvim",
+  "git diff --quiet HEAD -- private_dot_config/exact_nvim/lazy-lock.json || { git commit -m 'chore(nvim): update lazy lockfile' -- private_dot_config/exact_nvim/lazy-lock.json && git push; }",
+]
+
+[tasks.update-all]
+description = "Update nvim plugins, then every machine via server-configs"
+# Check for the clone first so a machine without one (work) stops before
+# committing a lockfile. Not a `depends`, which would run before the check.
+# Host names after the task name are appended to the last command
+run = [
+  "test -d \"${SERVER_CONFIGS_DIR:-$HOME/github/server-configs}\" || { echo \"server-configs not found; set SERVER_CONFIGS_DIR to its clone\" >&2; exit 1; }",
+  "mise run nvim:update",
+  "mise run -C \"${SERVER_CONFIGS_DIR:-$HOME/github/server-configs}\" update-all",
+]
+
 [hooks]
 # Point this clone's git at .githooks the first time mise's shell integration
 # fires the enter hook here, so the committed pre-commit script runs without

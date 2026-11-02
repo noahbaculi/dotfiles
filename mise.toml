@@ -36,7 +36,9 @@ run = [
   "test \"$(git branch --show-current)\" = main || { echo 'nvim:update pushes the lockfile to main; switch to main first' >&2; exit 1; }",
   "nvim --headless '+Lazy! update' +qa",
   "chezmoi re-add ~/.config/nvim",
-  "git diff --quiet HEAD -- private_dot_config/exact_nvim/lazy-lock.json || { git commit -m 'chore(nvim): update lazy lockfile' -- private_dot_config/exact_nvim/lazy-lock.json && git push; }",
+  "git diff --quiet HEAD -- private_dot_config/exact_nvim/lazy-lock.json || git commit -m 'chore(nvim): update lazy lockfile' -- private_dot_config/exact_nvim/lazy-lock.json",
+  # Always push, so a commit left by a rejected push goes out on rerun
+  "git push",
 ]
 
 [tasks.update-all]

@@ -33,13 +33,13 @@ Two tasks in `mise.toml`, which `.chezmoiignore` already keeps out of `chezmoi a
 ```sh
 nvim --headless '+Lazy! update' +qa
 chezmoi re-add ~/.config/nvim
-# commit and push only when the lockfile changed
-git add private_dot_config/exact_nvim/lazy-lock.json
-git commit -m 'chore(nvim): update lazy lockfile'
-git push
+# commit only the lockfile, only when it differs from HEAD
+git diff --quiet HEAD -- private_dot_config/exact_nvim/lazy-lock.json ||
+  git commit -m 'chore(nvim): update lazy lockfile' -- private_dot_config/exact_nvim/lazy-lock.json
+git push  # unconditional, so a commit left by a rejected push goes out on rerun
 ```
 
-`update-all` depends on `nvim:update`, then runs:
+`update-all` checks for the clone, runs `mise run nvim:update`, then:
 
 ```sh
 mise run -C "${SERVER_CONFIGS_DIR:-$HOME/github/server-configs}" update-all  # host-name args pass through

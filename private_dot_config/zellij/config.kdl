@@ -168,6 +168,12 @@ keybinds clear-defaults=true {
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
+        bind "Alt e" {
+            MessagePlugin { name "zj_radar.cmd.v1"; payload "attention-next"; }
+        }
+        bind "Alt w" {
+            MessagePlugin { name "zj_radar.cmd.v1"; payload "attention-prev"; }
+        }
     }
     shared_except "normal" "locked" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
@@ -216,6 +222,7 @@ plugins {
         spinner_fps 1
         glyphs "nerd"
         naming "off"
+        ledger false
     }
 }
 

@@ -20,27 +20,17 @@ chezmoi apply ~/.config/zellij/plugins/zj_radar.wasm ~/.config/mise/config.toml 
 mise install
 ```
 
-Restart zellij sessions and Claude sessions to load the new wasm and hooks.
+Then run `/plugin update zj-radar-claude@zj-radar` in Claude Code, and restart zellij sessions and Claude sessions to load the new wasm and hooks.
 
-> Note: don't use `zj-radar setup` or `zj-radar update`. They rewrite `config.kdl` and layouts that chezmoi manages. `setup zellij --grant` is also broken on zellij 0.45 ([#82](https://github.com/marktoda/zj-radar/issues/82)), so accept the permission prompt when the rail first loads.
+> Note: don't use `zj-radar setup` or `zj-radar update`. They rewrite `config.kdl` and layouts that chezmoi manages.
+
+## Config
+
+`ledger false` in the `radar` block of `config.kdl` hides the `─ earlier ─` ledger. `Alt e` and `Alt w` cycle to the next and previous tab needing attention. The binds broadcast `zj_radar.cmd.v1` with no plugin target, since `MessagePlugin "radar"` launches a new rail in sessions without one.
 
 ## Known gaps
 
-- [#85](https://github.com/marktoda/zj-radar/issues/85): the rail is always dark, because zellij reports a null pane `default_bg`.
-- [#86](https://github.com/marktoda/zj-radar/issues/86): there's no option to hide the `─ earlier ─` ledger.
-- `attention-next`/`attention-prev` keybinds only switch once: pressed again from the target tab they do nothing, though the same message sent with `zellij action pipe --plugin radar` keeps cycling. The binds were dropped until this is understood.
-
+- [#85](https://github.com/marktoda/zj-radar/issues/85): the rail is always dark, because zellij reports a null pane `default_bg`. Fixed on main by [#93](https://github.com/marktoda/zj-radar/pull/93), not yet released.
 - The rail sits on the right edge because zellij 0.45.1 mishandles a non-selectable pane on the left: floating swap layouts are positioned from column 0 instead of the viewport, and the rail's last column is reserved for a boundary that never draws, so floating pane text lingers there. Move it back once zellij adds `viewport.x` in `apply_floating_pane_position` and `pane_content_offset`.
 
 Recheck these on each bump.
-
-## Stuck-at-working workaround
-
-Claude Code's internal helpers send a `SubagentStop` with an empty `agent_type`, and v0.11.0 maps it back to running, leaving finished rows stuck at working ([#81](https://github.com/marktoda/zj-radar/issues/81)). Two of them are turned off in `private_dot_claude/settings.json.tmpl`:
-
-- `"promptSuggestionEnabled": false`: the prompt suggestion, about 2s after `Stop`
-- `"awaySummaryEnabled": false`: the session recap, when returning to an idle pane
-
-Manual `/recap` flips the row the same way, so skip it. Idle compaction (after about 54 min idle) and background `Agent` progress summaries still send it.
-
-Remove both settings once a release includes [#84](https://github.com/marktoda/zj-radar/pull/84).

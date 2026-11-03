@@ -59,6 +59,7 @@ Notable chords sorted by impact. "Real conflict" means two layers both intercept
 | `Alt-i` / `Alt-o`                                                                        | passes                                     | sends                         | sends                             | MoveTab left/right                  | none                                               | clean                                                     |
 | `Alt-+` / `Alt--` / `Alt-=`                                                              | passes                                     | sends                         | sends                             | Resize                              | none                                               | clean                                                     |
 | `Alt-[` / `Alt-]`                                                                        | passes                                     | sends                         | sends                             | PreviousSwapLayout / NextSwapLayout | none                                               | clean, watch for escape-seq edge cases                    |
+| `Alt-e` / `Alt-w`                                                                        | passes                                     | sends                         | sends                             | attention next/prev (zj-radar)      | fish: edit command line / describe command         | **yes** for fish inside zellij                            |
 | Left `Ctrl` in non-terminal macOS apps                                                   | → Left `Cmd`                               | n/a                           | n/a                               | n/a                                 | n/a                                                | intentional, see audit note                               |
 | Left `Ctrl` inside ghostty / alacritty / iTerm / Terminal.app / neovide / RustDesk / LoL | unchanged                                  | sees `Ctrl`                   | n/a                               | sees `Ctrl`                         | sees `Ctrl`                                        | intentional carve-out                                     |
 | `F5`-`F11` (device 30359/3141 and 16387/1121)                                            | → media keys (rewind, ff, play, vol, mute) | n/a                           | n/a                               | n/a                                 | n/a                                                | intentional per-device                                    |
@@ -167,6 +168,8 @@ File: `private_dot_config/zellij/config.kdl`. Started with `keybinds clear-defau
 | `Alt--`           | Resize Decrease      |
 | `Alt-[`           | PreviousSwapLayout   |
 | `Alt-]`           | NextSwapLayout       |
+| `Alt-e`           | radar attention-next |
+| `Alt-w`           | radar attention-prev |
 
 #### Pane mode
 

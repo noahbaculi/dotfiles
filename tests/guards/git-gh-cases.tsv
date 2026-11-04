@@ -1,0 +1,80 @@
+none	git status
+none	git log --grep push
+none	git push origin main
+none	git push origin HEAD:main
+none	git --no-pager -C x push origin master
+ask	git push --force origin main
+none	git push -u origin feat
+none	cd x && git push origin feat
+none	GIT_SSH_COMMAND=ssh git push origin feat
+none	git push
+ask	git -C ../x push -f
+ask	git push -fu origin feat
+ask	git push --force-with-lease origin feat
+ask	git push origin +feat
+ask	git push --all
+ask	sh -c "git push --force"
+ask	if true; then git push --force; fi
+ask	rtk git push --force
+none	git pushd
+none	git log -p push.c
+deny	git commit --no-verify -m wip
+deny	git push --no-verify origin feat
+ask	git reset --hard HEAD~1
+none	git reset --soft HEAD~1
+ask	git clean -fd
+none	git clean -n
+ask	git branch -D old
+none	git branch -d old
+ask	git checkout .
+ask	git checkout -- .
+none	git checkout main
+ask	git restore .
+none	git restore --staged a.txt
+ask	git stash drop
+none	git stash pop
+none	gh pr view 1 --comments
+none	gh pr list
+ask	gh pr create --title t --body b
+ask	gh -R o/r pr comment 1 -b hi
+ask	GH_TOKEN=x gh pr edit 1 --body x
+ask	gh pr review 1 --approve
+ask	gh pr merge 1 --squash
+ask	gh issue create -t t -b b
+ask	gh issue comment 3 -b hi
+none	gh issue close 3
+ask	gh release create v1
+ask	echo $(gh pr comment 1 -b hi)
+none	gh api repos/o/r/pulls/1/comments
+ask	gh api repos/o/r/pulls/1/reviews -f commit_id=abc --input c.json
+ask	gh api -X POST repos/o/r/pulls/1/reviews -f event=APPROVE
+ask	gh api repos/o/r/issues/1/comments -f body=hi
+none	gh api -X GET search/issues -f q=repo:o/r
+none	gh api graphql -f query='query{viewer{login}}'
+ask	gh api graphql -f query='mutation{addComment(input:{})}'
+none	curl https://api.github.com/repos/a/b
+none	echo "see github.com" && curl https://example.com
+none	grep -n "gh pr create" README.md
+none	rg 'git push' docs
+none	command curl https://api.github.com/x
+none	wget -qO- https://api.github.com/x
+none	xh api.github.com/x
+none	u=api.github; curl https://$u.com/x
+none	curl https://raw.githubusercontent.com/a/b/main/f
+ask	gh pr comment 1 --body hi
+ask	gh api graphql -f query='mutation{addComment}'
+none	gh pr reviews
+ask	sh -c "gh pr comment 1 -b hi"
+none	cd x && git push
+none	GIT_SSH_COMMAND=ssh git push
+none	git commit -n -m wip
+none	sh -c "git push"
+none	c=push; git $c
+none	gh issue close 3 -c bye
+ask	gh api repos/o/r/pulls/1/reviews -f body=LGTM -f commit_id=abc
+ask	gh api -X POST repos/o/r/pulls/1/reviews/9/events -f event=COMMENT
+none	command curl -s https://api.github.com/x
+none	wget -qO- https://github.com/o/r/archive.tar.gz
+none	git --no-pager -C x push
+none	git -c core.x=1 push
+none	git --git-dir=.git push

@@ -67,7 +67,7 @@ none	gh pr reviews
 ask	sh -c "gh pr comment 1 -b hi"
 none	cd x && git push
 none	GIT_SSH_COMMAND=ssh git push
-none	git commit -n -m wip
+deny	git commit -n -m wip
 none	sh -c "git push"
 none	c=push; git $c
 none	gh issue close 3 -c bye
@@ -90,3 +90,9 @@ ask	git push '--force'
 ask	git "push" -f
 ask	"git" push -f
 ask	gh "pr" create --fill
+deny	git commit -nm wip
+deny	git commit -an
+none	git commit -m "n"
+none	git commit --amend
+none	git commit -am wip
+none	git push -n

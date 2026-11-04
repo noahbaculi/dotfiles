@@ -57,7 +57,7 @@ case $EXIT_CODE in
         '{updated_input: ({command: $cmd} | tostring)} + (if $d == "" then {} else {decision: $d} end)'
     ;;
 *)
-    # No rewrite (1), deny (2), or unexpected, so pass through.
+    # No rewrite (1), deny (2), or unexpected, so pass through
     exit 0
     ;;
 esac

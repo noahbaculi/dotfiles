@@ -8,3 +8,11 @@ expect "other reads ignored" none mark-skill "$(read_payload /etc/hosts S1)"
 expect "traversal sid rejected" none mark-skill "$(skill_payload x '../../evil')"
 [ ! -e "$XDG_CACHE_HOME/evil" ] && [ ! -e "$XDG_CACHE_HOME/claude-guards/../../evil" ] || fail "sid escaped state dir"
 expect "no sid is a no-op" none mark-skill "$(skill_payload x '')"
+for s in .. .; do
+  expect "dot sid '$s' rejected" none mark-skill "$(skill_payload zz "$s")"
+  [ ! -e "$XDG_CACHE_HOME/zz" ] && [ ! -e "$XDG_CACHE_HOME/claude-guards/zz" ] || fail "sid '$s' escaped state dir"
+done
+for k in .. a/b; do
+  expect "bad skill '$k' no marker" none mark-skill "$(skill_payload "$k" S2)"
+done
+[ -z "$(ls -A "$XDG_CACHE_HOME/claude-guards/S2" 2>/dev/null)" ] || fail "bad skill name created a marker"

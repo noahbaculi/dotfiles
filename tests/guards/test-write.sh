@@ -57,3 +57,7 @@ expect "scratch exempt"      none guard-write "$(write_payload Write /tmp/x/a.rs
 expect "comment em dash"     deny guard-write "$(write_payload Write "$N/a.rs" '// hi — there' W2)" 'em dash'
 expect "clean comment"       none guard-write "$(write_payload Write "$N/a.rs" '// hi' W2)"
 expect "no prose lint"       none guard-write "$(write_payload Write "$N/a.rs" '// delve into the cache' W2)"
+# Write over an existing file: on-disk comments count as old
+printf '// keep\nfn a() {}\n' >"$N/ex.rs"
+expect "write keeps existing comment" none guard-write "$(write_payload Write "$N/ex.rs" $'// keep\nfn a() {}\n' W1)"
+expect "write adds new comment"       deny guard-write "$(write_payload Write "$N/ex.rs" $'// keep\n// fresh\nfn a() {}\n' W1)" writing-style-code-comments

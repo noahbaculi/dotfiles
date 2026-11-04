@@ -93,8 +93,8 @@ GIT="${PRE}${LEAD}git([[:space:]]+(-[Cc][[:space:]]+[^[:space:]]+|--[[:alnum:]-]
 GH="${PRE}${LEAD}gh([[:space:]]+(-R|--repo)[[:space:]=]+[^[:space:]]+)*[[:space:]]+"
 E='([[:space:]]|$)'
 
-has "$GIT(commit|push|merge|rebase)$S[[:space:]]--no-verify$E" &&
-  decide deny "Never bypass git hooks with --no-verify. Fix what the hook reports."
+has "($GIT(commit|push|merge|rebase)$S[[:space:]]--no-verify|${GIT}commit$S[[:space:]]-[[:alpha:]]*n[[:alpha:]]*)$E" &&
+  decide deny "Never bypass git hooks with --no-verify or commit -n. Fix what the hook reports."
 
 # Force, --all and --mirror pushes only, a plain push passes
 has "${GIT}push$S[[:space:]]((--force|--force-with-lease|--force-if-includes|-[[:alpha:]]*f[[:alpha:]]*|--all|--mirror)([^[:alnum:]_-]|$)|\+[^[:space:]])" &&

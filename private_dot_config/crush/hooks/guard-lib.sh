@@ -8,7 +8,7 @@ guard_read_payload() {
   PAYLOAD=$(cat)
   SID=$(printf '%s' "$PAYLOAD" | jq -r '.session_id // empty' 2>/dev/null)
   case "$SID" in
-    '' | *[!A-Za-z0-9._-]*) SID='' ;;
+    '' | . | .. | *[!A-Za-z0-9._-]*) SID='' ;;
   esac
   CWD=$(printf '%s' "$PAYLOAD" | jq -r '.cwd // empty' 2>/dev/null)
   [ -n "$CWD" ] || CWD=$PWD

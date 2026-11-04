@@ -26,6 +26,10 @@ run = [
   "stylua private_dot_config/exact_nvim/init.lua private_dot_config/exact_nvim/exact_lua private_dot_config/theme-switcher/themes.lua",
 ]
 
+[tasks."test:guards"]
+description = "Run the guard hook test suite"
+run = "bash tests/guards/run.sh"
+
 [tasks."nvim:update"]
 description = "Update nvim plugins and commit and push the lockfile"
 # Push before any host runs update-machine, whose chezmoi update pulls this

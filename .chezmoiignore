@@ -1,5 +1,6 @@
 README.md
 docs
+tests
 mise.toml
 .githooks
 .config/theme-switcher/current-theme

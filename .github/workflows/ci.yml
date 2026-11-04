@@ -112,3 +112,13 @@ jobs:
           echo "Checking:"
           echo "$files"
           npx --yes prettier --check $files
+
+  guard-tests:
+    name: guard-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Run guard hook tests
+        shell: bash
+        run: bash tests/guards/run.sh

@@ -78,3 +78,10 @@ none	wget -qO- https://github.com/o/r/archive.tar.gz
 none	git --no-pager -C x push
 none	git -c core.x=1 push
 none	git --git-dir=.git push
+none	grep -c "gh pr create --fill" README.md
+none	grep -E "(gh pr comment 1 -b hi)" notes.md
+none	rg -n "foo|gh issue create -t" docs
+none	git commit -m "docs; gh pr create flow"
+ask	echo "$(gh pr comment 1 -b hi)"
+ask	bash -c 'git push -f'
+none	echo 'git push --force'

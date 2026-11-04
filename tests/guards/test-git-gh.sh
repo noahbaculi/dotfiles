@@ -6,6 +6,13 @@ while IFS=$'\t' read -r want c; do
   expect "git-gh: $c" "$want" guard-git-gh "$(bash_payload "$c" G1 "$N")"
 done <"$(dirname "${BASH_SOURCE[0]}")/git-gh-cases.tsv"
 
+# Quoted mentions must not trip the skill gate (G0 has no markers)
+for c in 'grep -c "gh pr create --fill" README.md' 'grep -E "(gh pr comment 1 -b hi)" notes.md' \
+  'rg -n "foo|gh issue create -t" docs' 'git commit -m "docs; gh pr create flow"'; do
+  expect "quoted G0: $c" none guard-git-gh "$(bash_payload "$c" G0 "$N")"
+done
+expect "heredoc to file G0"  none guard-git-gh "$(bash_payload $'cat > notes.md <<EOF\ngh pr create --fill\nEOF' G0 "$N")"
+expect "heredoc to shell"    ask  guard-git-gh "$(bash_payload $'bash <<EOF\ngit push --force\nEOF' G1 "$N")"
 # Pending-review reason
 expect "review event reason" ask guard-git-gh "$(bash_payload 'gh api -X POST repos/o/r/pulls/1/reviews -f event=APPROVE' G1 "$N")" 'Pending reviews'
 # Skill gate

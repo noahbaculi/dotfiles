@@ -4,7 +4,7 @@ set -uo pipefail
 dir="$(cd "$(dirname "$0")" && pwd)"
 XDG_CACHE_HOME=$(mktemp -d)
 export XDG_CACHE_HOME
-trap 'rm -rf "$XDG_CACHE_HOME"' EXIT
+trap 'rm -rf "$XDG_CACHE_HOME" "${GT:-}"' EXIT
 
 . "$dir/helpers.sh"
 for t in "$dir"/test-*.sh; do

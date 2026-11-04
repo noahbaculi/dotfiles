@@ -6,13 +6,33 @@ TOTAL=0
 fail() {
   echo "FAIL $1"
   FAILS=$((FAILS + 1))
+  TOTAL=$((TOTAL + 1))
 }
+
+# Shared fixtures: R is a git repo, N a plain dir, both outside exempt tmp paths
+# run.sh removes $GT on exit
+mkdir -p "$HOME/.cache"
+GT=$(mktemp -d "$HOME/.cache/guard-test-XXXXXX")
+R=$GT/repo
+N=$GT/plain
+mkdir -p "$R" "$N"
+git -C "$R" init -q
+export TMPDIR=/nonexistent-guard-tmp
+L='This sentence runs on for a while and ends right in the middle of the'
+l='thought it started, so the next line continues it.'
 
 # expect <label> <none|ask|deny> <script-name> <payload> [reason-substring]
 expect() {
   local label=$1 want=$2 script=$3 payload=$4 sub=${5:-} out got reason
-  TOTAL=$((TOTAL + 1))
-  out=$(printf '%s' "$payload" | bash "$HOOKS/executable_$script.sh" 2>&1)
+  out=$(printf '%s' "$payload" | bash "$HOOKS/executable_$script.sh" 2>"$XDG_CACHE_HOME/stderr")
+  if [ -s "$XDG_CACHE_HOME/stderr" ]; then
+    fail "$label: hook wrote to stderr: $(head -c 200 "$XDG_CACHE_HOME/stderr")"
+    return
+  fi
+  if [ -n "$out" ] && ! printf '%s' "$out" | jq -e . >/dev/null 2>&1; then
+    fail "$label: non-JSON output: $out"
+    return
+  fi
   got=$(printf '%s' "$out" | jq -r '.hookSpecificOutput.permissionDecision // empty' 2>/dev/null)
   [ -n "$got" ] || got=none
   if [ "$got" != "$want" ]; then
@@ -26,6 +46,7 @@ expect() {
       *) fail "$label: reason lacks '$sub': $reason"; return ;;
     esac
   fi
+  TOTAL=$((TOTAL + 1))
   echo "ok $label"
 }
 

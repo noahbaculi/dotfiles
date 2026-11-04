@@ -85,3 +85,8 @@ none	git commit -m "docs; gh pr create flow"
 ask	echo "$(gh pr comment 1 -b hi)"
 ask	bash -c 'git push -f'
 none	echo 'git push --force'
+ask	git push "--force"
+ask	git push '--force'
+ask	git "push" -f
+ask	"git" push -f
+ask	gh "pr" create --fill

@@ -47,17 +47,24 @@ mask_cmd() {
           j = index(substr(s, i + 1), "\047")
           if (!j) j = n - i + 1
           q = substr(s, i + 1, j - 1)
-          out = out c (shc() ? q : blank(q)) substr(s, i + j, 1)
+          if (!shc() && q !~ /[[:space:]]/) out = out q
+          else out = out c (shc() ? q : blank(q)) substr(s, i + j, 1)
           i += j + 1; continue
         } else if (c == "\"") {
-          raw = shc(); dq = 1
+          raw = shc()
+          j = index(substr(s, i + 1), "\"")
+          if (!raw && j && substr(s, i + 1, j - 1) !~ /[[:space:]$`\\]/) {
+            out = out substr(s, i + 1, j - 1); i += j + 1; continue
+          }
+          dq = 1
         }
         if (c == "<" && substr(s, i + 1, 1) == "<" && substr(s, i + 2, 1) != "<") {
           rest = substr(s, i + 2)
           if (match(rest, /^-?[ \t]*["\047]?[A-Za-z0-9_]+/)) {
             w = substr(rest, RSTART, RLENGTH); sub(/^-?[ \t]*["\047]?/, "", w)
             delim = w; pend = 1
-            match(out, /[^;&|(`\n]*$/); seg = substr(out, RSTART)
+            match(out, /[^\n]*$/); seg = substr(out, RSTART)
+            j = index(rest, "\n"); seg = seg (j ? substr(rest, 1, j - 1) : rest)
             hdsh = (seg ~ /(^|[^[:alnum:]_.-])(sh|bash|zsh)([[:space:]]|$)/)
           }
         }

@@ -13,6 +13,14 @@ for c in 'grep -c "gh pr create --fill" README.md' 'grep -E "(gh pr comment 1 -b
 done
 expect "heredoc to file G0"  none guard-git-gh "$(bash_payload $'cat > notes.md <<EOF\ngh pr create --fill\nEOF' G0 "$N")"
 expect "heredoc to shell"    ask  guard-git-gh "$(bash_payload $'bash <<EOF\ngit push --force\nEOF' G1 "$N")"
+# Quote-adjacent single words stay visible
+for c in 'git push "--force"' "git push '--force'" 'git "push" -f' '"git" push -f'; do
+  expect "quoted word G0: $c" ask guard-git-gh "$(bash_payload "$c" G0 "$N")"
+done
+expect "quoted gh G0 denies" deny guard-git-gh "$(bash_payload 'gh "pr" create --fill' G0 "$N")" writing-style-github-collaboration
+expect "quoted gh G1 asks"   ask  guard-git-gh "$(bash_payload 'gh "pr" create --fill' G1 "$N")"
+expect "heredoc piped to sh" ask  guard-git-gh "$(bash_payload $'cat <<EOF | sh\ngit push -f\nEOF' G1 "$N")"
+expect "heredoc quoted bash -s" ask guard-git-gh "$(bash_payload $'cat <<\'EOF\' | bash -s\ngit push -f\nEOF' G1 "$N")"
 # Pending-review reason
 expect "review event reason" ask guard-git-gh "$(bash_payload 'gh api -X POST repos/o/r/pulls/1/reviews -f event=APPROVE' G1 "$N")" 'Pending reviews'
 # Skill gate

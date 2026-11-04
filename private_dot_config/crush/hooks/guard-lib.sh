@@ -52,32 +52,52 @@ _lint_em_dash() {
   return 1
 }
 
-# Print the first line of a hard-wrapped paragraph (long line, lowercase continuation)
+# Print the lines of $1 that are not lines of $2
+_lint_added() {
+  { printf '%s\n' "$2"; printf '\001\n'; printf '%s\n' "$1"; } | LC_ALL=C awk '
+    !go { if ($0 == "\001") go = 1; else old[$0] = 1; next }
+    !($0 in old)'
+}
+
+# Print the first new line of a hard-wrapped paragraph (long line, lowercase continuation)
+# Skips frontmatter, fences and indented code, and needs one of the pair to be new
+# $1 is the text, $2 the old text (lines already in the file)
 _lint_hard_wrap() {
-  printf '%s\n' "$1" | LC_ALL=C awk '
-    /^(```|~~~)/ { fence = !fence; prev = ""; next }
-    fence || /^\t/ || /^    / { prev = ""; next }
-    {
-      if (prev != "") {
-        t = $0; sub(/^ +/, "", t)
-        if (t ~ /^[a-z]/) { print prev; found = 1; exit }
+  { printf '%s\n' "$2"; printf '\001\n'; printf '%s\n' "$1"; } | LC_ALL=C awk '
+    !go { if ($0 == "\001") go = 1; else old[$0] = 1; next }
+    { n[++cnt] = $0 }
+    END {
+      start = 1
+      if (n[1] == "---") for (j = 2; j <= cnt; j++) if (n[j] == "---") { start = j + 1; break }
+      for (i = start; i <= cnt; i++) {
+        line = n[i]
+        if (line ~ /^[ \t]*(```|~~~)/) { fence = !fence; prev = ""; continue }
+        if (fence || line ~ /^\t/ || line ~ /^    /) { prev = ""; continue }
+        isnew = !(line in old)
+        if (prev != "") {
+          t = line; sub(/^ +/, "", t)
+          if (t ~ /^[a-z]/ && (isnew || prevnew)) { print prev; found = 1; exit }
+        }
+        if (length(line) >= 60 && line !~ /^[|#<]/ && line !~ /(  |\\)$/) { prev = line; prevnew = isnew }
+        else prev = ""
       }
-      prev = (length($0) >= 60 && $0 !~ /^[|#<]/ && $0 !~ /(  |\\)$/) ? $0 : ""
     }
     END { exit !found }'
 }
 
 # Print one problem and return 1 for em dash, stock AI word or hard wrap, else return 0
+# Lints only lines absent from the optional old text $2
 lint_prose() {
-  local line word
-  _lint_em_dash "$1" || return 1
-  line=$(printf '%s\n' "$1" | grep -i -E -w "$GUARD_AI_WORDS" | head -n 1)
+  local line word added
+  added=$(_lint_added "$1" "${2:-}")
+  _lint_em_dash "$added" || return 1
+  line=$(printf '%s\n' "$added" | grep -i -E -w "$GUARD_AI_WORDS" | head -n 1)
   if [ -n "$line" ]; then
     word=$(printf '%s\n' "$line" | grep -o -i -E -w "$GUARD_AI_WORDS" | head -n 1)
     printf 'stock AI word "%s" in: "%s"' "$word" "$(_lint_cut "$line")"
     return 1
   fi
-  line=$(_lint_hard_wrap "$1") || return 0
+  line=$(_lint_hard_wrap "$1" "${2:-}") || return 0
   printf 'hard-wrapped paragraph, keep each paragraph on one line: "%s"' "$(_lint_cut "$line")"
   return 1
 }

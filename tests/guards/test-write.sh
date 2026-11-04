@@ -61,3 +61,15 @@ expect "no prose lint"       none guard-write "$(write_payload Write "$N/a.rs" '
 printf '// keep\nfn a() {}\n' >"$N/ex.rs"
 expect "write keeps existing comment" none guard-write "$(write_payload Write "$N/ex.rs" $'// keep\nfn a() {}\n' W1)"
 expect "write adds new comment"       deny guard-write "$(write_payload Write "$N/ex.rs" $'// keep\n// fresh\nfn a() {}\n' W1)" writing-style-code-comments
+
+# Docs lint covers added lines only
+expect "edit keeps wrapped context" none guard-write "$(write_payload Edit "$R/README.md" "$L"$'\n'"$l"$'\nNew line.' W2 "$R" "$L"$'\n'"$l")"
+expect "edit adds wrap pair"        deny guard-write "$(write_payload Edit "$R/README.md" "$L"$'\n'"$l" W2 "$R" 'x')" hard-wrapped
+expect "edit wraps old long line"   deny guard-write "$(write_payload Edit "$R/README.md" "$L"$'\n'"$l" W2 "$R" "$L")" hard-wrapped
+expect "edit keeps old em dash"     none guard-write "$(write_payload Edit "$R/README.md" $'A — b\nnew' W2 "$R" 'A — b')"
+expect "edit keeps old ai word"     none guard-write "$(write_payload Edit "$R/README.md" $'a crucial step\nnew' W2 "$R" 'a crucial step')"
+expect "edit adds em dash"          deny guard-write "$(write_payload Edit "$R/README.md" $'A — b\nc — d' W2 "$R" 'A — b')" 'c — d'
+mkdir -p "$R/docs" && printf '%s\n%s\n' "$L" "$l" >"$R/docs/old.md"
+expect "write keeps wrapped on disk" none guard-write "$(write_payload Write "$R/docs/old.md" "$L"$'\n'"$l"$'\nAdded.' W2)"
+expect "frontmatter ok"             none guard-write "$(write_payload Write "$R/README.md" $'---\ndescription: Guide to configuring the whole tool across every machine we use\ntitle: Configure\n---\n\nBody.' W2)"
+expect "indented fence ok"          none guard-write "$(write_payload Write "$R/README.md" $'1. Run it:\n\n   ```sql\n   '"$L"$'\n   select 1;\n   ```\n' W2)"

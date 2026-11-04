@@ -31,6 +31,11 @@ esac
 new=$(printf '%s' "$PAYLOAD" | jq -r '[.tool_input.content, .tool_input.new_string, (.tool_input.edits[]?.new_string)] | map(select(. != null)) | join("\n")')
 [ -n "$new" ] || exit 0
 
+old=$(printf '%s' "$PAYLOAD" | jq -r '[.tool_input.old_string, (.tool_input.edits[]?.old_string)] | map(select(. != null)) | join("\n")')
+# A Write replaces the file on disk, so its existing lines count as old
+if [ "$(printf '%s' "$PAYLOAD" | jq -r '.tool_input.content // empty | length > 0')" = true ] && [ -f "$file" ]; then
+  old=$old$'\n'$(cat "$file")
+fi
 docs=0
 case "$base" in
   README* | CONTRIBUTING.md | CHANGELOG.md) docs=1 ;;
@@ -43,7 +48,7 @@ if [ "$docs" = 1 ]; then
   while [ ! -d "$d" ] && [ "$d" != / ]; do d=$(dirname "$d"); done
   git -C "$d" rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
   require_skill writing-style-github
-  msg=$(lint_prose "$new") || decide deny "$msg"
+  msg=$(lint_prose "$new" "$old") || decide deny "$msg"
   exit 0
 fi
 
@@ -61,11 +66,6 @@ comment_lines() {
     mode == "hash" && $0 ~ /(^|[ \t])#([ \t]|$)/ && !(NR == 1 && $0 ~ /^#!/) { print t }'
 }
 
-old=$(printf '%s' "$PAYLOAD" | jq -r '[.tool_input.old_string, (.tool_input.edits[]?.old_string)] | map(select(. != null)) | join("\n")')
-# A Write replaces the file on disk, so its existing lines count as old
-if [ "$(printf '%s' "$PAYLOAD" | jq -r '.tool_input.content // empty | length > 0')" = true ] && [ -f "$file" ]; then
-  old=$old$'\n'$(cat "$file")
-fi
 oldlines=$(printf '%s\n' "$old" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
 added=$(printf '%s\n' "$new" | comment_lines | grep -v -x -F -f <(printf '%s\n' "$oldlines"))
 [ -n "$added" ] || exit 0

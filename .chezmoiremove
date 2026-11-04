@@ -1,0 +1,3 @@
+.config/crush/hooks/remind-code-comments.sh
+.config/crush/hooks/remind-gh-collab.sh
+.config/crush/hooks/remind-github-md.sh

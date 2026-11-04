@@ -10,7 +10,26 @@
   },
   "includeCoAuthoredBy": false,
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "ask": [
+      "mcp__claude_ai_Slack",
+      "mcp__claude_ai_Gmail",
+      "mcp__claude_ai_Atlassian__addCommentToJiraIssue",
+      "mcp__claude_ai_Atlassian__addWorklogToJiraIssue",
+      "mcp__claude_ai_Atlassian__createJiraIssue",
+      "mcp__claude_ai_Atlassian__createIssueLink",
+      "mcp__claude_ai_Atlassian__editJiraIssue",
+      "mcp__claude_ai_Atlassian__transitionJiraIssue",
+      "mcp__claude_ai_Atlassian__createConfluencePage",
+      "mcp__claude_ai_Atlassian__updateConfluencePage",
+      "mcp__claude_ai_Atlassian__createConfluenceFooterComment",
+      "mcp__claude_ai_Atlassian__createConfluenceInlineComment",
+      "mcp__claude_ai_Atlassian__createCompassComponent",
+      "mcp__claude_ai_Atlassian__createCompassComponentRelationship",
+      "mcp__claude_ai_Atlassian__createCompassCustomFieldDefinition",
+      "mcp__claude_ai_Google_Drive__share_file",
+      "mcp__claude_ai_Lucid__post_document_thread_comment"
+    ]
   },
 {{- if .work }}
   "model": "opus",
@@ -32,11 +51,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.config/crush/hooks/remind-code-comments.sh"
-          },
-          {
-            "type": "command",
-            "command": "~/.config/crush/hooks/remind-github-md.sh"
+            "command": "~/.config/crush/hooks/guard-write.sh",
+            "timeout": 5
           }
         ]
       },
@@ -45,13 +61,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.command' | grep -qiE 'github\\.com' && echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"Use gh api or other gh subcommands instead of curl for GitHub API requests. This avoids token/rate-limit issues and uses your gh auth credentials.\"}}' || true",
-            "if": "Bash(curl:*)",
+            "command": "~/.config/crush/hooks/guard-git-gh.sh",
             "timeout": 5
-          },
-          {
-            "type": "command",
-            "command": "~/.config/crush/hooks/remind-gh-collab.sh"
           }
         ]
       },
@@ -61,6 +72,20 @@
           {
             "type": "command",
             "command": "{{ if .work }}NODE_USE_SYSTEM_CA=1 {{ end }}bun ~/.local/share/mise/installs/npm-ccstatusline/latest/node_modules/ccstatusline/dist/ccstatusline.js --hook"
+          },
+          {
+            "type": "command",
+            "command": "~/.config/crush/hooks/mark-skill.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.config/crush/hooks/mark-skill.sh",
+            "if": "Read(**/SKILL.md)"
           }
         ]
       }

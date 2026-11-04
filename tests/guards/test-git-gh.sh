@@ -39,3 +39,17 @@ expect "api field file"      deny guard-git-gh "$(bash_payload 'gh api repos/o/r
 git -C "$R" checkout -q -b main 2>/dev/null || git -C "$R" symbolic-ref HEAD refs/heads/main
 expect "bare push on main"   none guard-git-gh "$(bash_payload 'git push' G1 "$R")"
 expect "force push on main"  ask  guard-git-gh "$(bash_payload 'git push -f' G1 "$R")"
+
+# Lint covers body text only
+expect "graphql mutation multiline" ask guard-git-gh "$(bash_payload $'gh api graphql -f query=\'\n  mutation { addPullRequestReviewThread(input: {pullRequestId: "x", body: "hi"}) {\n  thread { id } } }\'' G1 "$N")"
+expect "close comment em dash"  deny guard-git-gh "$(bash_payload 'gh issue close 3 -c "fast — small"' G1 "$N")" 'em dash'
+expect "close comment gated"    deny guard-git-gh "$(bash_payload 'gh issue close 3 -c bye' G0 "$N")" writing-style-github-collaboration
+expect "close no comment free"  none guard-git-gh "$(bash_payload 'gh issue close 3' G0 "$N")"
+expect "delete not skill gated" ask  guard-git-gh "$(bash_payload 'gh issue delete 3 --yes' G0 "$N")"
+expect "api field body ai word" deny guard-git-gh "$(bash_payload 'gh api repos/o/r/issues/1/comments -f body="we delve in"' G1 "$N")" delve
+expect "title ai word"          deny guard-git-gh "$(bash_payload 'gh pr create --title "a crucial fix" --body ok' G1 "$N")" crucial
+expect "release notes em dash"  deny guard-git-gh "$(bash_payload 'gh release create v1 --notes "a — b"' G1 "$N")" 'em dash'
+expect "heredoc ai word"        deny guard-git-gh "$(bash_payload $'gh pr comment 1 -F - <<\'EOF\'\nwe delve in\nEOF' G1 "$N")" delve
+expect "title/body no false wrap" ask guard-git-gh "$(bash_payload "gh pr create --title \"$L\" --body \"x\"" G1 "$N")"
+# Cheap exit ignores git or gh inside cwd
+expect "cwd with github free"   none guard-git-gh "$(bash_payload 'ls -la' G1 /Users/x/github/y)"

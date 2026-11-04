@@ -3,12 +3,11 @@
 set -uo pipefail
 . "$(dirname "$0")/guard-lib.sh"
 
-# Cheap exit on the raw payload before any jq spawn
+# Cheap exit on the command alone, one jq spawn, so cwd and paths cannot match
 RAW=$(cat)
-case $RAW in *git* | *gh*) ;; *) exit 0 ;; esac
-guard_read_payload <<<"$RAW"
-cmd=$(printf '%s' "$PAYLOAD" | jq -r '.tool_input.command // empty' 2>/dev/null)
+cmd=$(printf '%s' "$RAW" | jq -r '.tool_input.command // empty' 2>/dev/null)
 case $cmd in *git* | *gh*) ;; *) exit 0 ;; esac
+guard_read_payload <<<"$RAW"
 
 # Print the command with quoted text and non-shell heredoc bodies blanked to x
 # Stays live: $(...) and backticks in double quotes, the argument of sh -c
@@ -106,6 +105,8 @@ has "${GIT}(reset$S[[:space:]]--hard|clean$S[[:space:]]-[[:alpha:]]*f|branch$S[[
 # Classify GitHub posts
 post=0
 has "${GH}(pr[[:space:]]+(create|comment|review|merge|edit)|issue[[:space:]]+(create|comment|edit)|release[[:space:]]+create)$E" && post=1
+# Closing with a comment posts text
+has "${GH}(pr|issue)[[:space:]]+close$S[[:space:]](-c|--comment)([[:space:]=]|$)" && post=1
 has "${GH}api$S[[:space:]](-X|--method)[[:space:]=]*(POST|PATCH|PUT|DELETE)$E" && post=1
 if has "${GH}api$S[[:space:]](-f|-F|--field|--raw-field|--input)([[:space:]=]|$)" &&
   ! has "${GH}api$S[[:space:]](-X|--method)[[:space:]=]*GET$E" &&
@@ -113,6 +114,8 @@ if has "${GH}api$S[[:space:]](-f|-F|--field|--raw-field|--input)([[:space:]=]|$)
   post=1
 fi
 has "${GH}api[[:space:]]+graphql" && hasr '[Mm]utation' && post=1
+has "${GH}(issue|release|repo)[[:space:]]+delete$E" &&
+  decide ask "Deleting on GitHub destroys work: confirm the user asked for it."
 [ "$post" = 1 ] || exit 0
 
 if has "${GH}pr[[:space:]]+merge$E"; then
@@ -121,8 +124,43 @@ fi
 
 require_skill writing-style-github-collaboration
 
-# Lint the command text, then any body file that exists
-msg=$(lint_prose "$cmd") || decide deny "$msg"
+# Print each prose value of the command (heredoc bodies, title, body, notes and comment flags) ending in \002
+# Skips query= values, URLs and body=@file, which the file loop reads
+prose_values() {
+  LC_ALL=C awk '
+    function emit(v) { printf "%s\002", v }
+    function val(t,   q) {
+      q = substr(t, 1, 1)
+      if (q == "\"" || q == "\047") return substr(t, 2, length(t) - 2)
+      return t
+    }
+    { s = s $0 "\n" }
+    END {
+      n = split(s, ln, "\n")
+      for (i = 1; i <= n; i++) {
+        if (body) {
+          t = ln[i]; sub(/^[ \t]+/, "", t)
+          if (t == delim) { body = 0; emit(buf); buf = "" } else buf = buf (buf == "" ? "" : "\n") ln[i]
+        } else if (match(ln[i], /<<-?[ \t]*["\047]?[A-Za-z0-9_]+/)) {
+          delim = substr(ln[i], RSTART, RLENGTH); sub(/^<<-?[ \t]*["\047]?/, "", delim); body = 1
+        }
+      }
+      re = "(^|[ \t\n])((--body|-b|--title|-t|--notes|-n|--comment|-c)([ \t\n]+|=)|(-f|-F|--field|--raw-field)([ \t\n]+|=)body=)(\"([^\"\\\\]|\\\\.)*\"|\047[^\047]*\047|[^ \t\n]+)"
+      r = s
+      while (match(r, re)) {
+        m = substr(r, RSTART, RLENGTH); r = substr(r, RSTART + RLENGTH)
+        sub(/^[ \t\n]*(--[a-z-]+|-[A-Za-z])([ \t\n]+|=)(body=)?/, "", m)
+        v = val(m)
+        if (v !~ /^@/) emit(v)
+      }
+    }' <<<"$1"
+}
+
+while IFS= read -r -d $'\002' piece; do
+  [ -n "$piece" ] || continue
+  msg=$(lint_prose "$piece") || decide deny "$msg"
+done < <(prose_values "$cmd")
+# Lint body files that exist
 files=$(grep -oE '(--body-file[[:space:]=]+|(-F|--field)[[:space:]=]*body=@)[^[:space:]]+' <<<"$cmd" |
   sed -E 's/^(--body-file[[:space:]=]+|(-F|--field)[[:space:]=]*body=@)//' | tr -d "\"'")
 while IFS= read -r f; do

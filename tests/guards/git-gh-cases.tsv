@@ -70,7 +70,7 @@ none	GIT_SSH_COMMAND=ssh git push
 deny	git commit -n -m wip
 none	sh -c "git push"
 none	c=push; git $c
-none	gh issue close 3 -c bye
+ask	gh issue close 3 -c bye
 ask	gh api repos/o/r/pulls/1/reviews -f body=LGTM -f commit_id=abc
 ask	gh api -X POST repos/o/r/pulls/1/reviews/9/events -f event=COMMENT
 none	command curl -s https://api.github.com/x
@@ -96,3 +96,10 @@ none	git commit -m "n"
 none	git commit --amend
 none	git commit -am wip
 none	git push -n
+ask	gh pr close 3 --comment bye
+ask	gh issue delete 3 --yes
+ask	gh release delete v1
+ask	gh repo delete o/r --yes
+none	gh issue list
+none	gh release view v1
+ask	gh api -X DELETE repos/o/r/git/refs/heads/crucial-fix

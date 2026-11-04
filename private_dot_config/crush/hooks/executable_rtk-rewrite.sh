@@ -15,6 +15,7 @@
 #   0 + stdout  Rewrite found → allow with updated input
 #   1           No RTK equivalent → pass through unchanged
 #   2           Deny rule matched → pass through
+#   3           Ask rule or partial allow coverage → rewrite, defer approval to the host
 
 set -euo pipefail
 
@@ -50,11 +51,13 @@ case $EXIT_CODE in
 0 | 3)
     # Rewrite found. If identical, the command already uses rtk.
     [ "$CMD" = "$REWRITTEN" ] && exit 0
-    jq -n --arg cmd "$REWRITTEN" \
-        '{decision: "allow", updated_input: ({command: $cmd} | tostring)}'
+    # 3 defers approval to the host, so pass the rewrite without allowing it
+    if [ "$EXIT_CODE" -eq 0 ]; then d=allow; else d=; fi
+    jq -n --arg cmd "$REWRITTEN" --arg d "$d" \
+        '{updated_input: ({command: $cmd} | tostring)} + (if $d == "" then {} else {decision: $d} end)'
     ;;
 *)
-    # No rewrite (1), deny (2), or unexpected — pass through.
+    # No rewrite (1), deny (2), or unexpected, so pass through.
     exit 0
     ;;
 esac

@@ -21,7 +21,7 @@ When producing prose for the user to copy-paste, invoke the `humanizer` skill pl
 - Add attribution trailers to commit messages, PR descriptions, or issue bodies. No `Co-Authored-By: Claude`, no `Assisted-by:`, no `🤖 Generated with Claude Code`, no `💘 Generated with Crush`, no `Generated with <any tool>` line. This applies to every AI assistant, every project, and every git-message surface.
 - Put ticket IDs (JIRA/Linear/etc.) in source code comments. The branch name and commit message carry them.
 - Prefix commit subjects with the ticket ID. Use a conventional prefix (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) instead.
-- Publish to GitHub, Slack, Jira, or any other shared surface without my explicit go-ahead on the final text. Create PR reviews as pending (omit `event`) so I submit them myself. Picking a format or option in a prompt is not approval to post.
+- Publish to GitHub, Slack, Jira, or any other shared surface without my explicit go-ahead on the final text. Create PR reviews as pending (omit `event`) so I submit them myself. Send only `commit_id` and the inline `comments`, with no review `body`, since the body does not stay pending. Give me any summary text to paste when I submit. Picking a format or option in a prompt is not approval to post.
 
 ## Asking questions
 

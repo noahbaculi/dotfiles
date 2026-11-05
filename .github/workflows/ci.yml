@@ -19,10 +19,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         dev_env: [true, false]
         gui: [true, false]
         work: [true, false]
+        # macOS arm64 runners are scarce, so one cell loops over every combo
+        # instead of queueing eight runners that time out unacquired.
+        include:
+          - os: macos-latest
+            dev_env: all
+            gui: all
+            work: all
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v7
@@ -35,50 +42,53 @@ jobs:
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Configure chezmoi for matrix cell
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$HOME/.config/chezmoi"
-          # TOML literal strings (single-quoted) don't process escapes, so
-          # Windows paths like D:\a\dotfiles\dotfiles round-trip safely.
-          cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
-          sourceDir = '$GITHUB_WORKSPACE'
-
-          [data]
-          dev_env = ${{ matrix.dev_env }}
-          gui = ${{ matrix.gui }}
-          work = ${{ matrix.work }}
-          EOF
-          echo "---- chezmoi.toml ----"
-          cat "$HOME/.config/chezmoi/chezmoi.toml"
-
       - name: Render every template
         shell: bash
         run: |
           set -euo pipefail
           fail=0
+          values() { if [ "$1" = all ]; then echo true false; else echo "$1"; fi; }
           render() {
             local f="$1"
             echo "==> rendering $f"
             if ! chezmoi execute-template < "$f" > /dev/null; then
-              echo "FAILED to render: $f" >&2
+              echo "FAILED to render: $f (dev_env=$dev_env gui=$gui work=$work)" >&2
               fail=1
             fi
           }
-          # All *.tmpl files in the repo, excluding the git dir and the config
-          # template, whose prompt functions only exist in init context.
-          while IFS= read -r -d '' f; do
-            render "$f"
-          done < <(find . -type f -name '*.tmpl' -not -path './.git/*' -not -name '.chezmoi.toml.tmpl' -print0)
-          # .chezmoiignore is always treated as a template even without a .tmpl suffix.
-          render ".chezmoiignore"
-          # The config template needs init context for promptBoolOnce.
-          echo "==> rendering .chezmoi.toml.tmpl (--init)"
-          if ! chezmoi execute-template --init --promptBool dev_env=${{ matrix.dev_env }} --promptBool gui=${{ matrix.gui }} --promptBool work=${{ matrix.work }} < .chezmoi.toml.tmpl > /dev/null; then
-            echo "FAILED to render: .chezmoi.toml.tmpl" >&2
-            fail=1
-          fi
+          mkdir -p "$HOME/.config/chezmoi"
+          for dev_env in $(values ${{ matrix.dev_env }}); do
+          for gui in $(values ${{ matrix.gui }}); do
+          for work in $(values ${{ matrix.work }}); do
+            echo "::group::dev_env=$dev_env gui=$gui work=$work"
+            # TOML literal strings (single-quoted) don't process escapes, so
+            # Windows paths like D:\a\dotfiles\dotfiles round-trip safely.
+            cat > "$HOME/.config/chezmoi/chezmoi.toml" <<EOF
+          sourceDir = '$GITHUB_WORKSPACE'
+
+          [data]
+          dev_env = $dev_env
+          gui = $gui
+          work = $work
+          EOF
+            cat "$HOME/.config/chezmoi/chezmoi.toml"
+            # All *.tmpl files in the repo, excluding the git dir and the config
+            # template, whose prompt functions only exist in init context.
+            while IFS= read -r -d '' f; do
+              render "$f"
+            done < <(find . -type f -name '*.tmpl' -not -path './.git/*' -not -name '.chezmoi.toml.tmpl' -print0)
+            # .chezmoiignore is always treated as a template even without a .tmpl suffix.
+            render ".chezmoiignore"
+            # The config template needs init context for promptBoolOnce.
+            echo "==> rendering .chezmoi.toml.tmpl (--init)"
+            if ! chezmoi execute-template --init --promptBool "dev_env=$dev_env" --promptBool "gui=$gui" --promptBool "work=$work" < .chezmoi.toml.tmpl > /dev/null; then
+              echo "FAILED to render: .chezmoi.toml.tmpl (dev_env=$dev_env gui=$gui work=$work)" >&2
+              fail=1
+            fi
+            echo "::endgroup::"
+          done
+          done
+          done
           exit $fail
 
   lua-format:

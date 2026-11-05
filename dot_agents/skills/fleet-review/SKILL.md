@@ -1,6 +1,6 @@
 ---
 name: fleet-review
-description: Three parallel reviewers on a branch (requesting-code-review, code-review, ponytail-review), merged into one ranked list, walked through with you, then fed to brainstorming.
+description: Three parallel reviewers on a branch (requesting-code-review, code-review, ponytail-review), merged into one ranked list, walked through with you, then fed to brainstorming for your own work or drafted as feedback for someone else's.
 disable-model-invocation: true
 ---
 
@@ -26,10 +26,12 @@ The _concern_ is the specific worry the user wants the review to test, for examp
 6. Merge into the report shape below.
 7. Walk the findings with the user, one prompt per decision, following the "Asking questions" rules in `~/.config/AGENTS.md`. Go in the merged report's rank order:
    - Each ranked cut gets its own prompt. Write its context as text first: what the commit does, the reviewers who flagged it, your spot-check result, and the current and proposed shape. Then offer the real choices (for example cut, keep, or move to its own PR), with your recommendation first.
-   - The small fixes share one multi-select prompt, since they need no real thought.
+   - The small fixes share one multi-select prompt, since they need no real thought. Mark each fix you recommend with "(Recommended)" and give the reason in its description, and say in the description why you would skip the others.
    - When an answer changes a later finding, say how before you ask about it. For example, keeping a commit can make a fix for it moot.
    - Done when every ranked cut and small fix has an answer.
-8. Hand the decisions to brainstorming. List the decisions in one block: each finding, the choice made, and the reason. Include the spec, the concern and the spot-check corrections, so the design starts from what the walkthrough settled. Then invoke the Skill tool with `brainstorming` and pass that block as its args. The brainstorming skill owns the design and any implementation that follows. Commit or push only when the user asks.
+8. Hand off the decisions. List them in one block: each finding, the choice made, and the reason. Include the spec, the concern and the spot-check corrections. Where the block goes depends on whose work it is (the PR author or branch committer compared with `gh api user --jq .login`, or what the user said):
+   - The user's own work: invoke the Skill tool with `brainstorming` and pass the block as its args, so the design starts from what the walkthrough settled. The brainstorming skill owns the design and any implementation that follows. Commit or push only when the user asks.
+   - Someone else's work: skip brainstorming, since nothing gets built. Draft the feedback the decisions call for, in the format the user wants (a pending PR review with inline comments, or a Slack message). Invoke `writing-style-github-collaboration` and `humanizer`, write the draft to `./tmp/`, show it in the reply, and post nothing until the user approves the final text.
 
 ## Shared brief
 

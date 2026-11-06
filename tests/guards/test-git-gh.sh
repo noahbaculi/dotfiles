@@ -31,6 +31,8 @@ expect "push not gated"      ask  guard-git-gh "$(bash_payload 'git push --force
 # Lint
 expect "body em dash"        deny guard-git-gh "$(bash_payload 'gh pr comment 1 -b "fast — small"' G1 "$N")" 'em dash'
 expect "body ai word"        deny guard-git-gh "$(bash_payload 'gh pr comment 1 -b "we delve in"' G1 "$N")" delve
+expect "body contrast"       deny guard-git-gh "$(bash_payload 'gh pr comment 1 -b "It'"'"'s not a bug, it'"'"'s a feature."' G1 "$N")" not-X-but-Y
+expect "body not only ok"    ask  guard-git-gh "$(bash_payload 'gh pr comment 1 -b "Runs not only on Linux."' G1 "$N")"
 expect "heredoc hard wrap"   deny guard-git-gh "$(bash_payload "gh pr create -t t --body \"\$(cat <<'EOF'"$'\n'"$L"$'\n'"$l"$'\n'"EOF"$'\n'")\"" G1 "$N")" hard-wrapped
 printf 'A — b\n' >"$N/body.md"
 expect "body file linted"    deny guard-git-gh "$(bash_payload 'gh pr create -t t --body-file body.md' G1 "$N")" 'em dash'

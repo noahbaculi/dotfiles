@@ -37,6 +37,8 @@ require_skill() {
 
 # Stock AI words with no common technical use (humanizer section 12)
 GUARD_AI_WORDS='additionally|bolster(s|ed|ing)?|crucial|deep dive|delve(s|d)?|delving|enduring|garner(s|ed|ing)?|interplay|intricate|intricacies|meticulous(ly)?|pivotal|showcase(s|d)?|showcasing|tapestry|testament|vibrant'
+# not-X-but-Y contrasts on one line, either apostrophe
+GUARD_CONTRAST="\bnot (just|only|merely|simply) [^.!?]*, but\b|\b(isn('|’)t|aren('|’)t|wasn('|’)t|is not|are not|was not) (just|only|merely|simply) .*\b(it('|’)s|it is|they('|’)re|they are|this is|that('|’)s)\b|\bit('|’)s not [^.!?]*, it('|’)s\b"
 
 # Print a line cut to 80 chars, dropping any split multibyte tail
 _lint_cut() {
@@ -85,7 +87,7 @@ _lint_hard_wrap() {
     END { exit !found }'
 }
 
-# Print one problem and return 1 for em dash, stock AI word or hard wrap, else return 0
+# Print one problem and return 1 for em dash, stock AI word, not-X-but-Y contrast or hard wrap, else return 0
 # Lints only lines absent from the optional old text $2
 lint_prose() {
   local line word added
@@ -95,6 +97,11 @@ lint_prose() {
   if [ -n "$line" ]; then
     word=$(printf '%s\n' "$line" | grep -o -i -E -w "$GUARD_AI_WORDS" | head -n 1)
     printf 'stock AI word "%s" in: "%s"' "$word" "$(_lint_cut "$line")"
+    return 1
+  fi
+  line=$(printf '%s\n' "$added" | grep -i -E "$GUARD_CONTRAST" | head -n 1)
+  if [ -n "$line" ]; then
+    printf 'not-X-but-Y contrast in: "%s"' "$(_lint_cut "$line")"
     return 1
   fi
   line=$(_lint_hard_wrap "$1" "${2:-}") || return 0

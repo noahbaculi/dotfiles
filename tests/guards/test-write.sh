@@ -35,6 +35,13 @@ expect "table ok"            none guard-write "$(write_payload Write "$R/README.
 expect "edit linted"         deny guard-write "$(write_payload Edit "$R/README.md" 'A — b' W2)" 'em dash'
 expect "multiedit linted"    deny guard-write "$(write_payload MultiEdit "$R/README.md" 'A — b' W2)" 'em dash'
 expect "keyword ok"          none guard-write "$(write_payload Write "$R/README.md" 'The key is robust.' W2)"
+expect "contrast but"        deny guard-write "$(write_payload Write "$R/README.md" 'It is not just fast, but small.' W2)" not-X-but-Y
+expect "contrast isn't it's" deny guard-write "$(write_payload Write "$R/README.md" "This isn't only a cache. It's a queue." W2)" not-X-but-Y
+expect "contrast it's not"   deny guard-write "$(write_payload Write "$R/README.md" "It's not a bug, it's a feature." W2)" not-X-but-Y
+expect "contrast curly"      deny guard-write "$(write_payload Write "$R/README.md" 'This isn’t just a fix, it’s a redesign.' W2)" not-X-but-Y
+expect "not only no but"     none guard-write "$(write_payload Write "$R/README.md" 'Runs not only on Linux.' W2)"
+expect "it's not ready"      none guard-write "$(write_payload Write "$R/README.md" "It's not ready yet." W2)"
+expect "isn't just alone"    none guard-write "$(write_payload Write "$R/README.md" "This isn't just a typo fix." W2)"
 
 # Comments gate
 expect "rs comment gated"    deny guard-write "$(write_payload Write "$N/a.rs" '// hi' W1)" writing-style-code-comments
@@ -57,6 +64,7 @@ expect "scratch exempt"      none guard-write "$(write_payload Write /tmp/x/a.rs
 expect "comment em dash"     deny guard-write "$(write_payload Write "$N/a.rs" '// hi — there' W2)" 'em dash'
 expect "clean comment"       none guard-write "$(write_payload Write "$N/a.rs" '// hi' W2)"
 expect "no prose lint"       none guard-write "$(write_payload Write "$N/a.rs" '// delve into the cache' W2)"
+expect "no comment contrast" none guard-write "$(write_payload Write "$N/a.rs" '// not just fast, but small' W2)"
 # Write over an existing file: on-disk comments count as old
 printf '// keep\nfn a() {}\n' >"$N/ex.rs"
 expect "write keeps existing comment" none guard-write "$(write_payload Write "$N/ex.rs" $'// keep\nfn a() {}\n' W1)"
@@ -68,6 +76,7 @@ expect "edit adds wrap pair"        deny guard-write "$(write_payload Edit "$R/R
 expect "edit wraps old long line"   deny guard-write "$(write_payload Edit "$R/README.md" "$L"$'\n'"$l" W2 "$R" "$L")" hard-wrapped
 expect "edit keeps old em dash"     none guard-write "$(write_payload Edit "$R/README.md" $'A — b\nnew' W2 "$R" 'A — b')"
 expect "edit keeps old ai word"     none guard-write "$(write_payload Edit "$R/README.md" $'a crucial step\nnew' W2 "$R" 'a crucial step')"
+expect "edit keeps old contrast"    none guard-write "$(write_payload Edit "$R/README.md" "It's not a bug, it's a feature."$'\nA clean new line.' W2 "$R" "It's not a bug, it's a feature.")"
 expect "edit adds em dash"          deny guard-write "$(write_payload Edit "$R/README.md" $'A — b\nc — d' W2 "$R" 'A — b')" 'c — d'
 mkdir -p "$R/docs" && printf '%s\n%s\n' "$L" "$l" >"$R/docs/old.md"
 expect "write keeps wrapped on disk" none guard-write "$(write_payload Write "$R/docs/old.md" "$L"$'\n'"$l"$'\nAdded.' W2)"

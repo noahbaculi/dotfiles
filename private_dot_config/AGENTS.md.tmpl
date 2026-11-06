@@ -84,6 +84,18 @@ Invoke the matching skill when producing:
 - My interactive shell is `fish`. Suggested commands for me to run should use fish syntax (`set -x VAR value`, `cmd; and other`).
 - Agent `bash` tool calls run under POSIX/bash. Scripts executed by the agent stay POSIX/bash.
 
+## Process skills
+
+My instructions outweigh any skill's MUST, HARD-GATE, or "even a 1% chance" rule. Invoke a skill when it clearly fits the task.
+
+Size the process to the work. Open every ask the way brainstorming does: read the context first, echo the request back, and ask one sharp question at a time. Then finish where the work's size points:
+
+- Triage, status, review, CI, or "what do you think of X": answer or recommend once the questions settle.
+- Small change (one commit, an obvious approach, nothing left for me to decide): say what you'll change and why in one line, then do it.
+- Bigger change: the full flow of approaches, design doc, and plan.
+
+After writing a plan, give its path and a short summary, then stop, unless I already said how to run it. I start execution in a fresh session or reply "go".
+
 ## Ponytail rules
 
 Apply the lazy-senior-dev ladder from `~/.agents/skill-sources/ponytail/AGENTS.md` to every coding task: YAGNI, reuse before writing, stdlib and platform features before dependencies, one line when it fits, minimum working code otherwise. Never cut trust-boundary validation, error handling, security, or accessibility. Invoke `/ponytail-review`, `/ponytail-audit`, `/ponytail-debt`, `/ponytail-gain`, or `/ponytail-help` when the situation matches.

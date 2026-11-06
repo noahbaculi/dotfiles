@@ -6,6 +6,7 @@ const COMPACT = 300_000
 const POLL_MS = 2_000
 
 const tokens = atom({ plugin: 'context-guard', key: 'tokens' } as const, null)
+const exempt = atom({ plugin: 'context-guard', key: 'exempt' } as const, false)
 
 const BAR_CELLS = 10
 // Nerd Font md-speedometer
@@ -17,6 +18,17 @@ const k = (n: number) => `${Math.round(n / 1000)}k`
 const bar = (used: number) => {
   const filled = Math.min(BAR_CELLS, Math.max(0, Math.round(((used - WARN) / (COMPACT - WARN)) * BAR_CELLS)))
   return '┄' + '▰'.repeat(filled) + '▱'.repeat(BAR_CELLS - filled)
+}
+
+// Subagents have their own windows
+export const shouldCompact = (used: number | undefined, isExempt: boolean, agentId: string | undefined) =>
+  agentId === undefined && !isExempt && used !== undefined && used >= COMPACT
+
+export const bandText = (used: number, isExempt: boolean) => {
+  if (used < WARN) return null
+  return isExempt
+    ? `${GAUGE} auto-compact off · ${k(used)}`
+    : `${GAUGE} auto-compact ${bar(used)} ${k(used)} / ${k(COMPACT)}`
 }
 
 export const register: Register = on => {
@@ -31,12 +43,11 @@ export const register: Register = on => {
 
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
-    // Subagents have their own windows
     if (e.agentId !== undefined) return result
 
     const used = (await $.session.usage()).context.tokens
     // Defer past the turn, since compact rejects mid-turn
-    if (used !== undefined && used >= COMPACT) {
+    if (shouldCompact(used, await read($, exempt), e.agentId)) {
       $.clock.after(0, () => {
         $.session.compact().catch(err => $.ui.toast(`context-guard: compact failed: ${String(err)}`))
       })
@@ -47,13 +58,10 @@ export const register: Register = on => {
 
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     const used = await read($, tokens)
-    if (e.props.hasSurvey || used === null || used < WARN) return next(e)
+    const text = used === null ? null : bandText(used, await read($, exempt))
+    if (e.props.hasSurvey || text === null) return next(e)
 
     const { Text } = $.ui.resolve(e)
-    return (
-      <Text color="warning">
-        {`${GAUGE} auto-compact ${bar(used)} ${k(used)} / ${k(COMPACT)}`}
-      </Text>
-    )
+    return <Text color="warning">{text}</Text>
   })
 }

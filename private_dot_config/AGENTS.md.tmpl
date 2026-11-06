@@ -89,14 +89,6 @@ Invoke the matching skill when producing:
 Apply the lazy-senior-dev ladder from `~/.agents/skill-sources/ponytail/AGENTS.md` to every coding task: YAGNI, reuse before writing, stdlib and platform features before dependencies, one line when it fits, minimum working code otherwise. Never cut trust-boundary validation, error handling, security, or accessibility. Invoke `/ponytail-review`, `/ponytail-audit`, `/ponytail-debt`, `/ponytail-gain`, or `/ponytail-help` when the situation matches.
 {{- if .work }}
 
-## EnterpriseDB AIDB project
-
-- Never commit agent artifacts like `docs/plans` or `docs/superpowers`.
-- Before running `mise run regress`, recompile and install the extension into the pgrx database with `echo '\q' | cargo pgrx run pg18`. A plain `cargo pgrx install` is insufficient.
-- Never run `mise run regress` in parallel because the process is single-threaded.
-- `mise run regress` can target multiple tests by passing multiple test names: `mise run regress __test_1__ __test_2__`.
-- Do not run the no-arg `mise run regress` suite (~30 min). Target specific tests and let CI cover the rest.
-
 ## Postgres C extensions
 
 - Build and install PGXS extensions such as pgvector against pgrx's Postgres with `make PG_CONFIG=~/.pgrx/18.6/pgrx-install/bin/pg_config install`.

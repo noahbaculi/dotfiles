@@ -39,6 +39,12 @@ Library/Application Support
 .config/zellij/layouts/compact-top-radar.swap.kdl
 {{- end }}
 
+# Personal notes for the work bare-repo containers
+{{- if not (and .work .dev_env) }}
+Documents/Github/aidb/CLAUDE.md
+Documents/Github/docs-editorial/CLAUDE.md
+{{- end }}
+
 # Unmanaged on work machines
 {{- if .work }}
 .config/ccstatusline

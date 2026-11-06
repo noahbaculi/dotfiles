@@ -42,6 +42,7 @@ expect "contrast curly"      deny guard-write "$(write_payload Write "$R/README.
 expect "not only no but"     none guard-write "$(write_payload Write "$R/README.md" 'Runs not only on Linux.' W2)"
 expect "it's not ready"      none guard-write "$(write_payload Write "$R/README.md" "It's not ready yet." W2)"
 expect "isn't just alone"    none guard-write "$(write_payload Write "$R/README.md" "This isn't just a typo fix." W2)"
+expect "if it's not, it's"   none guard-write "$(write_payload Write "$R/README.md" "If it's not set, it's ignored." W2)"
 
 # Comments gate
 expect "rs comment gated"    deny guard-write "$(write_payload Write "$N/a.rs" '// hi' W1)" writing-style-code-comments

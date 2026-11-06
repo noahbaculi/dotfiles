@@ -50,6 +50,8 @@ export const register: Register = on => {
     await $.command.register({
       name: 'context-guard',
       description: 'Toggle auto-compact for this session: /context-guard [on|off]',
+      // Run mid-turn so an opt-out can beat the turn-end compact
+      immediate: true,
     })
     return next(e)
   })
@@ -73,7 +75,9 @@ export const register: Register = on => {
     const used = (await $.session.usage()).context.tokens
     // Defer past the turn, since compact rejects mid-turn
     if (shouldCompact(used, await read($, exempt), e.agentId)) {
-      $.clock.after(0, () => {
+      $.clock.after(0, async () => {
+        // Honor an opt-out sent while the compact waited
+        if (await read($, exempt)) return
         $.session.compact().catch(err => $.ui.toast(`context-guard: compact failed: ${String(err)}`))
       })
     }

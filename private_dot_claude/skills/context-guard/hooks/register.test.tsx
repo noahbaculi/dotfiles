@@ -1,4 +1,4 @@
-import { expect, test } from 'claude-code/testing'
+import { expect, mock, test } from 'claude-code/testing'
 import { bandText, nextExempt, shouldCompact } from './register'
 
 const GAUGE = '\u{f04c5}'
@@ -44,4 +44,26 @@ test('/context-guard switches auto-compact per session', async ($, on) => {
   expect(await run('')).toBe('auto-compact on for this session (compacts at the next turn end if over 300k)')
   expect(await run('foo')).toBe('usage: /context-guard [on|off]')
   expect(await run('')).toBe('auto-compact off for this session')
+})
+
+test('an opt-out sent before the deferred compact runs wins', async ($, on) => {
+  const clock = mock.clock(on)
+  let compacts = 0
+  on('command.register', () => ({ value: { command: 'context-guard' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('session.usage', () => ({
+    value: { startedAt: 0, context: { tokens: 400_000, window: 1_000_000 }, rateLimits: [] },
+  }))
+  on('session.compact', () => {
+    compacts++
+    return { skip: 'test' }
+  })
+  on('turn.complete', () => ({ text: '' }))
+
+  await $.session.start({ cwd: '/', surface: 'terminal', isInteractive: true })
+  await $.turn.complete({ answer: '', durationMs: 0, isAborted: false, turnId: 't1', reason: 'answer' })
+  await $.command.run({ command: 'context-guard', args: 'off' })
+  await clock.settle()
+
+  expect(compacts).toBe(0)
 })

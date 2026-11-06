@@ -4,14 +4,18 @@ exit 0
 {{- end }}
 # Wire global agentic-coding skills into the two discovery paths.
 #
-# 1. Flatten mattpocock skills: each engineering / productivity / misc skill
-#    under ~/.agents/skill-sources/mattpocock/skills/<category>/<name> gets a
-#    symlink at ~/.agents/skills/<name>. personal, deprecated, and
-#    in-progress are intentionally skipped.
+# 1. Import an allowlist of mattpocock skills: each <category>/<name> in
+#    MATTPOCOCK_ALLOW under ~/.agents/skill-sources/mattpocock/skills/ gets a
+#    symlink at ~/.agents/skills/<name>. An allowlist rather than a category
+#    walk because only 10 of ~31 upstream skills get used, and new upstream
+#    skills should not appear silently on the weekly pull. Links into
+#    mattpocock that fall off the allowlist are pruned below.
 #
 # 1b. Flatten superpowers skills: each top-level skill under
 #     ~/.agents/skill-sources/superpowers/skills/<name> gets a symlink at
-#     ~/.agents/skills/<name>. Layout is already flat, so no category loop.
+#     ~/.agents/skills/<name>, except names in SUPERPOWERS_EXCLUDE
+#     (systematic-debugging, superseded by mattpocock's diagnosing-bugs).
+#     Layout is already flat, so no category loop.
 #
 # 1c. Import a curated Rust-focused allowlist from trailofbits/skills.
 #     Upstream ships ~40 plugins (smart contracts, static analysis, workflow
@@ -62,32 +66,35 @@ MATTPOCOCK="$HOME/.agents/skill-sources/mattpocock/skills"
 SUPERPOWERS="$HOME/.agents/skill-sources/superpowers/skills"
 TRAILOFBITS="$HOME/.agents/skill-sources/trailofbits/plugins"
 PONYTAIL="$HOME/.agents/skill-sources/ponytail/skills"
+MATTPOCOCK_ALLOW="engineering/code-review engineering/diagnosing-bugs engineering/domain-modeling engineering/grill-with-docs engineering/improve-codebase-architecture engineering/research engineering/wizard productivity/grilling productivity/handoff productivity/writing-for-agents"
+SUPERPOWERS_EXCLUDE="systematic-debugging"
 
 mkdir -p "$AGENTS_SKILLS" "$CLAUDE_SKILLS"
 
-# 1. Flatten mattpocock skills.
+# 1. Import allowlisted mattpocock skills.
 if [ -d "$MATTPOCOCK" ]; then
-    for category in engineering productivity misc; do
-        [ -d "$MATTPOCOCK/$category" ] || continue
-        for src in "$MATTPOCOCK/$category"/*/; do
-            [ -d "$src" ] || continue
-            name=$(basename "$src")
-            target="$AGENTS_SKILLS/$name"
-            if [ -L "$target" ]; then
-                # Refresh only if already pointing inside mattpocock; a link
-                # into another source (e.g. superpowers) is a name collision
-                # and first-source-wins, so skip with a warning.
-                current=$(readlink "$target")
-                case "$current" in
-                    "$MATTPOCOCK"/*) ln -sfn "$src" "$target" ;;
-                    *) echo "skills sync: $name already linked to $current, skipping mattpocock" >&2 ;;
-                esac
-            elif [ -e "$target" ]; then
-                echo "skills sync: skipping $target (exists, not a symlink)" >&2
-            else
-                ln -s "$src" "$target"
-            fi
-        done
+    for path in $MATTPOCOCK_ALLOW; do
+        src="$MATTPOCOCK/$path/"
+        if [ ! -d "$src" ]; then
+            echo "skills sync: $src missing, skipping" >&2
+            continue
+        fi
+        name=$(basename "$path")
+        target="$AGENTS_SKILLS/$name"
+        if [ -L "$target" ]; then
+            # Refresh only if already pointing inside mattpocock; a link
+            # into another source (e.g. superpowers) is a name collision
+            # and first-source-wins, so skip with a warning.
+            current=$(readlink "$target")
+            case "$current" in
+                "$MATTPOCOCK"/*) ln -sfn "$src" "$target" ;;
+                *) echo "skills sync: $name already linked to $current, skipping mattpocock" >&2 ;;
+            esac
+        elif [ -e "$target" ]; then
+            echo "skills sync: skipping $target (exists, not a symlink)" >&2
+        else
+            ln -s "$src" "$target"
+        fi
     done
 else
     echo "skills sync: $MATTPOCOCK not present, skipping mattpocock flatten" >&2
@@ -98,6 +105,7 @@ if [ -d "$SUPERPOWERS" ]; then
     for src in "$SUPERPOWERS"/*/; do
         [ -d "$src" ] || continue
         name=$(basename "$src")
+        case " $SUPERPOWERS_EXCLUDE " in *" $name "*) continue ;; esac
         target="$AGENTS_SKILLS/$name"
         if [ -L "$target" ]; then
             # Refresh only if already pointing inside superpowers; otherwise
@@ -170,6 +178,28 @@ if [ -d "$PONYTAIL" ]; then
 else
     echo "skills sync: $PONYTAIL not present, skipping ponytail flatten" >&2
 fi
+
+# Prune links into mattpocock that are off the allowlist and links into
+# superpowers that are excluded. Their targets still exist, so the broken
+# link prune below would keep them.
+for entry in "$AGENTS_SKILLS"/*; do
+    [ -L "$entry" ] || continue
+    current=$(readlink "$entry")
+    current=${current%/}
+    case "$current" in
+        "$MATTPOCOCK"/*)
+            case " $MATTPOCOCK_ALLOW " in
+                *" ${current#"$MATTPOCOCK"/} "*) ;;
+                *) rm "$entry" ;;
+            esac
+            ;;
+        "$SUPERPOWERS"/*)
+            case " $SUPERPOWERS_EXCLUDE " in
+                *" ${current#"$SUPERPOWERS"/} "*) rm "$entry" ;;
+            esac
+            ;;
+    esac
+done
 
 # Prune broken symlinks in ~/.agents/skills/ so upstream skill removals
 # don't leave dangling targets. Done before the ~/.claude/skills/ mirror

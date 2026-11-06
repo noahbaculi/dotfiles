@@ -31,6 +31,15 @@ export const bandText = (used: number, isExempt: boolean) => {
     : `${GAUGE} auto-compact ${bar(used)} ${k(used)} / ${k(COMPACT)}`
 }
 
+// Map /context-guard args to the next exempt value, null for unknown args
+export const nextExempt = (args: string, current: boolean) => {
+  const arg = args.trim().toLowerCase()
+  if (arg === '') return !current
+  if (arg === 'off') return true
+  if (arg === 'on') return false
+  return null
+}
+
 export const register: Register = on => {
   // Poll the status line's figure, since rewind fires no event
   on('session.start', async ($, e, next) => {
@@ -38,7 +47,23 @@ export const register: Register = on => {
       const used = (await $.session.usage()).context.tokens ?? null
       if (used !== (await read($, tokens))) await update($, tokens, () => used)
     })
+    await $.command.register({
+      name: 'context-guard',
+      description: 'Toggle auto-compact for this session: /context-guard [on|off]',
+    })
     return next(e)
+  })
+
+  on('command.run', { command: 'context-guard' }, async ($, e) => {
+    const next = nextExempt(e.args, await read($, exempt))
+    if (next === null) return { text: 'usage: /context-guard [on|off]' }
+
+    await update($, exempt, () => next)
+    return {
+      text: next
+        ? 'auto-compact off for this session'
+        : `auto-compact on for this session (compacts at the next turn end if over ${k(COMPACT)})`,
+    }
   })
 
   on('turn.complete', async ($, e, next) => {

@@ -1,5 +1,5 @@
 import { expect, test } from 'claude-code/testing'
-import { bandText, shouldCompact } from './register'
+import { bandText, nextExempt, shouldCompact } from './register'
 
 const GAUGE = '\u{f04c5}'
 
@@ -22,4 +22,26 @@ test('bandText shows the off state while exempt', () => {
 
 test('bandText keeps the gauge while not exempt', () => {
   expect(bandText(212_000, false)).toBe(`${GAUGE} auto-compact ┄▰▰▰▱▱▱▱▱▱▱ 212k / 300k`)
+})
+
+test('nextExempt toggles, sets, and rejects unknown args', () => {
+  expect(nextExempt('', false)).toBe(true)
+  expect(nextExempt('', true)).toBe(false)
+  expect(nextExempt(' OFF ', false)).toBe(true)
+  expect(nextExempt('on', true)).toBe(false)
+  expect(nextExempt('foo', false)).toBe(null)
+})
+
+test('/context-guard switches auto-compact per session', async ($, on) => {
+  on('command.register', () => ({ value: { command: 'context-guard' } }))
+  on('session.start', (_, e) => ({ cwd: e.cwd }))
+  on('clock.every', () => ({ value: undefined }))
+
+  await $.session.start({ cwd: '/', surface: 'terminal', isInteractive: true })
+
+  const run = async (args: string) => (await $.command.run({ command: 'context-guard', args })).text
+  expect(await run('off')).toBe('auto-compact off for this session')
+  expect(await run('')).toBe('auto-compact on for this session (compacts at the next turn end if over 300k)')
+  expect(await run('foo')).toBe('usage: /context-guard [on|off]')
+  expect(await run('')).toBe('auto-compact off for this session')
 })

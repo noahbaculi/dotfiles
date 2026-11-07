@@ -95,13 +95,23 @@ E='([[:space:]]|$)'
 has "($GIT(commit|push|merge|rebase)$S[[:space:]]--no-verify|${GIT}commit$S[[:space:]]-[[:alpha:]]*n[[:alpha:]]*)$E" &&
   decide deny "Never bypass git hooks with --no-verify or commit -n. Fix what the hook reports."
 
-# Ask on staged agent artifacts in the repo git -C points at, else cwd
+# Ask on staged agent artifacts in the repo the commit runs in: cwd, then the last cd, then each git -C
 if has "${GIT}commit$E"; then
   gdir=$CWD
   while IFS= read -r d; do
     [ -n "$d" ] || continue
+    case "$d" in
+      '~' | '$HOME' | '${HOME}') d=$HOME ;;
+      '~/'*) d=$HOME/${d#'~/'} ;;
+      '$HOME/'*) d=$HOME/${d#'$HOME/'} ;;
+      '${HOME}/'*) d=$HOME/${d#'${HOME}/'} ;;
+    esac
     case "$d" in /*) gdir=$d ;; *) gdir=$gdir/$d ;; esac
-  done < <(grep -oE "${GIT}commit" <<<"$mcmd" | head -n 1 | grep -oE -- '-C[[:space:]]+[^[:space:]]+' | sed -E 's/^-C[[:space:]]+//')
+  done < <(
+    LC_ALL=C awk -v re="${GIT}commit" '{ s = s (NR > 1 ? "\n" : "") $0 } END { if (match(s, re)) print substr(s, 1, RSTART) }' <<<"$mcmd" |
+      grep -oE '(^|[;&|(][[:space:]]*)cd[[:space:]]+[^;&|()[:space:]]+' | tail -n 1 | sed -E 's/^.*cd[[:space:]]+//'
+    grep -oE "${GIT}commit" <<<"$mcmd" | head -n 1 | grep -oE -- '-C[[:space:]]+[^[:space:]]+' | sed -E 's/^-C[[:space:]]+//'
+  )
   art=$(git -C "$gdir" diff --cached --name-only 2>/dev/null |
     grep -E '(^|/)(docs/plans|docs/superpowers|\.superpowers|\.scratch)/' | head -n 1)
   [ -n "$art" ] && decide ask "Staged agent artifacts ($art): confirm the user asked to commit them."

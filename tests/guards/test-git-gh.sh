@@ -90,3 +90,7 @@ stage docs/superpowers/plan.md
 expect "-C repo checked not cwd"   none guard-git-gh "$(bash_payload "git -C $R commit -m x" G1 "$A")"
 expect "commit outside a repo"     none guard-git-gh "$(bash_payload 'git commit -m x' G1 "$N")"
 expect "log not commit"            none guard-git-gh "$(bash_payload 'git log' G1 "$A")"
+expect "cd then commit"            ask  guard-git-gh "$(bash_payload "cd $A && git commit -m x" G1 "$N")" 'Staged agent artifacts'
+expect "-C tilde path"             ask  guard-git-gh "$(bash_payload "git -C ~/${A#"$HOME"/} commit -m x" G1 "$N")" 'Staged agent artifacts'
+expect "-C \$HOME path"            ask  guard-git-gh "$(bash_payload "git -C \$HOME/${A#"$HOME"/} commit -m x" G1 "$N")" 'Staged agent artifacts'
+expect "cd elsewhere then commit"  none guard-git-gh "$(bash_payload "cd $R && git commit -m x" G1 "$A")"

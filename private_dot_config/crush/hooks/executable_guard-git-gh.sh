@@ -95,6 +95,18 @@ E='([[:space:]]|$)'
 has "($GIT(commit|push|merge|rebase)$S[[:space:]]--no-verify|${GIT}commit$S[[:space:]]-[[:alpha:]]*n[[:alpha:]]*)$E" &&
   decide deny "Never bypass git hooks with --no-verify or commit -n. Fix what the hook reports."
 
+# Ask on staged agent artifacts in the repo git -C points at, else cwd
+if has "${GIT}commit$E"; then
+  gdir=$CWD
+  while IFS= read -r d; do
+    [ -n "$d" ] || continue
+    case "$d" in /*) gdir=$d ;; *) gdir=$gdir/$d ;; esac
+  done < <(grep -oE "${GIT}commit" <<<"$mcmd" | head -n 1 | grep -oE -- '-C[[:space:]]+[^[:space:]]+' | sed -E 's/^-C[[:space:]]+//')
+  art=$(git -C "$gdir" diff --cached --name-only 2>/dev/null |
+    grep -E '(^|/)(docs/plans|docs/superpowers|\.superpowers|\.scratch)/' | head -n 1)
+  [ -n "$art" ] && decide ask "Staged agent artifacts ($art): confirm the user asked to commit them."
+fi
+
 # Force, --all and --mirror pushes only, a plain push passes
 has "${GIT}push$S[[:space:]]((--force|--force-with-lease|--force-if-includes|-[[:alpha:]]*f[[:alpha:]]*|--all|--mirror)([^[:alnum:]_-]|$)|\+[^[:space:]])" &&
   decide ask "git push that rewrites or mass-publishes history: confirm the user asked for it."

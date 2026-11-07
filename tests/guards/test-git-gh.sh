@@ -61,3 +61,32 @@ expect "heredoc ai word"        deny guard-git-gh "$(bash_payload $'gh pr commen
 expect "title/body no false wrap" ask guard-git-gh "$(bash_payload "gh pr create --title \"$L\" --body \"x\"" G1 "$N")"
 # Cheap exit ignores git or gh inside cwd
 expect "cwd with github free"   none guard-git-gh "$(bash_payload 'ls -la' G1 /Users/x/github/y)"
+
+# Staged agent artifacts, in temp repo A
+A=$GT/artifacts
+git init -q "$A"
+stage() {
+  git -C "$A" read-tree --empty
+  mkdir -p "$A/$(dirname "$1")" && : >"$A/$1" && git -C "$A" add -f "$1"
+}
+stage docs/superpowers/plan.md
+expect "commit staged superpowers" ask  guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")" 'Staged agent artifacts (docs/superpowers/plan.md)'
+expect "commit -C other repo"      ask  guard-git-gh "$(bash_payload "git -C $A commit -m x" G1 "$N")" 'Staged agent artifacts'
+expect "commit -C relative"        ask  guard-git-gh "$(bash_payload 'git -C artifacts commit -m x' G1 "$GT")" 'Staged agent artifacts'
+expect "commit -a staged artifact" ask  guard-git-gh "$(bash_payload 'git commit -am x' G1 "$A")" 'Staged agent artifacts'
+stage .scratch/x.md
+expect "commit staged scratch"     ask  guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")" 'Staged agent artifacts'
+stage sub/.superpowers/x.md
+expect "commit nested superpowers" ask  guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")" 'Staged agent artifacts'
+stage docs/plans/p.md
+expect "commit staged plans"       ask  guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")" 'Staged agent artifacts'
+stage src/scratchpad.rs
+expect "commit scratchpad.rs"      none guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")"
+stage docs/plans.md
+expect "commit docs/plans.md"      none guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")"
+stage src/a.rs
+expect "commit clean index"        none guard-git-gh "$(bash_payload 'git commit -m x' G1 "$A")"
+stage docs/superpowers/plan.md
+expect "-C repo checked not cwd"   none guard-git-gh "$(bash_payload "git -C $R commit -m x" G1 "$A")"
+expect "commit outside a repo"     none guard-git-gh "$(bash_payload 'git commit -m x' G1 "$N")"
+expect "log not commit"            none guard-git-gh "$(bash_payload 'git log' G1 "$A")"

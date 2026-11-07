@@ -5,13 +5,17 @@ When producing prose for the user to copy-paste or post, load the matching skill
 ## Always
 
 - Commit working code incrementally when the user has asked for commits.
+- Read `git diff --cached` before every commit.
+- Ask before an action I didn't request in roughly the last 5 turns.
 - Write prose and Markdown to files as unwrapped lines: keep each paragraph on a single line and let the editor soft-wrap, rather than hard-wrapping at about 80 columns.
-- Update plan documentation as you go.
-- Learn from existing implementations and style.
-- Stop after 3 failed attempts and reassess.
+- Tick off plan checkboxes as each step lands.
+- After 3 failed attempts at the same fix, summarize what failed and ask me how to proceed.
 - When the user is asking for explanations or clarification on decisions or foundational concepts, start with brief high level for context. Use clear unicode diagrams where it would be helpful.
 - Use gh (gh api, gh pr, gh issue) rather than curl for GitHub API requests.
 - Open PRs as drafts assigned to me (`gh pr create --draft --assignee @me`) unless I say otherwise, and match the repo's PR template or, without one, its recent PRs.
+- In chat, name the host, repo, and file you mean, and say which machine a command for me to run targets.
+- Before dispatching more than about 3 subagents, or a run likely to take over 30 minutes, give a rough cost and time range.
+- Run commands that never return (flashing firmware, dev servers, `--watch`) in the background, or hand them to me.
 
 ## Never
 
@@ -19,10 +23,11 @@ When producing prose for the user to copy-paste or post, load the matching skill
 - Disable tests instead of fixing them.
 - Commit code that does not compile.
 - Make assumptions when existing code can verify the behavior.
-- Add attribution trailers to commit messages, PR descriptions, or issue bodies. No `Co-Authored-By: Claude`, no `Assisted-by:`, no `🤖 Generated with Claude Code`, no `💘 Generated with Crush`, no `Generated with <any tool>` line. This applies to every AI assistant, every project, and every git-message surface.
+- Add attribution trailers or `Generated with` lines to commit messages, PR descriptions, or issue bodies, for any tool.
 - Put ticket IDs (JIRA/Linear/etc.) in source code comments. The branch name and commit message carry them.
 - Prefix commit subjects with the ticket ID. Use a conventional prefix (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) instead.
-- Publish to GitHub, Slack, Jira, or any other shared surface without my explicit go-ahead on the final text. Create PR reviews as pending (omit `event`) so I submit them myself. Send only `commit_id` and the inline `comments`, with no review `body`, since the body does not stay pending. Give me any summary text to paste when I submit. Picking a format or option in a prompt is not approval to post.
+- Publish to GitHub, Slack, Jira, crates.io, git tags, GitHub releases, container registries, or any other shared surface without my explicit go-ahead on the final text. Create PR reviews as pending (omit `event`) so I submit them myself. Send only `commit_id` and the inline `comments`, with no review `body`, since the body does not stay pending. Give me any summary text to paste when I submit. Picking a format or option in a prompt is not approval to post.
+- Commit agent artifacts (`docs/plans`, `docs/superpowers`, `.superpowers`, `.scratch`) unless I ask.
 
 ## Asking questions
 
@@ -59,12 +64,11 @@ Installed globally via mise and usable in `bash`:
 
 - Prefer `fd` over `find` for file and directory search.
 - Prefer `dust` over `du` for disk usage.
-- Use `hyperfine` for benchmarking commands.
 
 ## Code comments
 
 - Terse and intent-focused. Verb-first summaries for functions, noun phrases for types.
-- No trailing periods, no em dashes, no prose semicolons.
+- No trailing periods, no prose semicolons.
 - No `This function ...` or `This type ...` openers.
 
 ## Writing style skills
@@ -98,12 +102,3 @@ After writing a plan, give its path and a short summary, then stop, unless I alr
 ## Ponytail rules
 
 Apply the lazy-senior-dev ladder from `~/.agents/skill-sources/ponytail/AGENTS.md` to every coding task: YAGNI, reuse before writing, stdlib and platform features before dependencies, one line when it fits, minimum working code otherwise. Never cut trust-boundary validation, error handling, security, or accessibility. Invoke `/ponytail-review`, `/ponytail-audit`, `/ponytail-debt`, `/ponytail-gain`, or `/ponytail-help` when the situation matches.
-{{- if .work }}
-
-## Postgres C extensions
-
-- Build and install PGXS extensions such as pgvector against pgrx's Postgres with `make PG_CONFIG=~/.pgrx/18.6/pgrx-install/bin/pg_config install`.
-- Run regression tests with `PGHOST=localhost make installcheck PG_CONFIG=~/.pgrx/18.6/pgrx-install/bin/pg_config`, after starting the server with `cargo pgrx start pg18`. pgrx puts its socket in `~/.pgrx`, so the default `/tmp` socket fails. Target specific tests with `REGRESS="__test_1__ __test_2__"`.
-- Regenerate `compile_commands.json` for clangd with `make clean` and then `bear -- make PG_CONFIG=...`. bear records only the files that compile in that run, so an incremental build leaves gaps.
-- Never reformat whole files. Postgres code follows `pgindent`, so match the surrounding style.
-{{- end }}

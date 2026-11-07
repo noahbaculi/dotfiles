@@ -15,7 +15,6 @@ ask	git push origin +feat
 ask	git push --all
 ask	sh -c "git push --force"
 ask	if true; then git push --force; fi
-ask	rtk git push --force
 none	git pushd
 none	git log -p push.c
 deny	git commit --no-verify -m wip

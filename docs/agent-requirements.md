@@ -20,7 +20,6 @@
 ## Preferred
 
 - Subagents
-- rtk support
 - Compaction
 - Rewind
 - Subscription auth, depending on which models I prefer at the time

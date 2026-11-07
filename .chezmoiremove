@@ -2,3 +2,4 @@
 .config/crush/hooks/remind-gh-collab.sh
 .config/crush/hooks/remind-github-md.sh
 .agents/skills/chezmoi
+.config/crush/hooks/rtk-rewrite.sh

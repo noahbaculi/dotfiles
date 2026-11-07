@@ -85,8 +85,8 @@ S='[^;&|]*'
 SQ="'"
 # command position: line start, after a separator, keyword or sh -c quote
 PRE='((^|[;&|(`]|-c[[:space:]]+["'"$SQ"'])[[:space:]]*|(^|[[:space:]])(then|do|else|!)[[:space:]]+)'
-# leading VAR=value assignments and command/rtk wrappers
-LEAD='([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*((command|rtk)[[:space:]]+)*'
+# leading VAR=value assignments and command wrappers
+LEAD='([A-Za-z_][A-Za-z0-9_]*=[^[:space:]]*[[:space:]]+)*(command[[:space:]]+)*'
 # global options may precede the subcommand
 GIT="${PRE}${LEAD}git([[:space:]]+(-[Cc][[:space:]]+[^[:space:]]+|--[[:alnum:]-]+=[^[:space:]]+|--no-pager|-P))*[[:space:]]+"
 GH="${PRE}${LEAD}gh([[:space:]]+(-R|--repo)[[:space:]=]+[^[:space:]]+)*[[:space:]]+"

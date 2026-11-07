@@ -17,6 +17,10 @@
         "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/guard-git-gh.sh"
       },
       {
+        "matcher": "^bash$",
+        "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/guard-pgrx.sh"
+      },
+      {
         "matcher": "^(edit|write|multiedit)$",
         "command": "{{ .chezmoi.homeDir }}/.config/crush/hooks/guard-write.sh"
       },

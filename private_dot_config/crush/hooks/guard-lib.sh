@@ -38,7 +38,7 @@ require_skill() {
 # Stock AI words with no common technical use (humanizer section 12)
 GUARD_AI_WORDS='additionally|bolster(s|ed|ing)?|crucial|deep dive|delve(s|d)?|delving|enduring|garner(s|ed|ing)?|interplay|intricate|intricacies|meticulous(ly)?|pivotal|showcase(s|d)?|showcasing|tapestry|testament|vibrant'
 # not-X-but-Y contrasts on one line, either apostrophe
-GUARD_CONTRAST="\bnot (just|only|merely|simply) [^.!?]*, but\b|\b(isn('|’)t|aren('|’)t|wasn('|’)t|is not|are not|was not) (just|only|merely|simply) .*\b(it('|’)s|it is|they('|’)re|they are|this is|that('|’)s)\b|(^|[.!?:;] +)it('|’)s not [^.!?]*, it('|’)s\b"
+GUARD_CONTRAST="\bnot (just|only|merely|simply) [^.!?]*, but\b|\b(isn('|’)t|aren('|’)t|wasn('|’)t|is not|are not|was not) (just|only|merely|simply) [^.!?]*[,;:.!?] +(it('|’)s|it is|they('|’)re|they are|this is|that('|’)s)\b|(^[[:space:]]*([-*>][[:space:]]+)?|[.!?:;] +)it('|’)s not [^.!?]*, it('|’)s\b"
 
 # Print a line cut to 80 chars, dropping any split multibyte tail
 _lint_cut() {

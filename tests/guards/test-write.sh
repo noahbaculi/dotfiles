@@ -43,6 +43,15 @@ expect "not only no but"     none guard-write "$(write_payload Write "$R/README.
 expect "it's not ready"      none guard-write "$(write_payload Write "$R/README.md" "It's not ready yet." W2)"
 expect "isn't just alone"    none guard-write "$(write_payload Write "$R/README.md" "This isn't just a typo fix." W2)"
 expect "if it's not, it's"   none guard-write "$(write_payload Write "$R/README.md" "If it's not set, it's ignored." W2)"
+expect "contrast about"      deny guard-write "$(write_payload Write "$R/README.md" "It isn't just about speed, it's about correctness." W2)" not-X-but-Y
+expect "contrast two sents"  deny guard-write "$(write_payload Write "$R/README.md" "This isn't just for reads. It's also used for writes." W2)" not-X-but-Y
+expect "contrast colon"      deny guard-write "$(write_payload Write "$R/README.md" "This isn't simply a timeout: it's a retry." W2)" not-X-but-Y
+expect "isn't only, long"    none guard-write "$(write_payload Write "$R/README.md" "The timeout isn't only hit on CI. I reproduced it locally with a cold cache, and once the index is warm it's under a second, so I bumped the limit to 30s." W2)"
+expect "not just, this is"   none guard-write "$(write_payload Write "$R/README.md" 'Retries are not just a fallback here. We call them on every 503 from the upstream, which is why this is the hot path.' W2)"
+expect "isn't only that's"   none guard-write "$(write_payload Write "$R/README.md" "It isn't only the parser that's slow." W2)"
+expect "isn't just; that's"  none guard-write "$(write_payload Write "$R/README.md" "This change isn't just a rename; it also moves the module, and that's why the diff is large." W2)"
+expect "bullet contrast"     deny guard-write "$(write_payload Write "$R/README.md" "- It's not a bug, it's a feature." W2)" not-X-but-Y
+expect "quote contrast"      deny guard-write "$(write_payload Write "$R/README.md" "> It's not a bug, it's a feature." W2)" not-X-but-Y
 
 # Comments gate
 expect "rs comment gated"    deny guard-write "$(write_payload Write "$N/a.rs" '// hi' W1)" writing-style-code-comments

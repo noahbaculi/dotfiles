@@ -1,6 +1,6 @@
 ---
 name: pgxs-extensions
-description: PGXS (Makefile-based C) Postgres extensions such as pgvector. Use when building, installing, or regression-testing one against pgrx's Postgres, or regenerating its compile_commands.json for clangd.
+description: PGXS (Makefile-based C) Postgres extensions such as pgvector. Use when building, installing, regression-testing, or editing the C source of one, or regenerating its compile_commands.json for clangd.
 ---
 
 # PGXS extensions

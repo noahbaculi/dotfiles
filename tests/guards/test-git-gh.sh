@@ -23,6 +23,12 @@ expect "heredoc piped to sh" ask  guard-git-gh "$(bash_payload $'cat <<EOF | sh\
 expect "heredoc quoted bash -s" ask guard-git-gh "$(bash_payload $'cat <<\'EOF\' | bash -s\ngit push -f\nEOF' G1 "$N")"
 # Pending-review reason
 expect "review event reason" ask guard-git-gh "$(bash_payload 'gh api -X POST repos/o/r/pulls/1/reviews -f event=APPROVE' G1 "$N")" 'Pending reviews'
+printf '{"commit_id":"a","event":"COMMENT","comments":[]}' >"$N/review-event.json"
+printf '{"commit_id":"a","comments":[]}' >"$N/review-pending.json"
+expect "review input event"   ask guard-git-gh "$(bash_payload 'gh api repos/o/r/pulls/1/reviews --input review-event.json' G1 "$N")" 'Review would submit'
+expect "review input= event"  ask guard-git-gh "$(bash_payload 'gh api repos/o/r/pulls/1/reviews --input=review-event.json' G1 "$N")" 'Review would submit'
+expect "review input pending" ask guard-git-gh "$(bash_payload 'gh api repos/o/r/pulls/1/reviews --input review-pending.json' G1 "$N")" 'Publishing to GitHub'
+expect "review input missing" ask guard-git-gh "$(bash_payload 'gh api repos/o/r/pulls/1/reviews --input nope.json' G1 "$N")" 'Publishing to GitHub'
 # Skill gate
 expect "post needs skill"    deny guard-git-gh "$(bash_payload 'gh pr comment 1 -b hi' G0 "$N")" writing-style-github-collaboration
 expect "post no sid asks"    ask  guard-git-gh "$(bash_payload 'gh pr comment 1 -b hi' '' "$N")" writing-style-github-collaboration

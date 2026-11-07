@@ -170,7 +170,16 @@ while IFS= read -r f; do
   msg=$(lint_prose "$(cat "$f")") || decide deny "$msg"
 done <<<"$files"
 
-if has "${GH}api$S/reviews" && hasr '(event|body)='; then
-  decide ask "Review would submit. Pending reviews send only commit_id and comments."
+if has "${GH}api$S/reviews"; then
+  submit=0
+  hasr '(event|body)=' && submit=1
+  # An --input file with event or body submits too
+  input=$(grep -oE -- '--input[[:space:]=]+[^[:space:]]+' <<<"$cmd" | head -n 1 |
+    sed -E 's/^--input[[:space:]=]+//' | tr -d "\"'")
+  if [ -n "$input" ] && [ "$input" != - ]; then
+    case "$input" in /*) ;; *) input=$CWD/$input ;; esac
+    [ -f "$input" ] && jq -e 'has("event") or has("body")' "$input" >/dev/null 2>&1 && submit=1
+  fi
+  [ "$submit" = 1 ] && decide ask "Review would submit. Pending reviews send only commit_id and comments."
 fi
 decide ask "Publishing to GitHub: confirm the user approved this exact text."

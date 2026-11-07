@@ -31,7 +31,7 @@ The _concern_ is the specific worry the user wants the review to test, for examp
    - Done when every ranked cut and small fix has an answer.
 8. Hand off the decisions. List them in one block: each finding, the choice made, and the reason. Include the spec, the concern and the spot-check corrections. Where the block goes depends on whose work it is (the PR author or branch committer compared with `gh api user --jq .login`, or what the user said):
    - The user's own work: invoke the Skill tool with `brainstorming` and pass the block as its args, so the design starts from what the walkthrough settled. The brainstorming skill owns the design and any implementation that follows. Commit or push only when the user asks.
-   - Someone else's work: skip brainstorming, since nothing gets built. Draft the feedback the decisions call for, in the format the user wants (a pending PR review with inline comments, or a Slack message). Write it with `writing-style-github-collaboration` under the global draft rule, and post nothing until the user approves the final text.
+   - Someone else's work: skip brainstorming, since nothing gets built. Draft the feedback the decisions call for, in the format the user wants (a pending PR review with inline comments, or a Slack message). Write it with `writing-style-github-collaboration` under the draft rule at the top of `~/.config/AGENTS.md`, and post nothing until the user approves the final text.
 
 ## Shared brief
 

@@ -45,6 +45,11 @@ Documents/Github/aidb/CLAUDE.md
 Documents/Github/docs-editorial/CLAUDE.md
 {{- end }}
 
+# Work-only skills
+{{- if not .work }}
+.agents/skills/pgxs-extensions
+{{- end }}
+
 # Unmanaged on work machines
 {{- if .work }}
 .config/ccstatusline
